@@ -12,11 +12,11 @@ class LevelList {
         if (this.head == null && this.tail == null) {
             this.head = level;
             this.tail = level;
+        } else {
+            this.tail.next = level;
+            level.prev = this.tail;
+            this.tail = this.tail.next;
         }
-
-        this.tail.next = level;
-        level.prev = this.tail;
-        this.tail = this.tail.next;
     }
 
     peek() {
@@ -49,7 +49,7 @@ export class LevelManager {
     }
 
     render(horse, canvas) {
-        if (horse.x > canvas.width + LevelManager.RIGHT_EDGE) {
+        if (horse.x > canvas.width + LevelManager.RIGHT_EDGE && this.level.next != null) {
             this.level = this.level.next;
             horse.x = LevelManager.LEFT_EDGE;
             this.bg.src = this.level.src;
