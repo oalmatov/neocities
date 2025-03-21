@@ -32,11 +32,6 @@
                 cursor.style.top = `${event.pageY}px`;
             });
 
-            closedEnv.addEventListener("mouseleave", (event) => {
-                const tooltip = document.getElementById("tooltip");
-                tooltip.classList.add("hidden");
-            }) 
-
             closedEnv.addEventListener("click", (event) => {
                 closedEnv.classList.add("hidden");
                 openEnv.classList.remove("hidden");
