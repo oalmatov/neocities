@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/epiccoolgirl.css">
+    </head>
+    <body>
+        <img id="open-env" class="envelope hidden" src="assets/epiccoolgirl/open_envelope.jpg">
+        <img id="closed-env" class="envelope" src="assets/epiccoolgirl/closed_envelope.jpg">
+        <img id="finger" class="hidden" src="assets/epiccoolgirl/finger.png">
+        <img id="letter" class="hidden" src="assets/epiccoolgirl/paper.png">
+        <audio id="music" loop>
+            <source src="assets/epiccoolgirl/romance.mp3" type="audio/mpeg">
+        </audio>
+        <script>
+            window.addEventListener("DOMContentLoaded", () => {
+                const audio = document.getElementById("music");
+                audio.play().catch(error => {
+                    console.log("Autoplay blocked. Waiting for user interaction.");
+                });
+            });
+
+            const closedEnv = document.getElementById("closed-env");
+            const openEnv = document.getElementById("open-env");
+            const letter = document.getElementById("letter");
+            const letterContent = document.getElementById("letter-content");
+
+            document.addEventListener("mousemove", (event) => {
+                const cursor = document.getElementById("finger");
+                cursor.classList.remove("hidden");
+                cursor.style.left = `${event.pageX - 70}px`;
+                cursor.style.top = `${event.pageY}px`;
+            });
+
+            closedEnv.addEventListener("mouseleave", (event) => {
+                const tooltip = document.getElementById("tooltip");
+                tooltip.classList.add("hidden");
+            }) 
+
+            closedEnv.addEventListener("click", (event) => {
+                closedEnv.classList.add("hidden");
+                openEnv.classList.remove("hidden");
+                setTimeout(() => {
+                    letter.classList.remove("hidden");
+                    letterContent.classList.remove("hidden");
+                }, 500)
+
+            })
+        </script>
+    </body>
+</html
