@@ -1,0 +1,50 @@
+:root {
+    --red: #ad0014;
+}
+body {
+    font-family: Biryani, sans-serif;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+button {
+    height: 10vh;
+    font-family: Biryani, sans-serif;
+    text-transform: uppercase;
+    background-color: white;
+    color: var(--red);
+    border-radius: 2em;
+    border: 2px solid var(--red);
+    font-weight: bold;
+}
+
+.active {
+    color: white;
+    background-color: var(--red);
+}
+
+#next-card-btn {
+    color: white;
+    background-color: var(--red);
+}
+
+.card {
+    height: 35vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--red);
+    border-radius: 2em;
+    box-shadow: 0 .7px 2.1px #00000005,0 1.6px 4.8px #00000007,0 2.9px 8.7px #00000008,0 4.8px 14.5px #0000000a,0 7.9px 23.8px #0000000b,0 13.9px 41.6px #0000000d,0 30px 90px #00000012;
+    padding: 1em;
+    text-align: center;
+}
+
+#prev-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    color: var(--red);
+}
