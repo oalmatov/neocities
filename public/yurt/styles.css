@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+.vt323-regular {
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+    font-family: "VT323", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    min-height: 929px;
+    overflow: hidden;
+    height: 100vh;
+    background: cyan;
+}
+
+.information-board {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    min-width: 855px;
+    min-height: 929px;
+    height: 90%;
+    background-color: rgba(255, 100, 100, 0.3);
+    color: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.enter-text {
+    line-height: 80px;
+    font-size: 50px;
+    font-weight: 400;
+    color: white;
+    position: absolute;
+    text-decoration: none;
+}
+
+.enter-text:hover {
+    color: cyan;
+}
+
+#steppe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+}
+
+.steppe-bg {
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-height: 929px;
+}
+
+.game-alerts {
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    line-height: 80px;
+    background-color: white;
+    z-index: 1;
+    position: absolute;
+    color: black;
+    width: 1260px;
+    font-size: 20px;
+    top: 100px;
+}
+
+.yurt-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-height: 929px;
+}
+
+.little-omar {
+    position: absolute;
+    right: 8%;;
+    bottom: 0%;
+    width: 15%;
+    z-index: 3;
+}
+
+.header {
+    margin-top: 5%;
+    width: 90%;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #b62d24;
+    margin-top: 2%;
+    width: 86%;
+    padding: 2%;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar a {
+    color: white;
+    font-size: 25px;
+}
+
+.row {
+    display: flex;
+    width: 90%;
+    height: 60%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    justify-content: space-between;
+    background-image: url('assets/frame.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.blurb {
+    display: inline-block;
+    padding: 10%;
+    max-height: 40%;
+    overflow-y: auto;
+}
+
+.blurb ul {
+    overflow-y: auto;
+    max-height: 25%;
+}
+
+.blurb .complete {
+    text-decoration: line-through;
+}
+
+.blurb li, .blurb p {
+    font-size: 25px;
+}
+
+.blurb h1 {
+    font-size: 40px;
+    text-decoration: underline;
+}
