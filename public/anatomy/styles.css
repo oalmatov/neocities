@@ -24,6 +24,13 @@ body {
     order: 2;
 }
 
+.text-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    gap: 1em;
+}
+
 .image-container {
     position: relative;
     display: inline-block;
@@ -46,12 +53,7 @@ body {
     object-fit: contain;
 }
 
-.nav-links {
-    display: block;
-    max-width: 400px;
-}
-
-.nav-link {
+a {
     color: #333;
     text-decoration: none;
     transition: color 0.2s;
@@ -59,7 +61,7 @@ body {
     margin-right: 0.5rem;
 }
 
-.nav-link:hover {
+a:hover {
     color: #e5b185;
 }
 
