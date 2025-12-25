@@ -14,18 +14,18 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    max-width: 70%;
     min-height: 100%;
     padding: 2em;
     margin: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .container {
         max-width: 100%;
+        flex-direction: column;
     }
 }
 
@@ -38,6 +38,7 @@ body {
 .image-container {
     position: relative;
     display: inline-block;
+    flex-shrink: 0;
 }
 
 .base-image {
@@ -106,6 +107,7 @@ a:hover {
     display: inline-block;
     cursor: pointer;
     max-width: 100%;
+    flex-shrink: 0;
 }
 
 .eye {

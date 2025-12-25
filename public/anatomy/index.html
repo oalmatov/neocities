@@ -17,7 +17,7 @@
                 <img src="assets/11.png" alt="Layer 11" class="layer layer-11" />
                 <img src="assets/16.png" alt="Layer 16" class="layer layer-16" />
             </div>
-            <div class="text-container">
+            <!--<div class="text-container">
                 <nav>
                     <a href="#" class="nav-link disabled">1. trachea</a>
                     <a href="#" class="nav-link disabled">2. oesophagus</a>
@@ -38,7 +38,7 @@
                     <a href="#" class="nav-link disabled">17. vertebral column</a>
                 </nav>
                 <p>inspired by <a href="https://archive.org/details/bim_eighteenth-century_anthropologia-nova-or-_drake-james-m-d_1707/mode/2up">anthropologia nova.</a></p>
-            </div>
+            </div>-->
             <div class="heart-container">
                 <img src="assets/heart.png" />
             </div>
@@ -59,6 +59,17 @@
             let blinkTimeoutId;
             let isHovering = false;
 
+            const layers = [
+                document.querySelector('.layer-5'),
+                document.querySelector('.layer-6'),
+                document.querySelector('.layer-11'),
+                document.querySelector('.layer-16')
+            ];
+            const LAYER_INTERVAL = 1000;
+            let currentLayerIndex = 0;
+            let layerIntervalId;
+            let isHoveringLayers = false;
+
             function blink() {
                 if (!isHovering) {
                     leftClosed.style.display = 'block';
@@ -78,6 +89,16 @@
             }
 
             blinkTimeoutId = setTimeout(blink, BLINK_INTERVAL);
+
+            function animateLayers() {
+                if (!isHoveringLayers) {
+                    layers.forEach(layer => layer.style.display = 'none');
+                    layers[currentLayerIndex].style.display = 'block';
+                    currentLayerIndex = (currentLayerIndex + 1) % layers.length;
+                }
+            }
+
+            layerIntervalId = setInterval(animateLayers, LAYER_INTERVAL);
 
             eyesContainer.addEventListener('mouseenter', () => {
                 isHovering = true;
@@ -105,6 +126,26 @@
                 clearTimeout(blinkTimeoutId);
                 const jitter = (Math.random() * JITTER * 2) - JITTER;
                 blinkTimeoutId = setTimeout(blink, BLINK_INTERVAL + jitter);
+            });
+
+            const imageContainer = document.querySelector('.image-container');
+            const navLinks = document.querySelectorAll('.nav-link:not(.disabled)');
+
+            imageContainer.addEventListener('mouseenter', () => {
+                isHoveringLayers = true;
+            });
+
+            imageContainer.addEventListener('mouseleave', () => {
+                isHoveringLayers = false;
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    isHoveringLayers = true;
+                });
+                link.addEventListener('mouseleave', () => {
+                    isHoveringLayers = false;
+                });
             });
         </script>
     </body>
