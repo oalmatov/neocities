@@ -17,89 +17,9 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    min-height: 100%;
+    min-height: 100vh;
     padding: 2em;
     margin: auto;
-}
-
-@media (max-width: 1200px) {
-    .container {
-        max-width: 100%;
-        flex-direction: column;
-    }
-}
-
-.text-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.image-container {
-    position: relative;
-    display: inline-block;
-    flex-shrink: 0;
-}
-
-.base-image {
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
-
-.layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    object-fit: contain;
-}
-
-a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.2s;
-    display: inline;
-    margin-right: 0.5rem;
-}
-
-a:hover {
-    color: #e5b185;
-}
-
-.nav-link.disabled {
-    color: #999;
-    cursor: default;
-    pointer-events: none;
-}
-
-.container:has(.nav-link[data-layer="5"]:hover) .layer-5,
-.container:has(.nav-link[data-layer="6"]:hover) .layer-6,
-.container:has(.nav-link[data-layer="11"]:hover) .layer-11,
-.container:has(.nav-link[data-layer="16"]:hover) .layer-16 {
-    display: block;
-}
-
-@keyframes heartbeat {
-    0%,
-    100% {
-        transform: scale(1) rotate(0deg);
-    }
-    25% {
-        transform: scale(1.02) rotate(-1deg);
-    }
-    50% {
-        transform: scale(1) rotate(0deg);
-    }
-    75% {
-        transform: scale(1.02) rotate(1deg);
-    }
-}
-
-.heart-container img {
-    animation: heartbeat 3s ease-in-out infinite;
 }
 
 .eyes-container {
@@ -107,7 +27,6 @@ a:hover {
     display: inline-block;
     cursor: pointer;
     max-width: 100%;
-    flex-shrink: 0;
 }
 
 .eye {

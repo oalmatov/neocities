@@ -1,151 +1,77 @@
-<!doctypedoctype html>
+<!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" / />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" / />
-        <link rel="icon" href="assets/heart.png" type="image/png" / />
-        <link rel="stylesheet" href="styles.css" / />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="assets/heart.png" type="image/png" />
+        <link rel="stylesheet" href="styles.css" />
         <title>anatomy</title>
     </head>
     <body>
-        <h1 style="color: red">under construction!</h1>
         <div class="container">
-            <div class="image-container">
-                <img src="assets/base.png" alt="Base anatomy" class="base-image" />
-                <img src="assets/5.png" alt="Layer 5" class="layer layer-5" />
-                <img src="assets/6.png" alt="Layer 6" class="layer layer-6" />
-                <img src="assets/11.png" alt="Layer 11" class="layer layer-11" />
-                <img src="assets/16.png" alt="Layer 16" class="layer layer-16" />
-            </div>
-            <!--<div class="text-container">
-                <nav>
-                    <a href="#" class="nav-link disabled">1. trachea</a>
-                    <a href="#" class="nav-link disabled">2. oesophagus</a>
-                    <a href="#" class="nav-link disabled">3. vocal cord</a>
-                    <a href="#" class="nav-link disabled">4. epiglottis</a>
-                    <a href="#" class="nav-link" data-layer="5">5. tongue</a>
-                    <a href="#" class="nav-link" data-layer="6">6. orifice of pharyngo-tympanic tube</a>
-                    <a href="#" class="nav-link disabled">7. sphenoid sinus</a>
-                    <a href="#" class="nav-link disabled">8. nasal cavity</a>
-                    <a href="#" class="nav-link disabled">9. frontal sinus</a>
-                    <a href="#" class="nav-link disabled">10. cerebral hemisphere</a>
-                    <a href="#" class="nav-link" data-layer="11">11. falx cerebri</a>
-                    <a href="#" class="nav-link disabled">12. corpus callosum</a>
-                    <a href="#" class="nav-link disabled">13. midbrain</a>
-                    <a href="#" class="nav-link disabled">14. pons</a>
-                    <a href="#" class="nav-link disabled">15. cerebellum</a>
-                    <a href="#" class="nav-link" data-layer="16">16. spinal cord</a>
-                    <a href="#" class="nav-link disabled">17. vertebral column</a>
-                </nav>
-                <p>inspired by <a href="https://archive.org/details/bim_eighteenth-century_anthropologia-nova-or-_drake-james-m-d_1707/mode/2up">anthropologia nova.</a></p>
-            </div>-->
-            <div class="heart-container">
-                <img src="assets/heart.png" />
-            </div>
             <div class="eyes-container">
-                <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open">
-                <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open">
-                <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed">
-                <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed">
+                <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open" />
+                <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open" />
+                <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
+                <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
             </div>
         </div>
         <script>
-            const eyesContainer = document.querySelector('.eyes-container');
-            const leftClosed = document.querySelector('.left-closed');
-            const rightClosed = document.querySelector('.right-closed');
+            const eyesContainer = document.querySelector(".eyes-container");
+            const leftClosed = document.querySelector(".left-closed");
+            const rightClosed = document.querySelector(".right-closed");
 
             const BLINK_INTERVAL = 4000;
             const JITTER = 1000;
             let blinkTimeoutId;
             let isHovering = false;
 
-            const layers = [
-                document.querySelector('.layer-5'),
-                document.querySelector('.layer-6'),
-                document.querySelector('.layer-11'),
-                document.querySelector('.layer-16')
-            ];
-            const LAYER_INTERVAL = 1000;
-            let currentLayerIndex = 0;
-            let layerIntervalId;
-            let isHoveringLayers = false;
-
             function blink() {
                 if (!isHovering) {
-                    leftClosed.style.display = 'block';
-                    rightClosed.style.display = 'block';
+                    leftClosed.style.display = "block";
+                    rightClosed.style.display = "block";
 
                     setTimeout(() => {
                         if (!isHovering) {
-                            leftClosed.style.display = 'none';
-                            rightClosed.style.display = 'none';
+                            leftClosed.style.display = "none";
+                            rightClosed.style.display = "none";
                         }
                     }, 150);
                 }
 
-                const jitter = (Math.random() * JITTER * 2) - JITTER;
+                const jitter = Math.random() * JITTER * 2 - JITTER;
                 const nextBlink = BLINK_INTERVAL + jitter;
                 blinkTimeoutId = setTimeout(blink, nextBlink);
             }
 
             blinkTimeoutId = setTimeout(blink, BLINK_INTERVAL);
 
-            function animateLayers() {
-                if (!isHoveringLayers) {
-                    layers.forEach(layer => layer.style.display = 'none');
-                    layers[currentLayerIndex].style.display = 'block';
-                    currentLayerIndex = (currentLayerIndex + 1) % layers.length;
-                }
-            }
-
-            layerIntervalId = setInterval(animateLayers, LAYER_INTERVAL);
-
-            eyesContainer.addEventListener('mouseenter', () => {
+            eyesContainer.addEventListener("mouseenter", () => {
                 isHovering = true;
                 clearTimeout(blinkTimeoutId);
             });
 
-            eyesContainer.addEventListener('mousemove', (e) => {
+            eyesContainer.addEventListener("mousemove", (e) => {
                 const rect = eyesContainer.getBoundingClientRect();
                 const mouseX = e.clientX - rect.left;
                 const halfWidth = rect.width / 2;
 
                 if (mouseX < halfWidth) {
-                    leftClosed.style.display = 'block';
-                    rightClosed.style.display = 'none';
+                    leftClosed.style.display = "block";
+                    rightClosed.style.display = "none";
                 } else {
-                    leftClosed.style.display = 'none';
-                    rightClosed.style.display = 'block';
+                    leftClosed.style.display = "none";
+                    rightClosed.style.display = "block";
                 }
             });
 
-            eyesContainer.addEventListener('mouseleave', () => {
+            eyesContainer.addEventListener("mouseleave", () => {
                 isHovering = false;
-                leftClosed.style.display = 'none';
-                rightClosed.style.display = 'none';
+                leftClosed.style.display = "none";
+                rightClosed.style.display = "none";
                 clearTimeout(blinkTimeoutId);
-                const jitter = (Math.random() * JITTER * 2) - JITTER;
+                const jitter = Math.random() * JITTER * 2 - JITTER;
                 blinkTimeoutId = setTimeout(blink, BLINK_INTERVAL + jitter);
-            });
-
-            const imageContainer = document.querySelector('.image-container');
-            const navLinks = document.querySelectorAll('.nav-link:not(.disabled)');
-
-            imageContainer.addEventListener('mouseenter', () => {
-                isHoveringLayers = true;
-            });
-
-            imageContainer.addEventListener('mouseleave', () => {
-                isHoveringLayers = false;
-            });
-
-            navLinks.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    isHoveringLayers = true;
-                });
-                link.addEventListener('mouseleave', () => {
-                    isHoveringLayers = false;
-                });
             });
         </script>
     </body>
