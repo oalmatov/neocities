@@ -27,7 +27,7 @@
       max-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
     }
 
     img {
@@ -44,6 +44,9 @@
       position: absolute;
       z-index: 2;
       animation: pulse 1.0s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     @keyframes pulse {
