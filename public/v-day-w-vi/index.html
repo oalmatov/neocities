@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>be my valentine?</title>
+  <style>
+    @font-face {
+      font-family: 'Bloodfather';
+      src: url('/v-day-w-vi/Bloodfather - Demo.otf') format('opentype');
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      background-color: #f3f4f6;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      max-width: 100vw;
+      max-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
+    }
+
+    .cupid {
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      z-index: 2;
+      animation: pulse 1.0s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      15%,
+      100% {
+        transform: scale(1);
+      }
+
+      7.5% {
+        transform: scale(1.05);
+      }
+    }
+
+    .splatter-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 110vw;
+      height: 110vh;
+      z-index: 10;
+      display: none;
+      pointer-events: none;
+    }
+
+    .splatter-container.active {
+      display: block;
+    }
+
+    .blood-splatter {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .message {
+      position: absolute;
+      top: 30%;
+      left: 5%;
+      z-index: 1;
+      font-size: 20px;
+      color: black;
+      width: 60%;
+      pointer-events: none;
+      opacity: 0;
+      line-height: 2;
+    }
+
+    .message.visible {
+      opacity: 1;
+    }
+
+    .header {
+      position: fixed;
+      top: 7%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      font-family: 'Bloodfather', serif;
+      font-size: 35px;
+      color: #8B0000;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="header">my heart i serve to you</h1>
+
+  <div class="container">
+    <img src="/v-day-w-vi/scary_cupid.jpg" alt="Scary Cupid" class="cupid">
+    <img src="/v-day-w-vi/heart.png" alt="Heart" class="heart">
+  </div>
+
+  <div class="splatter-container" id="splatterContainer">
+    <video class="blood-splatter" id="bloodSplatter" src="/v-day-w-vi/blood-splatter.webm"></video>
+    <div class="message" id="message">
+      AHHH!!!<br>
+      what have you done to me?!<br>
+      you destroyed my heart!<br>
+      now i am ruined!<br>
+      how will you repent?
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('click', function () {
+      const container = document.getElementById('splatterContainer');
+      const video = document.getElementById('bloodSplatter');
+      const message = document.getElementById('message');
+
+      container.classList.add('active');
+      video.currentTime = 0;
+      video.play();
+
+      setTimeout(() => {
+        message.classList.add('visible');
+      }, 200);
+    }, {once: true});
+  </script>
+</body>
+
+</html>
