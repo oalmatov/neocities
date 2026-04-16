@@ -10,6 +10,9 @@
 </head>
 
 <body>
+  <div class="mobile-block">
+    <p>This site is not meant to be viewed on mobile screens.</p>
+  </div>
   <nav class="sidebar">
     <h1>OMAR ALMAT<s>OV</s></h1>
     <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I live
@@ -985,6 +988,27 @@ Until it happens twice.</p>
       if (e.target === overlay) {
         overlay.style.display = "none";
       }
+    });
+
+    // Tooltips - position fixed tooltips near their trigger
+    document.querySelectorAll(".tooltip-wrap").forEach(wrap => {
+      const icon = wrap.querySelector(".tooltip-icon");
+      const text = wrap.querySelector(".tooltip-text");
+
+      wrap.addEventListener("mouseenter", () => {
+        const rect = icon.getBoundingClientRect();
+        const isUp = wrap.classList.contains("tooltip-up");
+
+        text.style.left = rect.left + "px";
+
+        if (isUp) {
+          text.style.bottom = (window.innerHeight - rect.top) + "px";
+          text.style.top = "auto";
+        } else {
+          text.style.top = rect.bottom + "px";
+          text.style.bottom = "auto";
+        }
+      });
     });
   </script>
 </body>

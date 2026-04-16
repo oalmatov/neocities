@@ -25,6 +25,27 @@ a:hover {
   text-decoration: underline;
 }
 
+.mobile-block {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-block {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2em;
+  }
+}
+
 body {
   display: flex;
 }
@@ -63,9 +84,7 @@ body {
 
 .tooltip-text {
   display: none;
-  position: absolute;
-  left: 0;
-  top: 100%;
+  position: fixed;
   background: white;
   border: 1px solid #ccc;
   padding: 1.5em;
@@ -79,11 +98,6 @@ body {
 
 .tooltip-wrap:hover .tooltip-text {
   display: block;
-}
-
-.tooltip-wrap.tooltip-up .tooltip-text {
-  top: auto;
-  bottom: 100%;
 }
 
 .sidebar p {
