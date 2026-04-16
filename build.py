@@ -29,6 +29,7 @@ def parse_post(post_path: Path) -> dict:
         "date": frontmatter.get("date"),
         "thumbnail": frontmatter.get("thumbnail"),
         "rating": frontmatter.get("rating"),
+        "author": frontmatter.get("author"),
         "html": html,
     }
 
@@ -82,6 +83,7 @@ def render_stars(rating: int | None) -> str:
     if rating is None:
         return ""
 
+    rating = int(rating)
     filled = "★" * rating
     empty = "☆" * (5 - rating)
     return f'<span class="card-rating">{filled}{empty}</span>'
@@ -108,19 +110,31 @@ def render_card(post: dict) -> str:
 
     stars_html = render_stars(post.get("rating"))
 
+    author_html = ""
+    if post.get("author"):
+        author_html = f'<span class="card-date">{post["author"]}</span>'
+
+    has_content = post["html"].strip() != ""
+    data_attr = f' data-post="{post_id}"' if has_content else ""
+    clickable = " card-clickable" if has_content else ""
+
     return f"""
-        <div class="card" data-post="{post_id}">
+        <div class="card{clickable}"{data_attr}>
           {thumb_html}
           <div class="card-info">
             <span class="card-title">{post['title']}</span>
             {stars_html}
+            {author_html}
             {date_html}
           </div>
         </div>"""
 
 
 def render_popover(post: dict) -> str:
-    """Render a hidden popover div for a post."""
+    """Render a hidden popover div for a post. Returns empty string if no content."""
+    if not post["html"].strip():
+        return ""
+
     section = post["section"]
     slug = post["slug"]
     post_id = f"{section}-{slug}"
@@ -136,10 +150,15 @@ def render_popover(post: dict) -> str:
         date_str = date.strftime("%b %-d, %Y") if hasattr(date, "strftime") else str(date)
         date_html = f'<p class="popover-date">{date_str}</p>'
 
+    author_html = ""
+    if post.get("author"):
+        author_html = f'<p class="popover-date">{post["author"]}</p>'
+
     return f"""
     <div class="popover-data" id="popover-{post_id}" style="display: none;">
       <h2>{post['title']}</h2>
       {stars_html}
+      {author_html}
       {date_html}
       <div class="popover-body">{content_html}</div>
     </div>"""
