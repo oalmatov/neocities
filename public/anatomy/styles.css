@@ -28,7 +28,7 @@ body {
 }
 
 .sidebar h1 s {
-  color: red;
+  color: plum;
 }
 
 .sidebar p {
@@ -52,7 +52,7 @@ body {
 }
 
 .nav-link.active {
-  color: red;
+  color: plum;
 }
 
 .nav-divider {
