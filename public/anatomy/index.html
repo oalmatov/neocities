@@ -14,8 +14,7 @@
     <h1>OMAR ALMAT<s>OV</s></h1>
     <p>Based in SF.</p>
     <p>Interested in data sovereignty, permacomputing, earth friendly computing.</p>
-    <p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.
-    </p>
+    <p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.</p>
     <div class="nav-links">
       <a href="#journal" class="nav-link active">JOURNAL</a>
       <a href="#books" class="nav-link">BOOKS</a>
@@ -29,48 +28,117 @@
       <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
       <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
     </div>
+
     <section id="journal" class="section">
-      <h2>JOURNAL</h2>
-      <h3>Lists</h3>
-      <ol>
-        <li>April 2026</li>
-      </ol>
-      <h3>Entries</h3>
-      <ol>
-        <li>Мен Сені Жақсы Көремін</li>
-        <li>Egg</li>
-        <li>Cotton Balls</li>
-        <li>I'll Probably Be Married Next Year</li>
-        <li>April is Near!</li>
-        <li>On White Men</li>
-        <li>Beach Day 03/11/2026</li>
-        <li>Quiet Eye</li>
-        <li>Шай Кесе</li>
-        <li>Life of Osamu Dazai</li>
-        <li>Talking to God</li>
-        <li>Winter Holidays 2025</li>
-        <li>Glitter Girl</li>
-      </ol>
+      <div class="grid">
+        <div class="card" data-post="journal-1">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">Мен Сені Жақсы Көремін</span>
+            <span class="card-date">Apr 14, 2026</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-2">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">Egg</span>
+            <span class="card-date">Apr 10, 2026</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-3">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">Cotton Balls</span>
+            <span class="card-date">Apr 5, 2026</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-4">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">I'll Probably Be Married Next Year</span>
+            <span class="card-date">Mar 28, 2026</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-5">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">April is Near!</span>
+            <span class="card-date">Mar 20, 2026</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-6">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">On White Men</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-7">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">Beach Day</span>
+            <span class="card-date">Mar 11, 2026</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-8">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">Quiet Eye</span>
+          </div>
+        </div>
+        <div class="card" data-post="journal-9">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">Шай Кесе</span>
+          </div>
+        </div>
+      </div>
     </section>
+
     <section id="books" class="section" style="display: none;">
-      <h2>BOOKS</h2>
-      <p>Appreciation for the work of my fellow humans.</p>
-      <ol>
-        <li>placeholder</li>
-        <li>placeholder</li>
-        <li>placeholder</li>
-      </ol>
+      <div class="grid">
+        <div class="card" data-post="books-1">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">placeholder</span>
+          </div>
+        </div>
+        <div class="card" data-post="books-2">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">placeholder</span>
+          </div>
+        </div>
+      </div>
     </section>
+
     <section id="movies" class="section" style="display: none;">
-      <h2>MOVIES</h2>
-      <p>Appreciation for the work of my fellow humans.</p>
-      <ol>
-        <li>placeholder</li>
-        <li>placeholder</li>
-        <li>placeholder</li>
-      </ol>
+      <div class="grid">
+        <div class="card" data-post="movies-1">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">placeholder</span>
+          </div>
+        </div>
+        <div class="card" data-post="movies-2">
+          <div class="card-thumb"></div>
+          <div class="card-info">
+            <span class="card-title">placeholder</span>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
+
+  <!-- Popover -->
+  <div class="popover-overlay" style="display: none;">
+    <div class="popover">
+      <button class="popover-close">&times;</button>
+      <div class="popover-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
     const leftClosed = document.querySelector(".left-closed");
     const rightClosed = document.querySelector(".right-closed");
@@ -109,6 +177,26 @@
           s.style.display = s.id === target ? "" : "none";
         });
       });
+    });
+
+    // Popover
+    const overlay = document.querySelector(".popover-overlay");
+    const popoverClose = document.querySelector(".popover-close");
+
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("click", () => {
+        overlay.style.display = "flex";
+      });
+    });
+
+    popoverClose.addEventListener("click", () => {
+      overlay.style.display = "none";
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.style.display = "none";
+      }
     });
   </script>
 </body>

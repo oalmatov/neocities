@@ -57,30 +57,86 @@ body {
   flex: 1;
   position: relative;
   padding: 2em;
+  overflow-y: auto;
+  height: 100vh;
 }
 
-.section ol {
-  padding-left: 1.5em;
+/* Grid of cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5em;
 }
 
-.section h2 {
+.card {
+  cursor: pointer;
+}
+
+.card-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #eee;
   margin-bottom: 0.5em;
 }
 
-.section h3 {
-  margin-top: 1em;
-  margin-bottom: 0.3em;
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
 }
 
-.section p {
-  margin-bottom: 0.5em;
-  line-height: 1.6;
+.card-title {
+  font-weight: bold;
 }
 
-.section ol {
-  line-height: 1.8;
+.card-date {
+  font-size: 0.85em;
+  color: #666;
 }
 
+.card:hover .card-title {
+  text-decoration: underline;
+}
+
+/* Popover */
+.popover-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.popover {
+  width: 50vw;
+  height: 50vw;
+  background: white;
+  padding: 2em;
+  position: relative;
+  overflow-y: auto;
+}
+
+.popover-close {
+  position: absolute;
+  top: 0.5em;
+  right: 0.75em;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  font-family: serif;
+}
+
+.popover-content {
+  line-height: 1.7;
+}
+
+/* Eyes */
 .eyes-container {
   position: fixed;
   top: 50%;
