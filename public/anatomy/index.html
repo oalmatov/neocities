@@ -14,9 +14,22 @@
     <h1>OMAR ALMAT<s>OV</s></h1>
     <p>Based in SF.</p>
     <p>Interested in data sovereignty, permacomputing, earth friendly computing.</p>
-    <p>In my free time I like to write poems, rock climb, go alone to the beach, and I recently started figure drawing.
+    <p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.
     </p>
-    <div class="links">
+    <div class="nav-links">
+      <a href="#journal" class="nav-link active">JOURNAL</a>
+      <a href="#books" class="nav-link">BOOKS</a>
+      <a href="#movies" class="nav-link">MOVIES</a>
+    </div>
+  </nav>
+  <main class="content">
+    <div class="eyes-container">
+      <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open" />
+      <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open" />
+      <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
+      <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
+    </div>
+    <section id="journal" class="section">
       <h2>JOURNAL</h2>
       <h3>Lists</h3>
       <ol>
@@ -38,23 +51,25 @@
         <li>Winter Holidays 2025</li>
         <li>Glitter Girl</li>
       </ol>
-      <h2>MEDIA</h2>
+    </section>
+    <section id="books" class="section" style="display: none;">
+      <h2>BOOKS</h2>
       <p>Appreciation for the work of my fellow humans.</p>
       <ol>
-        <li>books</li>
-        <li>movies</li>
-        <li>music</li>
-        <li>poems</li>
+        <li>placeholder</li>
+        <li>placeholder</li>
+        <li>placeholder</li>
       </ol>
-    </div>
-  </nav>
-  <main class="content">
-    <div class="eyes-container">
-      <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open" />
-      <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open" />
-      <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
-      <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
-    </div>
+    </section>
+    <section id="movies" class="section" style="display: none;">
+      <h2>MOVIES</h2>
+      <p>Appreciation for the work of my fellow humans.</p>
+      <ol>
+        <li>placeholder</li>
+        <li>placeholder</li>
+        <li>placeholder</li>
+      </ol>
+    </section>
   </main>
   <script>
     const leftClosed = document.querySelector(".left-closed");
@@ -77,6 +92,24 @@
     }
 
     setTimeout(blink, BLINK_INTERVAL);
+
+    // Nav switching
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".section");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = link.getAttribute("href").slice(1);
+
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+
+        sections.forEach(s => {
+          s.style.display = s.id === target ? "" : "none";
+        });
+      });
+    });
   </script>
 </body>
 
