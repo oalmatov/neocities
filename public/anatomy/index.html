@@ -1,42 +1,83 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="assets/heart.png" type="image/png" />
-        <link rel="stylesheet" href="styles.css" />
-        <title>anatomy</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="eyes-container">
-                <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open" />
-                <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open" />
-                <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
-                <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
-            </div>
-        </div>
-        <script>
-            const leftClosed = document.querySelector(".left-closed");
-            const rightClosed = document.querySelector(".right-closed");
 
-            const BLINK_INTERVAL = 8000;
-            const JITTER = 1000;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="assets/heart.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>anatomy</title>
+</head>
 
-            function blink() {
-                leftClosed.style.display = "block";
-                rightClosed.style.display = "block";
+<body>
+  <nav class="sidebar">
+    <h1>OMAR ALMAT<s>OV</s></h1>
+    <p>Based in SF.</p>
+    <p>Interested in data sovereignty, permacomputing, earth friendly computing.</p>
+    <p>In my free time I like to write poems, rock climb, go alone to the beach, and I recently started figure drawing.
+    </p>
+    <div class="links">
+      <h2>JOURNAL</h2>
+      <h3>Lists</h3>
+      <ol>
+        <li>April 2026</li>
+      </ol>
+      <h3>Entries</h3>
+      <ol>
+        <li>Мен Сені Жақсы Көремін</li>
+        <li>Egg</li>
+        <li>Cotton Balls</li>
+        <li>I'll Probably Be Married Next Year</li>
+        <li>April is Near!</li>
+        <li>On White Men</li>
+        <li>Beach Day 03/11/2026</li>
+        <li>Quiet Eye</li>
+        <li>Шай Кесе</li>
+        <li>Life of Osamu Dazai</li>
+        <li>Talking to God</li>
+        <li>Winter Holidays 2025</li>
+        <li>Glitter Girl</li>
+      </ol>
+      <h2>MEDIA</h2>
+      <p>Appreciation for the work of my fellow humans.</p>
+      <ol>
+        <li>books</li>
+        <li>movies</li>
+        <li>music</li>
+        <li>poems</li>
+      </ol>
+    </div>
+  </nav>
+  <main class="content">
+    <div class="eyes-container">
+      <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open" />
+      <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open" />
+      <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
+      <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
+    </div>
+  </main>
+  <script>
+    const leftClosed = document.querySelector(".left-closed");
+    const rightClosed = document.querySelector(".right-closed");
 
-                setTimeout(() => {
-                    leftClosed.style.display = "none";
-                    rightClosed.style.display = "none";
-                }, 150);
+    const BLINK_INTERVAL = 8000;
+    const JITTER = 1000;
 
-                const jitter = Math.random() * JITTER * 2 - JITTER;
-                setTimeout(blink, BLINK_INTERVAL + jitter);
-            }
+    function blink() {
+      leftClosed.style.display = "block";
+      rightClosed.style.display = "block";
 
-            setTimeout(blink, BLINK_INTERVAL);
-        </script>
-    </body>
+      setTimeout(() => {
+        leftClosed.style.display = "none";
+        rightClosed.style.display = "none";
+      }, 150);
+
+      const jitter = Math.random() * JITTER * 2 - JITTER;
+      setTimeout(blink, BLINK_INTERVAL + jitter);
+    }
+
+    setTimeout(blink, BLINK_INTERVAL);
+  </script>
+</body>
+
 </html>
