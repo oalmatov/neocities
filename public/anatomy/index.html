@@ -17,62 +17,26 @@
             </div>
         </div>
         <script>
-            const eyesContainer = document.querySelector(".eyes-container");
             const leftClosed = document.querySelector(".left-closed");
             const rightClosed = document.querySelector(".right-closed");
 
-            const BLINK_INTERVAL = 4000;
+            const BLINK_INTERVAL = 8000;
             const JITTER = 1000;
-            let blinkTimeoutId;
-            let isHovering = false;
 
             function blink() {
-                if (!isHovering) {
-                    leftClosed.style.display = "block";
-                    rightClosed.style.display = "block";
+                leftClosed.style.display = "block";
+                rightClosed.style.display = "block";
 
-                    setTimeout(() => {
-                        if (!isHovering) {
-                            leftClosed.style.display = "none";
-                            rightClosed.style.display = "none";
-                        }
-                    }, 150);
-                }
+                setTimeout(() => {
+                    leftClosed.style.display = "none";
+                    rightClosed.style.display = "none";
+                }, 150);
 
                 const jitter = Math.random() * JITTER * 2 - JITTER;
-                const nextBlink = BLINK_INTERVAL + jitter;
-                blinkTimeoutId = setTimeout(blink, nextBlink);
+                setTimeout(blink, BLINK_INTERVAL + jitter);
             }
 
-            blinkTimeoutId = setTimeout(blink, BLINK_INTERVAL);
-
-            eyesContainer.addEventListener("mouseenter", () => {
-                isHovering = true;
-                clearTimeout(blinkTimeoutId);
-            });
-
-            eyesContainer.addEventListener("mousemove", (e) => {
-                const rect = eyesContainer.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const halfWidth = rect.width / 2;
-
-                if (mouseX < halfWidth) {
-                    leftClosed.style.display = "block";
-                    rightClosed.style.display = "none";
-                } else {
-                    leftClosed.style.display = "none";
-                    rightClosed.style.display = "block";
-                }
-            });
-
-            eyesContainer.addEventListener("mouseleave", () => {
-                isHovering = false;
-                leftClosed.style.display = "none";
-                rightClosed.style.display = "none";
-                clearTimeout(blinkTimeoutId);
-                const jitter = Math.random() * JITTER * 2 - JITTER;
-                blinkTimeoutId = setTimeout(blink, BLINK_INTERVAL + jitter);
-            });
+            setTimeout(blink, BLINK_INTERVAL);
         </script>
     </body>
 </html>

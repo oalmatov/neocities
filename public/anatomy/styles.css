@@ -25,8 +25,8 @@ body {
 .eyes-container {
     position: relative;
     display: inline-block;
-    cursor: pointer;
     max-width: 100%;
+    opacity: 0.2;
 }
 
 .eye {
