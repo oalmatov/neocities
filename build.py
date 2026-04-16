@@ -9,7 +9,7 @@ import yaml
 ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content"
 OUTPUT_DIR = ROOT / "public" / "anatomy"
-SECTIONS = ["journal", "books", "movies", "barter"]
+SECTIONS = ["feed", "journal", "books", "movies", "barter"]
 REVIEW_SECTIONS = {"books", "movies"}
 
 
@@ -30,6 +30,7 @@ def parse_post(post_path: Path) -> dict:
         "thumbnail": frontmatter.get("thumbnail"),
         "rating": frontmatter.get("rating"),
         "author": frontmatter.get("author"),
+        "hidden": frontmatter.get("hidden", False),
         "html": html,
     }
 
@@ -49,12 +50,22 @@ def load_section(section: str) -> list[dict]:
             continue
 
         post = parse_post(post_file)
+        if post.get("hidden"):
+            continue
         post["section"] = section
         posts.append(post)
 
     from datetime import date
 
-    posts.sort(key=lambda p: p["date"] if isinstance(p["date"], date) else date.min, reverse=True)
+    def sort_key(p):
+        d = p["date"]
+        if isinstance(d, date):
+            return d
+        if isinstance(d, int):
+            return date(d, 1, 1)
+        return date.min
+
+    posts.sort(key=sort_key, reverse=True)
     return posts
 
 
@@ -164,13 +175,119 @@ def render_popover(post: dict) -> str:
     </div>"""
 
 
-def render_section(section: str, posts: list[dict], is_default: bool) -> str:
+def load_feed() -> list[dict]:
+    """Load feed entries, sorted by date descending."""
+    from datetime import date
+
+    feed_dir = CONTENT_DIR / "feed"
+
+    if not feed_dir.exists():
+        return []
+
+    entries = []
+    for entry_dir in sorted(feed_dir.iterdir()):
+        post_file = entry_dir / "post.md"
+
+        if not post_file.exists():
+            continue
+
+        text = post_file.read_text()
+        parts = text.split("---", 2)
+        frontmatter = yaml.safe_load(parts[1])
+        body = parts[2].strip()
+        html = markdown.markdown(body)
+
+        if frontmatter.get("hidden"):
+            continue
+
+        entries.append({
+            "slug": entry_dir.name,
+            "date": frontmatter.get("date"),
+            "image": frontmatter.get("image"),
+            "html": html,
+        })
+
+    entries.sort(
+        key=lambda e: e["date"] if isinstance(e["date"], date) else date.min,
+        reverse=True,
+    )
+    return entries
+
+
+def render_feed(entries: list[dict]) -> str:
+    """Render the feed as a compact grid."""
+    if not entries:
+        return ""
+
+    items = []
+    for entry in entries:
+        slug = entry["slug"]
+
+        image_html = ""
+        if entry["image"]:
+            src = f"posts/feed/{slug}/{entry['image']}"
+            image_html = f'<img class="feed-image" src="{src}" alt="" />'
+
+        date_html = ""
+        if entry["date"]:
+            d = entry["date"]
+            date_str = d.strftime("%b %-d, %Y") if hasattr(d, "strftime") else str(d)
+            date_html = f'<span class="feed-date">{date_str}</span>'
+
+        text_html = ""
+        if entry["html"].strip():
+            text_html = f'<div class="feed-text">{entry["html"]}</div>'
+
+        items.append(f"""
+        <div class="feed-item">
+          {image_html}
+          {text_html}
+          {date_html}
+        </div>""")
+
+    return f"""
+      <div class="feed">
+        {"".join(items)}
+      </div>"""
+
+
+def render_barter_section(all_posts: dict, is_default: bool) -> str:
+    """Render the barter section with two side-by-side grids."""
+    display = "" if is_default else ' style="display: none;"'
+
+    offering = all_posts.get("barter/offering", [])
+    looking_for = all_posts.get("barter/looking-for", [])
+
+    offering_cards = "\n".join(render_card(p) for p in offering)
+    looking_for_cards = "\n".join(render_card(p) for p in looking_for)
+
+    return f"""
+    <section id="barter" class="section"{display}>
+      <div class="barter-columns">
+        <div class="barter-column">
+          <h2>I can offer...</h2>
+          <div class="grid">
+            {offering_cards}
+          </div>
+        </div>
+        <div class="barter-column">
+          <h2>I am looking for...</h2>
+          <div class="grid">
+            {looking_for_cards}
+          </div>
+        </div>
+      </div>
+    </section>"""
+
+
+def render_section(section: str, posts: list[dict], is_default: bool, prefix_html: str = "") -> str:
     """Render a full section with its grid of cards."""
     display = "" if is_default else ' style="display: none;"'
     cards = "\n".join(render_card(p) for p in posts)
 
     return f"""
     <section id="{section}" class="section"{display}>
+      {prefix_html}
       <div class="grid">
         {cards}
       </div>
@@ -182,7 +299,14 @@ def build() -> None:
     # Load all sections
     all_posts: dict[str, list[dict]] = {}
     for section in SECTIONS:
-        all_posts[section] = load_section(section)
+        if section == "barter":
+            all_posts["barter/offering"] = load_section("barter/offering")
+            all_posts["barter/looking-for"] = load_section("barter/looking-for")
+        else:
+            all_posts[section] = load_section(section)
+
+    # Load feed
+    feed_entries = load_feed()
 
     # Copy assets
     posts_output = OUTPUT_DIR / "posts"
@@ -190,17 +314,42 @@ def build() -> None:
         shutil.rmtree(posts_output)
 
     for section in SECTIONS:
-        copy_assets(section)
+        if section == "barter":
+            copy_assets("barter/offering")
+            copy_assets("barter/looking-for")
+        else:
+            copy_assets(section)
 
-    sections_html = "\n".join(
-        render_section(section, all_posts[section], section == SECTIONS[0])
-        for section in SECTIONS
-    )
+    copy_assets("feed")
+
+    # Render feed
+    feed_html = render_feed(feed_entries)
+
+    # Render sections
+    section_parts = []
+    for section in SECTIONS:
+        is_default = section == SECTIONS[0]
+        if section == "barter":
+            section_parts.append(render_barter_section(all_posts, is_default))
+        elif section == "feed":
+            display = "" if is_default else ' style="display: none;"'
+            section_parts.append(f"""
+    <section id="feed" class="section"{display}>
+      {feed_html}
+    </section>""")
+        else:
+            section_parts.append(render_section(section, all_posts[section], is_default))
+
+    sections_html = "\n".join(section_parts)
+
+    all_post_lists = [
+        posts for key, posts in all_posts.items()
+    ]
 
     popovers_html = "\n".join(
         render_popover(post)
-        for section in SECTIONS
-        for post in all_posts[section]
+        for posts in all_post_lists
+        for post in posts
     )
 
     template = (ROOT / "template.html").read_text()

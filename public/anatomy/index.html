@@ -12,17 +12,24 @@
 <body>
   <nav class="sidebar">
     <h1>OMAR ALMAT<s>OV</s></h1>
-    <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I live in SF.</p>
-    <p>Interested in data sovereignty, permacomputing, earth friendly computing.</p>
+    <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I live
+      in SF.</p>
+    <p>Interested in <span class="tooltip-wrap tooltip-inline"><span class="tooltip-icon">data sovereignty</span><span class="tooltip-text">Just like water, timber, oil, and gas — data is a valuable resource. One that should be protected and treated sovereignly and sustainably. Data sovereignty for the individual means to having control over how your data is used, stored, and shared. The early internet was built this way. This website, for instance, is statically generated. It lives on my disk. If I'm fed up with how Neocities is run, I can take it to a different host. I can even run it on my own hardware. Nobody owns it but me.
+
+At some point our data got stuck in platforms and was weaponized against us to control and surveil us, to sell us back to ourselves. But it doesn't have to be this way. There are people building sustainable, earth-friendly infrastructure today. Technology doesn't have to suck. The second law of thermodynamics isn't going anywhere, but we've managed to live with entropy for thousands of years.
+
+Hope this inspires who ever it inspires to hop off platforms and make their own website.</span></span> and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.</p>
     <p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.
     </p>
+    <p>If you want to reach out to me you can mail me here <a href="mailto:omar.almatov@gmail.com">📧</a></p>
     <div class="nav-links">
-      <a href="#journal" class="nav-link active">JOURNAL</a>
+      <a href="#feed" class="nav-link active">🍼 FEED</a>
+      <a href="#journal" class="nav-link">📓 JOURNAL</a>
       <hr class="nav-divider" />
-      <a href="#books" class="nav-link">BOOKS</a>
-      <a href="#movies" class="nav-link">MOVIES</a>
+      <a href="#books" class="nav-link">📚 BOOKS</a>
+      <a href="#movies" class="nav-link">🍿 MOVIES</a>
       <hr class="nav-divider" />
-      <a href="#barter" class="nav-link">BARTER WITH ME</a>
+      <a href="#barter" class="nav-link">🙏 BARTER</a>
     </div>
     <div class="now-playing">
       <p>Currently listening to:</p>
@@ -30,7 +37,11 @@
         width="100%" height="80" frameBorder="0" allowfullscreen=""
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
-    <span class="tooltip-wrap"><span class="tooltip-icon">👁</span><span class="tooltip-text">The Big Other is the symbolic order, the anonymous "they" whose gaze — imagined, not real — shapes how we present ourselves even in private. An internalized audience, a set of expectations that we perform for without even being able to name who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this note is again just a performance of my awareness of the gaze to the gaze.</span></span>
+    <span class="tooltip-wrap tooltip-up"><span class="tooltip-icon">👁</span><span class="tooltip-text">The Big Other is the
+        symbolic order, the anonymous "they" whose gaze — imagined, not real — shapes how we present ourselves even in
+        private. An internalized audience, a set of expectations that we perform for without even being able to name
+        who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this
+        note is again just a performance of my awareness of the gaze to the gaze.</span></span>
   </nav>
   <main class="content">
     <div class="eyes-container">
@@ -40,7 +51,35 @@
       <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
     </div>
     
-    <section id="journal" class="section">
+    <section id="feed" class="section">
+      
+      <div class="feed">
+        
+        <div class="feed-item">
+          <img class="feed-image" src="posts/feed/first-tattoo-apt/photo.jpeg" alt="" />
+          <div class="feed-text"><p>scheduled my first tattoo apt! i'm so excited!</p></div>
+          <span class="feed-date">Apr 16, 2026</span>
+        </div>
+        <div class="feed-item">
+          
+          <div class="feed-text"><p>at this rate there will be a wasian president before we see a woman take office</p></div>
+          <span class="feed-date">Apr 15, 2026</span>
+        </div>
+        <div class="feed-item">
+          <img class="feed-image" src="posts/feed/took-nate-to-er/photo.jpeg" alt="" />
+          <div class="feed-text"><p>had russian pastries with friends, took nate to the ER, and then watched hoppers! it wasa great day!</p></div>
+          <span class="feed-date">Apr 12, 2026</span>
+        </div>
+        <div class="feed-item">
+          <img class="feed-image" src="posts/feed/sebi-and-kimj/photo.jpeg" alt="" />
+          <div class="feed-text"><p>went to see sebi and kimj with my friends!</p></div>
+          <span class="feed-date">Apr 11, 2026</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal" class="section" style="display: none;">
+      
       <div class="grid">
         
         <div class="card card-clickable" data-post="journal-men-seni">
@@ -93,16 +132,6 @@
           </div>
         </div>
 
-        <div class="card card-clickable" data-post="journal-on-white-men">
-          <img class="card-thumb" src="posts/journal/on-white-men/will.jpeg" alt="" />
-          <div class="card-info">
-            <span class="card-title">On White Men</span>
-            
-            
-            <span class="card-date">Apr 1, 2026</span>
-          </div>
-        </div>
-
         <div class="card card-clickable" data-post="journal-april-is-near">
           <img class="card-thumb" src="posts/journal/april-is-near/mission-latte.jpeg" alt="" />
           <div class="card-info">
@@ -146,6 +175,7 @@
     </section>
 
     <section id="books" class="section" style="display: none;">
+      
       <div class="grid">
         
         <div class="card card-clickable" data-post="books-acts-of-worship">
@@ -361,30 +391,221 @@
     </section>
 
     <section id="movies" class="section" style="display: none;">
+      
       <div class="grid">
         
-        <div class="card card-clickable" data-post="movies-placeholder-movie">
-          <img class="card-thumb" src="posts/movies/placeholder-movie/thumb.jpg" alt="" />
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/all-thats-left-of-you/cover.jpg" alt="" />
           <div class="card-info">
-            <span class="card-title">Placeholder Movie</span>
+            <span class="card-title">All That's Left of You</span>
             <span class="card-rating">★★★★☆</span>
             
-            <span class="card-date">Mar 20, 2026</span>
+            <span class="card-date">2026</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/hoppers/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Hoppers</span>
+            <span class="card-rating">★★★☆☆</span>
+            
+            <span class="card-date">2026</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/project-hail-mary/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Project Hail Mary</span>
+            <span class="card-rating">★★★☆☆</span>
+            
+            <span class="card-date">2026</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/sirat/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Sirat</span>
+            <span class="card-rating">★★★★☆</span>
+            
+            <span class="card-date">2026</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/arrival/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Arrival</span>
+            <span class="card-rating">★★★☆☆</span>
+            
+            <span class="card-date">2025</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/dead-poets-society/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Dead Poets Society</span>
+            <span class="card-rating">★★★★☆</span>
+            
+            <span class="card-date">2025</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/good-fellas/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Goodfellas</span>
+            <span class="card-rating">★★☆☆☆</span>
+            
+            <span class="card-date">2025</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/movies/weapons/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Weapons</span>
+            <span class="card-rating">★★★☆☆</span>
+            
+            <span class="card-date">2025</span>
           </div>
         </div>
       </div>
     </section>
 
     <section id="barter" class="section" style="display: none;">
-      <div class="grid">
-        
-        <div class="card card-clickable" data-post="barter-placeholder-item">
-          <img class="card-thumb" src="posts/barter/placeholder-item/thumb.jpg" alt="" />
+      <div class="barter-columns">
+        <div class="barter-column">
+          <h2>I can offer...</h2>
+          <div class="grid">
+            
+        <div class="card card-clickable" data-post="barter/offering-bouldering-lessons">
+          <img class="card-thumb" src="posts/barter/offering/bouldering-lessons/cover.jpeg" alt="" />
           <div class="card-info">
-            <span class="card-title">Vintage Lamp</span>
+            <span class="card-title">Bouldering Lessons</span>
             
             
             
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/offering/drive-bay-area/cover.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Drive You Somewhere In the Bay Area</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/offering/help-move/cover.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Help Move Out/In</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/offering/host-your-website/cover.png" alt="" />
+          <div class="card-info">
+            <span class="card-title">Host Your Website</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/offering/speak-russian/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Speak to You in Russian</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/offering/teach-website/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Teach You How to Make Your Website</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/offering/write-you-a-poem/cover.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Write You a Poem</span>
+            
+            
+            
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="barter-column">
+          <h2>I am looking for...</h2>
+          <div class="grid">
+            
+        <div class="card card-clickable" data-post="barter/looking-for-chanterelles">
+          <img class="card-thumb" src="posts/barter/looking-for/chanterelles/cover.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Where to Find Chanterelles in the Bay</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="barter/looking-for-drawing-supplies">
+          <img class="card-thumb" src="posts/barter/looking-for/drawing-supplies/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Drawing Supplies</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/looking-for/gardening/cover.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Teach Me How to Garden/Farm</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/looking-for/pottery/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Teach Me Pottery/Ceramics</span>
+            
+            
+            
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-thumb" src="posts/barter/looking-for/sewing-skills/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Sewing Skills or Tutorial</span>
+            
+            
+            
+          </div>
+        </div>
           </div>
         </div>
       </div>
@@ -399,6 +620,38 @@
     </div>
   </div>
   
+    <div class="popover-data" id="popover-feed-first-tattoo-apt" style="display: none;">
+      <h2>Untitled</h2>
+      
+      
+      <p class="popover-date">Apr 16, 2026</p>
+      <div class="popover-body"><p>scheduled my first tattoo apt! i'm so excited!</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-feed-wasians" style="display: none;">
+      <h2>Untitled</h2>
+      
+      
+      <p class="popover-date">Apr 15, 2026</p>
+      <div class="popover-body"><p>at this rate there will be a wasian president before we see a woman take office</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-feed-took-nate-to-er" style="display: none;">
+      <h2>Untitled</h2>
+      
+      
+      <p class="popover-date">Apr 12, 2026</p>
+      <div class="popover-body"><p>had russian pastries with friends, took nate to the ER, and then watched hoppers! it wasa great day!</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-feed-sebi-and-kimj" style="display: none;">
+      <h2>Untitled</h2>
+      
+      
+      <p class="popover-date">Apr 11, 2026</p>
+      <div class="popover-body"><p>went to see sebi and kimj with my friends!</p></div>
+    </div>
+
     <div class="popover-data" id="popover-journal-men-seni" style="display: none;">
       <h2>Мен Сені Жақсы Көремін</h2>
       
@@ -467,14 +720,6 @@
       
       <p class="popover-date">Apr 4, 2026</p>
       <div class="popover-body"><p>It will probably be her. She doesn’t know it yet, but it will probably be her. I don’t even know her birthday or her favorite color or what’s her favorite dessert. I don’t even know her name. Does she have siblings? Older or younger or both? What’s her biggest fear? I don’t know for sure, but it will probably be her.</p></div>
-    </div>
-
-    <div class="popover-data" id="popover-journal-on-white-men" style="display: none;">
-      <h2>On White Men</h2>
-      
-      
-      <p class="popover-date">Apr 1, 2026</p>
-      <div class="popover-body"><p>I had this thought in the shower that any woman of color that I fall in love with is cursed to end up with a white man. It sounded funny to me at first, I even told this bit to some friends, but now it strikes me as thinly veiled misogyny and I'm disguested with myself.</p></div>
     </div>
 
     <div class="popover-data" id="popover-journal-april-is-near" style="display: none;">
@@ -634,21 +879,46 @@ Until it happens twice.</p>
       <div class="popover-body"><p>To real.</p></div>
     </div>
 
-    <div class="popover-data" id="popover-movies-placeholder-movie" style="display: none;">
-      <h2>Placeholder Movie</h2>
-      <span class="card-rating">★★★★☆</span>
+
+
+
+
+
+
+
+
+    <div class="popover-data" id="popover-barter/offering-bouldering-lessons" style="display: none;">
+      <h2>Bouldering Lessons</h2>
       
-      <p class="popover-date">Mar 20, 2026</p>
-      <div class="popover-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      
+      
+      <div class="popover-body"><p>I can watch you climb and share my thoughts on what you're doing. I am also just happy to go on an outdoor trip with you and can offer to drive and bring my crashpads.</p></div>
     </div>
 
-    <div class="popover-data" id="popover-barter-placeholder-item" style="display: none;">
-      <h2>Vintage Lamp</h2>
+
+
+
+
+
+
+    <div class="popover-data" id="popover-barter/looking-for-chanterelles" style="display: none;">
+      <h2>Where to Find Chanterelles in the Bay</h2>
       
       
       
-      <div class="popover-body"><p>Trading this vintage lamp. Interested in books, plants, or art supplies.</p></div>
+      <div class="popover-body"><p>I know mushroom foragers keep their spots secret, but maybe we can barter.</p></div>
     </div>
+
+    <div class="popover-data" id="popover-barter/looking-for-drawing-supplies" style="display: none;">
+      <h2>Drawing Supplies</h2>
+      
+      
+      
+      <div class="popover-body"><p>Looking for pencils, sketchbooks, paint and paint brushes, etc.</p></div>
+    </div>
+
+
+
 
   <script>
     const leftClosed = document.querySelector(".left-closed");
@@ -695,16 +965,15 @@ Until it happens twice.</p>
     const popoverContent = document.querySelector(".popover-content");
     const popoverClose = document.querySelector(".popover-close");
 
-    document.querySelectorAll(".card").forEach(card => {
+    document.querySelectorAll(".card-clickable").forEach(card => {
       card.addEventListener("click", () => {
         const postId = card.dataset.post;
         const data = document.getElementById("popover-" + postId);
 
         if (data) {
           popoverContent.innerHTML = data.innerHTML;
+          overlay.style.display = "flex";
         }
-
-        overlay.style.display = "flex";
       });
     });
 
