@@ -93,6 +93,11 @@ body {
   aspect-ratio: 1;
   background: #eee;
   margin-bottom: 0.5em;
+  object-fit: cover;
+}
+
+.card-thumb-placeholder {
+  background: #eee;
 }
 
 .card-info {
@@ -152,13 +157,44 @@ body {
   line-height: 1.7;
 }
 
+.popover-content h2 {
+  margin-bottom: 0.3em;
+}
+
+.popover-date {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+.popover-body p {
+  margin-bottom: 1em;
+}
+
+.popover-body img {
+  max-width: 100%;
+  margin: 1em 0;
+}
+
+.popover-body blockquote {
+  border-left: 2px solid #ccc;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #444;
+}
+
+.card-rating {
+  font-style: normal;
+  color: plum;
+}
+
 /* Eyes */
 .eyes-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.2;
+  opacity: 0.3;
   pointer-events: none;
 }
 

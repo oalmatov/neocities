@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="assets/heart.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>anatomy</title>
+</head>
+
+<body>
+  <nav class="sidebar">
+    <h1>OMAR ALMAT<s>OV</s></h1>
+    <p>I grew up in Almaty, Kazakhstan and now I live in SF.</p>
+    <p>Interested in data sovereignty, permacomputing, earth friendly computing.</p>
+    <p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.
+    </p>
+    <div class="nav-links">
+      <a href="#journal" class="nav-link active">JOURNAL</a>
+      <hr class="nav-divider" />
+      <a href="#books" class="nav-link">BOOKS</a>
+      <a href="#movies" class="nav-link">MOVIES</a>
+      <hr class="nav-divider" />
+      <a href="#barter" class="nav-link">BARTER WITH ME</a>
+    </div>
+    <div class="now-playing">
+      <p>Currently listening to:</p>
+      <iframe src="https://open.spotify.com/embed/track/6ocxCGYgcmZhCeTT1yuNkt?utm_source=generator&theme=0"
+        width="100%" height="80" frameBorder="0" allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </nav>
+  <main class="content">
+    <div class="eyes-container">
+      <img src="assets/eye-open-left.png" class="eye base-eye" alt="Left eye open" />
+      <img src="assets/eye-open-right.png" class="eye base-eye" alt="Right eye open" />
+      <img src="assets/eye-closed-left.png" class="eye left-closed" alt="Left eye closed" />
+      <img src="assets/eye-closed-right.png" class="eye right-closed" alt="Right eye closed" />
+    </div>
+    {{sections}}
+  </main>
+
+  <!-- Popovers -->
+  <div class="popover-overlay" style="display: none;">
+    <div class="popover">
+      <button class="popover-close">&times;</button>
+      <div class="popover-content"></div>
+    </div>
+  </div>
+  {{popovers}}
+
+  <script>
+    const leftClosed = document.querySelector(".left-closed");
+    const rightClosed = document.querySelector(".right-closed");
+
+    const BLINK_INTERVAL = 8000;
+    const JITTER = 1000;
+
+    function blink() {
+      leftClosed.style.display = "block";
+      rightClosed.style.display = "block";
+
+      setTimeout(() => {
+        leftClosed.style.display = "none";
+        rightClosed.style.display = "none";
+      }, 150);
+
+      const jitter = Math.random() * JITTER * 2 - JITTER;
+      setTimeout(blink, BLINK_INTERVAL + jitter);
+    }
+
+    setTimeout(blink, BLINK_INTERVAL);
+
+    // Nav switching
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".section");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = link.getAttribute("href").slice(1);
+
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+
+        sections.forEach(s => {
+          s.style.display = s.id === target ? "" : "none";
+        });
+      });
+    });
+
+    // Popover
+    const overlay = document.querySelector(".popover-overlay");
+    const popoverContent = document.querySelector(".popover-content");
+    const popoverClose = document.querySelector(".popover-close");
+
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("click", () => {
+        const postId = card.dataset.post;
+        const data = document.getElementById("popover-" + postId);
+
+        if (data) {
+          popoverContent.innerHTML = data.innerHTML;
+        }
+
+        overlay.style.display = "flex";
+      });
+    });
+
+    popoverClose.addEventListener("click", () => {
+      overlay.style.display = "none";
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>
