@@ -9,7 +9,7 @@ body {
   background: white;
   font-style: normal;
   height: 100%;
-  font-family: Verdana, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 a {
@@ -51,8 +51,7 @@ body {
 }
 
 .sidebar {
-  width: 25%;
-  min-width: 350px;
+  width: 350px;
   height: 100vh;
   padding: 2em;
   display: flex;
@@ -153,7 +152,7 @@ a.nav-link.active {
   gap: 2em;
 }
 
-.barter-column + .barter-column {
+.barter-column+.barter-column {
   border-top: 1px solid #ccc;
   padding-top: 2em;
 }
@@ -221,6 +220,12 @@ a.nav-link.active {
   object-fit: cover;
 }
 
+#books .card-thumb,
+#movies .card-thumb {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 .card-thumb-placeholder {
   background: #eee;
 }
@@ -275,7 +280,7 @@ a.nav-link.active {
   border: none;
   font-size: 1.5em;
   cursor: pointer;
-  font-family: Verdana, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .popover-content {
