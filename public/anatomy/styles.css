@@ -9,7 +9,7 @@ body {
   background: white;
   font-style: normal;
   height: 100%;
-  font-family: serif;
+  font-family: Verdana, sans-serif;
 }
 
 a {
@@ -275,7 +275,7 @@ a.nav-link.active {
   border: none;
   font-size: 1.5em;
   cursor: pointer;
-  font-family: serif;
+  font-family: Verdana, sans-serif;
 }
 
 .popover-content {
