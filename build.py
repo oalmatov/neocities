@@ -55,15 +55,17 @@ def load_section(section: str) -> list[dict]:
         post["section"] = section
         posts.append(post)
 
-    from datetime import date
+    from datetime import date, datetime
 
     def sort_key(p):
         d = p["date"]
-        if isinstance(d, date):
+        if isinstance(d, datetime):
             return d
+        if isinstance(d, date):
+            return datetime(d.year, d.month, d.day)
         if isinstance(d, int):
-            return date(d, 1, 1)
-        return date.min
+            return datetime(d, 1, 1)
+        return datetime.min
 
     posts.sort(key=sort_key, reverse=True)
     return posts
@@ -177,7 +179,7 @@ def render_popover(post: dict) -> str:
 
 def load_feed() -> list[dict]:
     """Load feed entries, sorted by date descending."""
-    from datetime import date
+    from datetime import date, datetime
 
     feed_dir = CONTENT_DIR / "feed"
 
@@ -207,10 +209,15 @@ def load_feed() -> list[dict]:
             "html": html,
         })
 
-    entries.sort(
-        key=lambda e: e["date"] if isinstance(e["date"], date) else date.min,
-        reverse=True,
-    )
+    def feed_sort_key(e):
+        d = e["date"]
+        if isinstance(d, datetime):
+            return d
+        if isinstance(d, date):
+            return datetime(d.year, d.month, d.day)
+        return datetime.min
+
+    entries.sort(key=feed_sort_key, reverse=True)
     return entries
 
 
@@ -231,12 +238,19 @@ def render_feed(entries: list[dict]) -> str:
         date_html = ""
         if entry["date"]:
             d = entry["date"]
-            date_str = d.strftime("%b %-d, %Y") if hasattr(d, "strftime") else str(d)
+            from datetime import datetime
+            if isinstance(d, datetime):
+                date_str = d.strftime("%b %-d, %Y %-I:%M %p")
+            elif hasattr(d, "strftime"):
+                date_str = d.strftime("%b %-d, %Y")
+            else:
+                date_str = str(d)
             date_html = f'<span class="feed-date">{date_str}</span>'
 
         text_html = ""
         if entry["html"].strip():
-            text_html = f'<div class="feed-text">{entry["html"]}</div>'
+            content = entry["html"].replace('src="', f'src="posts/feed/{slug}/')
+            text_html = f'<div class="feed-text">{content}</div>'
 
         items.append(f"""
         <div class="feed-item">
