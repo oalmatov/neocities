@@ -201,6 +201,16 @@ a.nav-link.active {
   color: #999;
 }
 
+/* Guestbook */
+.guestbook-frame {
+  width: 100%;
+  max-width: 600px;
+  height: calc(100vh - 4em);
+  border: none;
+  display: block;
+  margin: 0 auto;
+}
+
 /* Grid of cards */
 .grid {
   display: grid;

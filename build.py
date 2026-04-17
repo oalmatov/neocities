@@ -9,7 +9,7 @@ import yaml
 ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content"
 OUTPUT_DIR = ROOT / "public" / "anatomy"
-SECTIONS = ["feed", "journal", "books", "movies", "barter"]
+SECTIONS = ["feed", "journal", "books", "movies", "barter", "guestbook"]
 REVIEW_SECTIONS = {"books", "movies"}
 
 
@@ -350,6 +350,11 @@ def build() -> None:
             section_parts.append(f"""
     <section id="feed" class="section"{display}>
       {feed_html}
+    </section>""")
+        elif section == "guestbook":
+            section_parts.append("""
+    <section id="guestbook" class="section" style="display: none;">
+      <iframe src="https://webmar27.atabook.org" class="guestbook-frame"></iframe>
     </section>""")
         else:
             section_parts.append(render_section(section, all_posts[section], is_default))
