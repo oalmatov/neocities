@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="assets/heart.png" type="image/png" />
   <link rel="stylesheet" href="styles.css" />
-  <title>anatomy</title>
+  <title>omar almatov</title>
 </head>
 
 <body>
@@ -17,11 +17,20 @@
     <h1>OMAR ALMAT<s>OV</s></h1>
     <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I live
       in SF.</p>
-    <p>Interested in <span class="tooltip-wrap tooltip-inline"><span class="tooltip-icon">data sovereignty</span><span class="tooltip-text">Just like water, timber, oil, and gas — data is a valuable resource. One that should be protected and treated sovereignly and sustainably. Data sovereignty for the individual means to having control over how your data is used, stored, and shared. The early internet was built this way. This website, for instance, is statically generated. It lives on my disk. If I'm fed up with how Neocities is run, I can take it to a different host. I can even run it on my own hardware. Nobody owns it but me.
+    <p>Interested in <span class="tooltip-wrap tooltip-inline"><span class="tooltip-icon">data sovereignty</span><span
+          class="tooltip-text">Just like water, timber, oil, and gas — data is a valuable resource. One that should be
+          protected and treated sovereignly and sustainably. Data sovereignty for the individual means to having control
+          over how your data is used, stored, and shared. The early internet was built this way. This website, for
+          instance, is statically generated. It lives on my disk. If I'm fed up with how Neocities is run, I can take it
+          to a different host. I can even run it on my own hardware. Nobody owns it but me.
 
-At some point our data got stuck in platforms and was weaponized against us to control and surveil us, to sell us back to ourselves. But it doesn't have to be this way. There are people building sustainable, earth-friendly infrastructure today. Technology doesn't have to suck. The second law of thermodynamics isn't going anywhere, but we've managed to live with entropy for thousands of years.
+          At some point our data got stuck in platforms and was weaponized against us to control and surveil us, to sell
+          us back to ourselves. But it doesn't have to be this way. There are people building sustainable,
+          earth-friendly infrastructure today. Technology doesn't have to suck. The second law of thermodynamics isn't
+          going anywhere, but we've managed to live with entropy for thousands of years.
 
-Hope this inspires who ever it inspires to hop off platforms and make their own website.</span></span> and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.</p>
+          Hope this inspires who ever it inspires to hop off platforms and make their own website.</span></span> and <a
+        href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.</p>
     <p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.
     </p>
     <p>If you want to reach out to me you can mail me here <a href="mailto:omar.almatov@gmail.com">📧</a></p>
@@ -39,7 +48,8 @@ Hope this inspires who ever it inspires to hop off platforms and make their own 
         width="100%" height="80" frameBorder="0" allowfullscreen=""
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
-    <span class="tooltip-wrap tooltip-up"><span class="tooltip-icon">👁</span><span class="tooltip-text">The Big Other is the
+    <span class="tooltip-wrap tooltip-up"><span class="tooltip-icon">👁</span><span class="tooltip-text">The Big Other
+        is the
         symbolic order, the anonymous "they" whose gaze — imagined, not real — shapes how we present ourselves even in
         private. An internalized audience, a set of expectations that we perform for without even being able to name
         who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this
@@ -1120,17 +1130,24 @@ Until it happens twice.</p>
     const navLinks = document.querySelectorAll(".nav-link");
     const sections = document.querySelectorAll(".section");
 
+    function switchSection(target) {
+      navLinks.forEach(l => {
+        l.classList.toggle("active", l.getAttribute("href") === "#" + target);
+      });
+      sections.forEach(s => {
+        s.style.display = s.id === target ? "" : "none";
+      });
+    }
+
     navLinks.forEach(link => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
         const target = link.getAttribute("href").slice(1);
-
-        navLinks.forEach(l => l.classList.remove("active"));
-        link.classList.add("active");
-
-        sections.forEach(s => {
-          s.style.display = s.id === target ? "" : "none";
-        });
+        switchSection(target);
+        const url = new URL(window.location);
+        url.searchParams.set("section", target);
+        url.searchParams.delete("post");
+        history.replaceState(null, "", url);
       });
     });
 
@@ -1139,27 +1156,44 @@ Until it happens twice.</p>
     const popoverContent = document.querySelector(".popover-content");
     const popoverClose = document.querySelector(".popover-close");
 
+    function openPopover(postId) {
+      const data = document.getElementById("popover-" + postId);
+      if (data) {
+        popoverContent.innerHTML = data.innerHTML;
+        overlay.style.display = "flex";
+        const url = new URL(window.location);
+        url.searchParams.set("post", postId);
+        history.replaceState(null, "", url);
+      }
+    }
+
+    function closePopover() {
+      overlay.style.display = "none";
+      const url = new URL(window.location);
+      url.searchParams.delete("post");
+      history.replaceState(null, "", url);
+    }
+
     document.querySelectorAll(".card-clickable").forEach(card => {
       card.addEventListener("click", () => {
-        const postId = card.dataset.post;
-        const data = document.getElementById("popover-" + postId);
-
-        if (data) {
-          popoverContent.innerHTML = data.innerHTML;
-          overlay.style.display = "flex";
-        }
+        openPopover(card.dataset.post);
       });
     });
 
-    popoverClose.addEventListener("click", () => {
-      overlay.style.display = "none";
-    });
+    popoverClose.addEventListener("click", closePopover);
 
     overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        overlay.style.display = "none";
-      }
+      if (e.target === overlay) closePopover();
     });
+
+    // Handle URL params on load
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("section")) {
+      switchSection(params.get("section"));
+    }
+    if (params.get("post")) {
+      openPopover(params.get("post"));
+    }
 
     // Tooltips - position fixed tooltips near their trigger
     document.querySelectorAll(".tooltip-wrap").forEach(wrap => {
