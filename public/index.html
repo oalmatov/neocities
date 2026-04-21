@@ -10,8 +10,170 @@
                 min-height: 100vh;
                 background-image: url("assets/refrigerator-texture.png");
                 background-repeat: repeat;
+                font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
             }
+
+            .container {
+                display: flex;
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 2em;
+                gap: 2em;
+                min-height: 100vh;
+                box-sizing: border-box;
+            }
+
+            .poem-canvas,
+            .right-column {
+                flex: 1;
+                position: relative;
+                min-height: 600px;
+            }
+
+            .word-magnet {
+                position: absolute;
+                background: #faf7ef;
+                border: 2px solid black;
+                padding: 4px 10px;
+                font-size: 16px;
+                font-family: serif;
+                cursor: grab;
+                user-select: none;
+                -webkit-user-select: none;
+                box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+                white-space: nowrap;
+            }
+
+            .word-magnet.dragging {
+                cursor: grabbing;
+                z-index: 1000;
+                box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
+            }
+
         </style>
     </head>
-    <body></body>
+    <body>
+        <div class="container">
+            <div class="poem-canvas" id="poem-canvas"></div>
+            <div class="right-column"></div>
+        </div>
+
+        <script>
+            const INITIAL_WORDS = [
+                { text: "moon", x: 20, y: 40 },
+                { text: "whispers", x: 110, y: 30 },
+                { text: "soft", x: 240, y: 60 },
+                { text: "between", x: 40, y: 110 },
+                { text: "my", x: 170, y: 100 },
+                { text: "hands", x: 230, y: 130 },
+                { text: "quiet", x: 60, y: 180 },
+                { text: "the", x: 170, y: 180 },
+                { text: "light", x: 240, y: 210 },
+                { text: "wanders", x: 80, y: 240 },
+                { text: "slow", x: 30, y: 290 },
+                { text: "like", x: 120, y: 280 },
+                { text: "water", x: 200, y: 300 },
+                { text: "through", x: 40, y: 340 },
+                { text: "stone", x: 170, y: 350 },
+                { text: "breathe", x: 260, y: 380 },
+                { text: "and", x: 80, y: 400 },
+                { text: "forget", x: 160, y: 420 },
+                { text: "time", x: 40, y: 460 },
+                { text: "is", x: 150, y: 470 },
+            ];
+
+            function randomRotation() {
+                return Math.random() * 6 - 3;
+            }
+
+            const STORAGE_KEY = "fridge-poem";
+            const canvas = document.getElementById("poem-canvas");
+
+            function loadWords() {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    try {
+                        return JSON.parse(saved);
+                    } catch (e) {
+                        // fall through
+                    }
+                }
+                return INITIAL_WORDS.map((w) => ({ ...w, rotation: randomRotation() }));
+            }
+
+            function saveWords(words) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+            }
+
+            function renderWords(words) {
+                canvas.innerHTML = "";
+                for (const word of words) {
+                    const el = document.createElement("div");
+                    el.className = "word-magnet";
+                    el.textContent = word.text;
+                    el.style.left = word.x + "px";
+                    el.style.top = word.y + "px";
+                    el.style.transform = `rotate(${word.rotation}deg)`;
+                    el.dataset.rotation = word.rotation;
+                    canvas.appendChild(el);
+                }
+            }
+
+            function currentWords() {
+                const magnets = canvas.querySelectorAll(".word-magnet");
+                return Array.from(magnets).map((el) => ({
+                    text: el.textContent,
+                    x: parseInt(el.style.left, 10),
+                    y: parseInt(el.style.top, 10),
+                    rotation: parseFloat(el.dataset.rotation),
+                }));
+            }
+
+            renderWords(loadWords());
+
+            // Drag logic
+            let active = null;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            canvas.addEventListener("mousedown", (e) => {
+                const target = e.target.closest(".word-magnet");
+                if (!target) return;
+
+                active = target;
+                active.classList.add("dragging");
+
+                const rect = active.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+
+                e.preventDefault();
+            });
+
+            document.addEventListener("mousemove", (e) => {
+                if (!active) return;
+
+                const canvasRect = canvas.getBoundingClientRect();
+                let x = e.clientX - canvasRect.left - offsetX;
+                let y = e.clientY - canvasRect.top - offsetY;
+
+                // Clamp to canvas bounds
+                const w = active.offsetWidth;
+                const h = active.offsetHeight;
+                x = Math.max(0, Math.min(x, canvasRect.width - w));
+                y = Math.max(0, Math.min(y, canvasRect.height - h));
+
+                active.style.left = x + "px";
+                active.style.top = y + "px";
+            });
+
+            document.addEventListener("mouseup", () => {
+                if (!active) return;
+                active.classList.remove("dragging");
+                active = null;
+                saveWords(currentWords());
+            });
+
+        </script>
+    </body>
 </html>
