@@ -228,6 +228,26 @@ a.nav-link.active {
   color: #999;
 }
 
+/* Poems */
+.poems-preface {
+  max-width: 600px;
+  margin: 0 auto 2em auto;
+  font-style: italic;
+  text-align: center;
+}
+
+.poems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1em;
+}
+
+.poem-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Guestbook */
 .guestbook-frame {
   width: 100%;

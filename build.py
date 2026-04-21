@@ -9,7 +9,7 @@ import yaml
 ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content"
 OUTPUT_DIR = ROOT / "public" / "anatomy"
-SECTIONS = ["feed", "journal", "books", "movies", "barter", "guestbook"]
+SECTIONS = ["feed", "journal", "books", "movies", "barter", "poems", "guestbook"]
 REVIEW_SECTIONS = {"books", "movies"}
 
 
@@ -308,6 +308,45 @@ def render_section(section: str, posts: list[dict], is_default: bool, prefix_htm
     </section>"""
 
 
+def render_poems_section(is_default: bool) -> str:
+    """Render the poems section as a grid of images."""
+    display = "" if is_default else ' style="display: none;"'
+
+    poems_dir = CONTENT_DIR / "poems"
+    images = []
+    if poems_dir.exists():
+        for img in sorted(poems_dir.iterdir()):
+            if img.suffix.lower() in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
+                images.append(img.name)
+
+    image_html = "\n        ".join(
+        f'<img class="poem-image" src="posts/poems/{name}" alt="" />'
+        for name in images
+    )
+
+    return f"""
+    <section id="poems" class="section"{display}>
+      <p class="poems-preface">i'll try my best to check my mail and update this page with your poems</p>
+      <div class="poems-grid">
+        {image_html}
+      </div>
+    </section>"""
+
+
+def copy_poems() -> None:
+    """Copy poem images to output."""
+    poems_dir = CONTENT_DIR / "poems"
+    output_poems = OUTPUT_DIR / "posts" / "poems"
+
+    if not poems_dir.exists():
+        return
+
+    output_poems.mkdir(parents=True, exist_ok=True)
+    for img in poems_dir.iterdir():
+        if img.suffix.lower() in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
+            shutil.copy2(img, output_poems / img.name)
+
+
 def build() -> None:
     """Build the site."""
     # Load all sections
@@ -331,6 +370,8 @@ def build() -> None:
         if section == "barter":
             copy_assets("barter/offering")
             copy_assets("barter/looking-for")
+        elif section == "poems":
+            copy_poems()
         else:
             copy_assets(section)
 
@@ -356,6 +397,8 @@ def build() -> None:
     <section id="guestbook" class="section" style="display: none;">
       <iframe src="https://webmar27.atabook.org" class="guestbook-frame"></iframe>
     </section>""")
+        elif section == "poems":
+            section_parts.append(render_poems_section(is_default))
         else:
             section_parts.append(render_section(section, all_posts[section], is_default))
 
