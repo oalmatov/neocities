@@ -11,6 +11,7 @@
 
 <body>
   <a href="/" class="home-link"><img src="/assets/refrigerator.png" alt="home" /></a>
+  <span class="embed-eye tooltip-wrap tooltip-left"><span class="tooltip-icon"><img src="/assets/eye.png" alt="" /></span><span class="tooltip-text">The Big Other is the symbolic order, the anonymous "they" whose gaze — imagined, not real — shapes how we present ourselves even in private. An internalized audience, a set of expectations that we perform for without even being able to name who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this note is again just a performance of my awareness of the gaze to the gaze.</span></span>
   <div class="mobile-block">
     <p>This site is not meant to be viewed on mobile screens.</p>
   </div>
@@ -1221,8 +1222,15 @@ Until it happens twice.</p>
       wrap.addEventListener("mouseenter", () => {
         const rect = icon.getBoundingClientRect();
         const isUp = wrap.classList.contains("tooltip-up");
+        const isLeft = wrap.classList.contains("tooltip-left");
 
-        text.style.left = rect.left + "px";
+        if (isLeft) {
+          text.style.right = (window.innerWidth - rect.right) + "px";
+          text.style.left = "auto";
+        } else {
+          text.style.left = rect.left + "px";
+          text.style.right = "auto";
+        }
 
         if (isUp) {
           text.style.bottom = (window.innerHeight - rect.top) + "px";
