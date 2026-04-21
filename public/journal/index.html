@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/heart.png" type="image/png" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <title>journal</title>
+</head>
+
+<body>
+  <div class="mobile-block">
+    <p>This site is not meant to be viewed on mobile screens.</p>
+  </div>
+
+  <a href="/" class="home-link"><img src="/assets/refrigerator.png" alt="home" /></a>
+
+  <span class="fixed-eye tooltip-wrap tooltip-left">
+    <span class="tooltip-icon"><img src="/assets/eye.png" alt="" /></span>
+    <span class="tooltip-text">The Big Other is the symbolic order, the anonymous "they" whose gaze — imagined, not real — shapes how we present ourselves even in private. An internalized audience, a set of expectations that we perform for without even being able to name who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this note is again just a performance of my awareness of the gaze to the gaze.</span>
+  </span>
+
+  <main class="content">
+    <div class="eyes-container">
+      <img src="/assets/eye-open-left.png" class="eye base-eye" alt="" />
+      <img src="/assets/eye-open-right.png" class="eye base-eye" alt="" />
+      <img src="/assets/eye-closed-left.png" class="eye left-closed" alt="" />
+      <img src="/assets/eye-closed-right.png" class="eye right-closed" alt="" />
+    </div>
+    
+    <section id="journal" class="section">
+      
+      <div class="grid">
+        
+        <div class="card card-clickable" data-post="journal-men-seni">
+          <img class="card-thumb" src="/posts/journal/men-seni/stickers.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Мен Сені Жақсы Көремін</span>
+            
+            
+            <span class="card-date">Apr 16, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-egg">
+          <img class="card-thumb" src="/posts/journal/egg/eggs.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Egg</span>
+            
+            
+            <span class="card-date">Apr 14, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-cotton-balls">
+          <img class="card-thumb" src="/posts/journal/cotton-balls/cotton-balls.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Cotton Balls</span>
+            
+            
+            <span class="card-date">Apr 5, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-cat-poems">
+          <img class="card-thumb" src="/posts/journal/cat-poems/cat-poem.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">My Favorite Poems About Cats</span>
+            
+            
+            <span class="card-date">Apr 4, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-married-next-year">
+          <img class="card-thumb" src="/posts/journal/married-next-year/tom-jerry.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">I'll Probably Be Married Next Year</span>
+            
+            
+            <span class="card-date">Apr 4, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-april-is-near">
+          <img class="card-thumb" src="/posts/journal/april-is-near/mission-latte.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">April is Near!</span>
+            
+            
+            <span class="card-date">Mar 26, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-fort-ross-jenny-diego-eug">
+          <img class="card-thumb" src="/posts/journal/fort-ross-jenny-diego-eug/some-rock.jpeg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Beach Day</span>
+            
+            
+            <span class="card-date">Mar 11, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-quiet-eye">
+          <img class="card-thumb" src="/posts/journal/quiet-eye/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">The Quiet Eye</span>
+            
+            
+            <span class="card-date">Mar 1, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-kese">
+          <img class="card-thumb" src="/posts/journal/kese/kese.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Шай Кесе</span>
+            
+            
+            <span class="card-date">Jan 28, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-osamu-dazai">
+          <img class="card-thumb" src="/posts/journal/osamu-dazai/cover.jpg" alt="" />
+          <div class="card-info">
+            <span class="card-title">Osamu Dazai</span>
+            
+            
+            <span class="card-date">Jan 16, 2026</span>
+          </div>
+        </div>
+
+        <div class="card card-clickable" data-post="journal-speaking-with-god">
+          <img class="card-thumb" src="/posts/journal/speaking-with-god/count-kagura.png" alt="" />
+          <div class="card-info">
+            <span class="card-title">Speaking with God</span>
+            
+            
+            <span class="card-date">Jan 3, 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="popover-overlay" style="display: none;">
+    <div class="popover">
+      <button class="popover-close">&times;</button>
+      <div class="popover-content"></div>
+    </div>
+  </div>
+  
+    <div class="popover-data" id="popover-journal-men-seni" style="display: none;">
+      <h2>Мен Сені Жақсы Көремін</h2>
+      
+      
+      <p class="popover-date">Apr 16, 2026</p>
+      <div class="popover-body"><p>In the Kazakh language, the words for “I love you” translate to “I see you clearly”.  Not felt at first sight. Not felt at all. It’s active. Proactive. A verb by default — a process. When you are experiencing love you say “мен сені сүйемін”. So am I? College kids read books trying to figure out what’s all about love, but it doesn’t ring a bell — hooked and fixated on the potential of connection. For most Kazakh children, it comes as natural as speech and as sight.</p>
+<p>Rilke says young poets should not write about love however, so I shall not be tempted, but oh God I think I’ve been far from home for too long, my mother’s been dead for too long, wrong have I been for forgetting my tongue. Somewhere whilst watching the white man’s spectacle, I have lost hold of my spectacles, and the phone screen made my vision too blurry.</p>
+<p>Hurry! I shall not fall to assimilation. The Kazakh nomad is now mad. The colonized intellectual is fed up with abstraction, throws away the books the distract him, puts down fork and knife to break bread with his hands.</p>
+<p>I will jog my memory, practice my speak, learn again how to see the seasons. I see yellow, red, and orange, forage, streaks of pink and purple, hopeful because the sun said she’ll be back again. The blue or green sky bid farewell as well. Blue or green because for my ancestors it was all that is heavenly — the life giving Sun’s gifts to this Earth. Gifts that weren’t earned, but received unconditionally. The trees, leaves, and sky all blue are to be, that hundred dollar bill is neither definitionally.</p>
+<p>“Is”, “was”, “has been”, “will”, there’s no tenses in the Kazakh language only whats completed, ongoing, or habitual. A ritual. No “have done”s or “should do”s the world’s a fleeting moment cherish the beauty that surrounds you. Through you grew me too, used to be I and you together. Not forever however. And that is okay because I have learned again to see the seasons. To see the features, changing reasons only deepen not weaken my light. I see you clearly and dearly, sincerely, and queerly it’s as natural for me as my speech and my sight. Мен сені жақсы көремін. </p>
+<p>Through ills and uphills, fears, thick and thins, and standstills, by God or free will — Мен сені жақсы көремін.</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-egg" style="display: none;">
+      <h2>Egg</h2>
+      
+      
+      <p class="popover-date">Apr 14, 2026</p>
+      <div class="popover-body"><p><img alt="Response to Orestes' comment on my PR" src="/posts/journal/egg/github.png" /></p>
+<p>I had an interesting interaction with my coworker.</p>
+<p>The contention was that I viewed each person as a separate instance. Initialized with some set of parameters, predetermined before we were even constructed. But Hermann Hesse, Ursula Le Guin, Orestes, they see things differently. For them, the entirety of life exists in one instance that self determines. Each one of us can be each one of us, and each one of us can be and is special.</p>
+<p>This framework isn’t natural for me. An autoimmune disorder that manifests into guilt and self loathing, a constant discomfort and unease, but I think I may have found a remedy. I know now that Iblis and Allah, man, woman, darkness and light, the flying fish, the crawling bug, the garden, the steppenwolf, Pablo Neruda’s cat, the tiny manila mango and the tree all reside inside of me.</p>
+<p>I am an egg, a carrier bag full of latent possibilities and contradictions, a fellow human, an individual, unique and one and the same all at the same time.</p>
+<p><img alt="Tiny manila mangoes I ate with Maria" src="/posts/journal/egg/mangoes.jpeg" /></p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-cotton-balls" style="display: none;">
+      <h2>Cotton Balls</h2>
+      
+      
+      <p class="popover-date">Apr 5, 2026</p>
+      <div class="popover-body"><p>If I were to die, I’d want it to be by bullets and lead. Maybe a car crash. By an unexpected stab to the gut in a street brawl. I want my body to rebel. Fight for its breath before it sinks in the river. I want my bones broken. Skin bruised. I want my teeth shattered and my limbs torn apart. I want it violent like a weep of a child whose mother just died. </p>
+<p>Not by imaginary ghosts made from sticks and cotton balls — that would be humiliating.</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-cat-poems" style="display: none;">
+      <h2>My Favorite Poems About Cats</h2>
+      
+      
+      <p class="popover-date">Apr 4, 2026</p>
+      <div class="popover-body"><p><img alt="A picture of a poem by Kobayashi Issa. Sleeping, then waking, after a big yawn the cat searches for love." src="/posts/journal/cat-poems/cat-poem.jpeg" /></p>
+<p>“How to Love a Cat” by Javier Salvago</p>
+<blockquote>
+<p>To love people the way one loves a cat:</p>
+<p>With their temperament and their independence,</p>
+<p>Without trying to tame them,</p>
+<p>Without trying to change them,</p>
+<p>Letting them approach whenever they wish,</p>
+<p>Finding happiness in their happiness. </p>
+</blockquote>
+<p>From “Ode to the Cat” by Pablo Neruda</p>
+<blockquote>
+<p>Man wants to be fish or fowl, the snake would like to have wings the dog is a disoriented lion, the engineer would like to be a poet,</p>
+<p>The fly studies to be a swift,</p>
+<p>The poet tries to imitate the fly,</p>
+<p>But the cat only wants to be a cat and any cat is a cat,</p>
+<p>From his whiskers to his tail,</p>
+<p>From his hopeful vision of a rat to the real thing,</p>
+<p>From the night to his golden eyes.</p>
+</blockquote></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-married-next-year" style="display: none;">
+      <h2>I'll Probably Be Married Next Year</h2>
+      
+      
+      <p class="popover-date">Apr 4, 2026</p>
+      <div class="popover-body"><p>It will probably be her. She doesn’t know it yet, but it will probably be her. I don’t even know her birthday or her favorite color or what’s her favorite dessert. I don’t even know her name. Does she have siblings? Older or younger or both? What’s her biggest fear? I don’t know for sure, but it will probably be her.</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-april-is-near" style="display: none;">
+      <h2>April is Near!</h2>
+      
+      
+      <p class="popover-date">Mar 26, 2026</p>
+      <div class="popover-body"><p>No matter how much I’ve sinned the night before, Gods gracious arms stretch through the cobwebs of my dusty windows to wave me good morning. </p>
+<p>A new crush! We’ll read each other poems. When will it be time to grow up? The answer is never.</p>
+<p>Body altercations, body manipulations, new piercing, a tattoo appointed.</p>
+<p>We must keep moving our bodies and exercising our minds because in times of uncertainty without hope we are lost!</p>
+<p><img alt="Mission Latte from my favorite coffee shop Temos." src="/posts/journal/april-is-near/mission-latte.jpeg" />
+<img alt="A picture of a wall with a quote from Mahmoud Darwish -- &quot;Without Hope We Are Lost&quot;." src="/posts/journal/april-is-near/wall.jpeg" /></p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-fort-ross-jenny-diego-eug" style="display: none;">
+      <h2>Beach Day</h2>
+      
+      
+      <p class="popover-date">Mar 11, 2026</p>
+      <div class="popover-body"><p>Coarse sand exfoliating feet, scrubbing away the dead base that I stand on. A new me sets foot on the earth. Maybe this is what baptism feels like. </p>
+<p>At the beach I find myself staring at butts and bulges, wide shoulders, thick backs, strong bodies, bodies that break waves not let the waves break them. Wet bottoms hugging their bottoms make these features especially prominent.</p>
+<p>Androgynous friends step aside to smoke cigarettes. I’m pretending to read a book by the ocean. With such strong bodies that withstand the waves of the ocean, how are we still so insecure?</p>
+<p>Listening to the glistening shimmering ocean whispering secrets only the sun understands. They must be laughing at us.  I can’t say I didn’t enjoy myself either.</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-quiet-eye" style="display: none;">
+      <h2>The Quiet Eye</h2>
+      
+      
+      <p class="popover-date">Mar 1, 2026</p>
+      <div class="popover-body"><p>Apparently the average baseball player has 20/12 vision. That's right, 20/20 isn't perfect, just the expected visual acuity of a normal human being at 20 feet. </p>
+<p>What's even more interesting is that elite athletes seem to have this ability to fixate on a target for milliseconds, sometimes seconds, longer than the average person before executing an action — what is called the "quiet eye".</p>
+<p>There is something empowering about this. To entertain the idea that maybe we're only milliseconds of focus away from shooting like Steph Curry or swinging the bat like Ohtani (Of course complemented by hard work and dedication). </p>
+<p>And perhaps this applies to other matters. Matters of personal fulfillment. Perhaps matters of the heart. How many soulmates have we missed because of blurry vision and a scattered mind? How many times have we missed the moon when it was right there above us? How different would the world be if we perceived her through the quiet eye?</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-kese" style="display: none;">
+      <h2>Шай Кесе</h2>
+      
+      
+      <p class="popover-date">Jan 28, 2026</p>
+      <div class="popover-body"><p>I’ve kintsugied my heart. It can hold tea once again. With notes of orange peel, barley, pepper, and a hint of ginger - what you call an oakland blend. </p>
+<p>What tea fills your cup? And if its full like mine, should we try to meet again? To burn our lips, or break our cups, to have just one more day when warmth is precious before abundance comes with spring?</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-osamu-dazai" style="display: none;">
+      <h2>Osamu Dazai</h2>
+      
+      
+      <p class="popover-date">Jan 16, 2026</p>
+      <div class="popover-body"><p>Did you know Osamu Dazai, the renowned Japanese novelist, has attempted joint suicide 3 times?</p>
+<p>Once his partner died and he survived. Once they both survived. After their final attempt their bodies were found in a river.</p>
+<p>It's speculated that before his death Dazai suddenly "felt an obsession with life". </p>
+<p>What was that sudden obsession? The body and soul's final act of love? Or a violent divorce? The body breaking silence? The body's cries because his lover has moved on and all that's left is to rot in the dirt?</p>
+<p>If by some miracle Dazai happened to survive that fatal river, if the soul answered, saw those cries and stayed, would that moment fade? Would he go jumping for a 4th, 5th, 6th time?</p>
+<p>I think probably.</p></div>
+    </div>
+
+    <div class="popover-data" id="popover-journal-speaking-with-god" style="display: none;">
+      <h2>Speaking with God</h2>
+      
+      
+      <p class="popover-date">Jan 3, 2026</p>
+      <div class="popover-body"><p>I said:</p>
+<blockquote>
+<p>Oh God!</p>
+<p>Tell me why let the heart beat if it beats me to a pulp?</p>
+<p>If it punches like a madman at a bus stop in Oakland</p>
+<p>When it bobs and weaves like a boxer in the ring, evading those same ones who it beats for.</p>
+</blockquote>
+<p>And God replied:</p>
+<blockquote>
+<p>Say this once.</p>
+<p>And now say this twice.</p>
+<p>Something only happens once…
+Until it happens twice.</p>
+<p>You WILL love again young poet.</p>
+</blockquote>
+<p>And then I thought:</p>
+<blockquote>
+<p>But to fall in love once and for all</p>
+<p>That is what you call a miracle.</p>
+<p>Most men pray for miracles.</p>
+<p>But I am afraid God may have blessed me already.</p>
+</blockquote>
+<ul>
+<li>Source: <a href="https://swanchime.itch.io/count-kagura">Count Kagura</a>
+^^ Incredible piece of art. Interactive fiction is such a interesting medium.</li>
+</ul></div>
+    </div>
+
+  <script>
+    // Blinking eyes
+    const leftClosed = document.querySelector(".left-closed");
+    const rightClosed = document.querySelector(".right-closed");
+    const BLINK_INTERVAL = 8000;
+    const JITTER = 1000;
+
+    function blink() {
+      leftClosed.style.display = "block";
+      rightClosed.style.display = "block";
+      setTimeout(() => {
+        leftClosed.style.display = "none";
+        rightClosed.style.display = "none";
+      }, 150);
+      const jitter = Math.random() * JITTER * 2 - JITTER;
+      setTimeout(blink, BLINK_INTERVAL + jitter);
+    }
+    setTimeout(blink, BLINK_INTERVAL);
+
+    // Popover
+    const overlay = document.querySelector(".popover-overlay");
+    const popoverContent = document.querySelector(".popover-content");
+    const popoverClose = document.querySelector(".popover-close");
+
+    function openPopover(postId) {
+      const data = document.getElementById("popover-" + postId);
+      if (data) {
+        popoverContent.innerHTML = data.innerHTML;
+        overlay.style.display = "flex";
+        const url = new URL(window.location);
+        url.searchParams.set("post", postId);
+        history.replaceState(null, "", url);
+      }
+    }
+
+    function closePopover() {
+      overlay.style.display = "none";
+      const url = new URL(window.location);
+      url.searchParams.delete("post");
+      history.replaceState(null, "", url);
+    }
+
+    document.querySelectorAll(".card-clickable").forEach(card => {
+      card.addEventListener("click", () => {
+        openPopover(card.dataset.post);
+      });
+    });
+
+    popoverClose.addEventListener("click", closePopover);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closePopover();
+    });
+
+    // Deep-link to specific post via ?post=
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("post")) {
+      openPopover(params.get("post"));
+    }
+
+    // Tooltips
+    document.querySelectorAll(".tooltip-wrap").forEach(wrap => {
+      const icon = wrap.querySelector(".tooltip-icon");
+      const text = wrap.querySelector(".tooltip-text");
+
+      wrap.addEventListener("mouseenter", () => {
+        const rect = icon.getBoundingClientRect();
+        const isUp = wrap.classList.contains("tooltip-up");
+        const isLeft = wrap.classList.contains("tooltip-left");
+
+        if (isLeft) {
+          text.style.right = (window.innerWidth - rect.right) + "px";
+          text.style.left = "auto";
+        } else {
+          text.style.left = rect.left + "px";
+          text.style.right = "auto";
+        }
+
+        if (isUp) {
+          text.style.bottom = (window.innerHeight - rect.top) + "px";
+          text.style.top = "auto";
+        } else {
+          text.style.top = rect.bottom + "px";
+          text.style.bottom = "auto";
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

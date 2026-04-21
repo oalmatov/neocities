@@ -8,9 +8,19 @@ import yaml
 
 ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content"
-OUTPUT_DIR = ROOT / "public" / "anatomy"
+PUBLIC_DIR = ROOT / "public"
 SECTIONS = ["feed", "journal", "books", "movies", "barter", "poems", "guestbook"]
 REVIEW_SECTIONS = {"books", "movies"}
+
+SECTION_TITLES = {
+    "feed": "feed",
+    "journal": "journal",
+    "books": "books",
+    "movies": "movies",
+    "barter": "barter",
+    "poems": "your poems",
+    "guestbook": "guestbook",
+}
 
 
 def parse_post(post_path: Path) -> dict:
@@ -74,7 +84,7 @@ def load_section(section: str) -> list[dict]:
 def copy_assets(section: str) -> None:
     """Copy post assets (images etc) to output directory."""
     section_dir = CONTENT_DIR / section
-    output_section = OUTPUT_DIR / "posts" / section
+    output_section = PUBLIC_DIR / "posts" / section
 
     if not section_dir.exists():
         return
@@ -110,7 +120,7 @@ def render_card(post: dict) -> str:
 
     thumb_html = ""
     if post["thumbnail"]:
-        thumb_src = f"posts/{section}/{slug}/{post['thumbnail']}"
+        thumb_src = f"/posts/{section}/{slug}/{post['thumbnail']}"
         thumb_html = f'<img class="card-thumb" src="{thumb_src}" alt="" />'
     else:
         thumb_html = '<div class="card-thumb card-thumb-placeholder"></div>'
@@ -153,7 +163,7 @@ def render_popover(post: dict) -> str:
     post_id = f"{section}-{slug}"
 
     # Rewrite image paths in content
-    content_html = post["html"].replace('src="', f'src="posts/{section}/{slug}/')
+    content_html = post["html"].replace('src="', f'src="/posts/{section}/{slug}/')
 
     stars_html = render_stars(post.get("rating"))
 
@@ -232,7 +242,7 @@ def render_feed(entries: list[dict]) -> str:
 
         image_html = ""
         if entry["image"]:
-            src = f"posts/feed/{slug}/{entry['image']}"
+            src = f"/posts/feed/{slug}/{entry['image']}"
             image_html = f'<img class="feed-image" src="{src}" alt="" />'
 
         date_html = ""
@@ -249,7 +259,7 @@ def render_feed(entries: list[dict]) -> str:
 
         text_html = ""
         if entry["html"].strip():
-            content = entry["html"].replace('src="', f'src="posts/feed/{slug}/')
+            content = entry["html"].replace('src="', f'src="/posts/feed/{slug}/')
             text_html = f'<div class="feed-text">{content}</div>'
 
         items.append(f"""
@@ -265,10 +275,8 @@ def render_feed(entries: list[dict]) -> str:
       </div>"""
 
 
-def render_barter_section(all_posts: dict, is_default: bool) -> str:
+def render_barter_section(all_posts: dict) -> str:
     """Render the barter section with two side-by-side grids."""
-    display = "" if is_default else ' style="display: none;"'
-
     offering = all_posts.get("barter/offering", [])
     looking_for = all_posts.get("barter/looking-for", [])
 
@@ -276,7 +284,7 @@ def render_barter_section(all_posts: dict, is_default: bool) -> str:
     looking_for_cards = "\n".join(render_card(p) for p in looking_for)
 
     return f"""
-    <section id="barter" class="section"{display}>
+    <section id="barter" class="section">
       <div class="barter-columns">
         <div class="barter-column">
           <h2>I can offer...</h2>
@@ -294,13 +302,12 @@ def render_barter_section(all_posts: dict, is_default: bool) -> str:
     </section>"""
 
 
-def render_section(section: str, posts: list[dict], is_default: bool, prefix_html: str = "") -> str:
+def render_section(section: str, posts: list[dict], prefix_html: str = "") -> str:
     """Render a full section with its grid of cards."""
-    display = "" if is_default else ' style="display: none;"'
     cards = "\n".join(render_card(p) for p in posts)
 
     return f"""
-    <section id="{section}" class="section"{display}>
+    <section id="{section}" class="section">
       {prefix_html}
       <div class="grid">
         {cards}
@@ -308,10 +315,8 @@ def render_section(section: str, posts: list[dict], is_default: bool, prefix_htm
     </section>"""
 
 
-def render_poems_section(is_default: bool) -> str:
+def render_poems_section() -> str:
     """Render the poems section as a grid of images."""
-    display = "" if is_default else ' style="display: none;"'
-
     poems_dir = CONTENT_DIR / "poems"
     images = []
     if poems_dir.exists():
@@ -320,12 +325,12 @@ def render_poems_section(is_default: bool) -> str:
                 images.append(img.name)
 
     image_html = "\n        ".join(
-        f'<img class="poem-image" src="posts/poems/{name}" alt="" />'
+        f'<img class="poem-image" src="/posts/poems/{name}" alt="" />'
         for name in images
     )
 
     return f"""
-    <section id="poems" class="section"{display}>
+    <section id="poems" class="section">
       <p class="poems-preface">i'll try my best to check my mail and update this page with your poems</p>
       <div class="poems-grid">
         {image_html}
@@ -336,7 +341,7 @@ def render_poems_section(is_default: bool) -> str:
 def copy_poems() -> None:
     """Copy poem images to output."""
     poems_dir = CONTENT_DIR / "poems"
-    output_poems = OUTPUT_DIR / "posts" / "poems"
+    output_poems = PUBLIC_DIR / "posts" / "poems"
 
     if not poems_dir.exists():
         return
@@ -345,6 +350,36 @@ def copy_poems() -> None:
     for img in poems_dir.iterdir():
         if img.suffix.lower() in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
             shutil.copy2(img, output_poems / img.name)
+
+
+def render_section_content(section: str, all_posts: dict, feed_html: str) -> tuple[str, str]:
+    """Return (content_html, popovers_html) for a section."""
+    if section == "barter":
+        content = render_barter_section(all_posts)
+        popovers = "\n".join(
+            render_popover(p)
+            for p in all_posts.get("barter/offering", []) + all_posts.get("barter/looking-for", [])
+        )
+    elif section == "feed":
+        content = f"""
+    <section id="feed" class="section">
+      {feed_html}
+    </section>"""
+        popovers = ""
+    elif section == "guestbook":
+        content = """
+    <section id="guestbook" class="section">
+      <iframe src="https://webmar27.atabook.org" class="guestbook-frame"></iframe>
+    </section>"""
+        popovers = ""
+    elif section == "poems":
+        content = render_poems_section()
+        popovers = ""
+    else:
+        content = render_section(section, all_posts[section])
+        popovers = "\n".join(render_popover(p) for p in all_posts[section])
+
+    return content, popovers
 
 
 def build() -> None:
@@ -361,8 +396,8 @@ def build() -> None:
     # Load feed
     feed_entries = load_feed()
 
-    # Copy assets
-    posts_output = OUTPUT_DIR / "posts"
+    # Copy post assets
+    posts_output = PUBLIC_DIR / "posts"
     if posts_output.exists():
         shutil.rmtree(posts_output)
 
@@ -380,45 +415,26 @@ def build() -> None:
     # Render feed
     feed_html = render_feed(feed_entries)
 
-    # Render sections
-    section_parts = []
-    for section in SECTIONS:
-        is_default = section == SECTIONS[0]
-        if section == "barter":
-            section_parts.append(render_barter_section(all_posts, is_default))
-        elif section == "feed":
-            display = "" if is_default else ' style="display: none;"'
-            section_parts.append(f"""
-    <section id="feed" class="section"{display}>
-      {feed_html}
-    </section>""")
-        elif section == "guestbook":
-            section_parts.append("""
-    <section id="guestbook" class="section" style="display: none;">
-      <iframe src="https://webmar27.atabook.org" class="guestbook-frame"></iframe>
-    </section>""")
-        elif section == "poems":
-            section_parts.append(render_poems_section(is_default))
-        else:
-            section_parts.append(render_section(section, all_posts[section], is_default))
-
-    sections_html = "\n".join(section_parts)
-
-    all_post_lists = [
-        posts for key, posts in all_posts.items()
-    ]
-
-    popovers_html = "\n".join(
-        render_popover(post)
-        for posts in all_post_lists
-        for post in posts
-    )
-
+    # Generate per-section pages
     template = (ROOT / "template.html").read_text()
-    html = template.replace("{{sections}}", sections_html).replace("{{popovers}}", popovers_html)
 
-    (OUTPUT_DIR / "index.html").write_text(html)
-    print(f"Built {sum(len(p) for p in all_posts.values())} posts across {len(SECTIONS)} sections")
+    for section in SECTIONS:
+        content, popovers = render_section_content(section, all_posts, feed_html)
+        title = SECTION_TITLES.get(section, section)
+
+        html = (
+            template
+            .replace("{{title}}", title)
+            .replace("{{content}}", content)
+            .replace("{{popovers}}", popovers)
+        )
+
+        section_dir = PUBLIC_DIR / section
+        section_dir.mkdir(parents=True, exist_ok=True)
+        (section_dir / "index.html").write_text(html)
+
+    total_posts = sum(len(p) for p in all_posts.values())
+    print(f"Built {total_posts} posts across {len(SECTIONS)} sections")
 
 
 if __name__ == "__main__":
