@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  <a href="/" class="home-link"><img src="/assets/refrigerator.png" alt="home" /></a>
   <div class="mobile-block">
     <p>This site is not meant to be viewed on mobile screens.</p>
   </div>
@@ -97,6 +98,11 @@
     }
 
     setTimeout(blink, BLINK_INTERVAL);
+
+    // Embed mode: hide sidebar when loaded from root page
+    if (new URLSearchParams(window.location.search).get("embed") === "1") {
+      document.body.classList.add("embedded");
+    }
 
     // Nav switching
     const navLinks = document.querySelectorAll(".nav-link");

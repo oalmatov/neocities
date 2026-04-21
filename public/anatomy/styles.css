@@ -60,6 +60,33 @@ body {
   overflow-y: auto;
 }
 
+body.embedded .sidebar {
+  display: none;
+}
+
+body.embedded .home-link {
+  display: block;
+}
+
+.home-link {
+  display: none;
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  z-index: 10002;
+}
+
+.home-link img {
+  width: 80px;
+  height: auto;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.home-link:hover img {
+  transform: rotate(-3deg);
+}
+
 .sidebar h1 s {
   color: plum;
 }
