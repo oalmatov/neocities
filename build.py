@@ -316,26 +316,84 @@ def render_section(section: str, posts: list[dict], prefix_html: str = "") -> st
 
 
 def render_poems_section() -> str:
-    """Render the poems section as a grid of images."""
-    poems_dir = CONTENT_DIR / "poems"
-    images = []
-    if poems_dir.exists():
-        for img in sorted(poems_dir.iterdir()):
-            if img.suffix.lower() in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
-                images.append(img.name)
+    """Render the poems section as a grid."""
+    import html
+    import json as json_module
 
-    image_html = "\n        ".join(
-        f'<img class="poem-image" src="/posts/poems/{name}" alt="" />'
-        for name in images
-    )
+    poems_dir = CONTENT_DIR / "poems"
+    items = []
+    if poems_dir.exists():
+        for item in sorted(poems_dir.iterdir()):
+            ext = item.suffix.lower()
+            if ext in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
+                items.append(f'<div class="poem-tile"><img class="poem-image" src="/posts/poems/{item.name}" alt="" /></div>')
+            elif ext == ".json":
+                data = json_module.loads(item.read_text())
+                if isinstance(data, list):
+                    words = data
+                    name = None
+                    website = None
+                else:
+                    words = data.get("words", [])
+                    name = data.get("name")
+                    website = data.get("website")
+
+                credit = ""
+                if name:
+                    label = html.escape(name)
+                    if website:
+                        credit = f'<p class="poem-credit"><a href="{html.escape(website)}" target="_blank">{label}</a></p>'
+                    else:
+                        credit = f'<p class="poem-credit">{label}</p>'
+
+                items.append(
+                    f'<div class="poem-tile"><div class="poem-image">{json_to_svg(words)}</div>{credit}</div>'
+                )
+
+    body = "\n        ".join(items)
 
     return f"""
     <section id="poems" class="section">
       <p class="poems-preface">i'll try my best to check my mail and update this page with your poems</p>
       <div class="poems-grid">
-        {image_html}
+        {body}
       </div>
     </section>"""
+
+
+POEM_CANVAS_WIDTH = 504
+POEM_CANVAS_HEIGHT = 600
+
+
+def json_to_svg(words: list[dict]) -> str:
+    """Convert a list of positioned word magnets (from localStorage JSON) to SVG."""
+    import html
+
+    tiles = []
+    for w in words:
+        text = html.escape(w["text"])
+        # Approximate width: ~10px per char + 20px padding
+        text_width = len(w["text"]) * 9 + 20
+        rect_height = 24
+        tiles.append(
+            f'<g transform="translate({w["x"]},{w["y"]}) rotate({w["rotation"]})">'
+            f'<rect width="{text_width}" height="{rect_height}" fill="#faf7ef" '
+            f'stroke="black" stroke-width="1.5"/>'
+            f'<text x="{text_width / 2}" y="16" text-anchor="middle" '
+            f'font-family="serif" font-size="14" fill="black">{text}</text>'
+            f'</g>'
+        )
+
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+        f'viewBox="0 0 {POEM_CANVAS_WIDTH} {POEM_CANVAS_HEIGHT}" '
+        f'preserveAspectRatio="xMidYMid meet">'
+        f'<image href="/assets/refrigerator-texture.jpg" '
+        f'width="{POEM_CANVAS_WIDTH}" height="{POEM_CANVAS_HEIGHT}" '
+        f'preserveAspectRatio="xMidYMid slice"/>'
+        + "".join(tiles)
+        + '</svg>'
+    )
 
 
 def copy_poems() -> None:
@@ -347,9 +405,9 @@ def copy_poems() -> None:
         return
 
     output_poems.mkdir(parents=True, exist_ok=True)
-    for img in poems_dir.iterdir():
-        if img.suffix.lower() in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
-            shutil.copy2(img, output_poems / img.name)
+    for item in poems_dir.iterdir():
+        if item.suffix.lower() in {".jpg", ".jpeg", ".png", ".gif", ".webp"}:
+            shutil.copy2(item, output_poems / item.name)
 
 
 def render_section_content(section: str, all_posts: dict, feed_html: str) -> tuple[str, str]:

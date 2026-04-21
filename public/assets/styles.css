@@ -192,6 +192,18 @@ a:hover {
   display: block;
 }
 
+.poem-image svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.poem-credit {
+  text-align: center;
+  margin-top: 0.4em;
+  font-size: 0.85em;
+}
+
 /* Guestbook */
 .guestbook-frame {
   width: 100%;

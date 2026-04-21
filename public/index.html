@@ -375,8 +375,9 @@
 
     document.getElementById("share-poem").addEventListener("click", (e) => {
       e.preventDefault();
-      const subject = "a poem for you";
-      const body = JSON.stringify(currentWords(), null, 2);
+      const subject = "poem for you from {name}";
+      const words = JSON.stringify(currentWords(), null, 2);
+      const body = `you can find me at {website}\n\n${words}`;
       window.location.href = `mailto:omar.almatov@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
 
