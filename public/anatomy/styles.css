@@ -68,6 +68,10 @@ body.embedded .home-link {
   display: block;
 }
 
+body.embedded .content {
+  padding-left: 120px;
+}
+
 .home-link {
   display: none;
   position: fixed;
