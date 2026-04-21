@@ -293,7 +293,7 @@
     const canvas = document.getElementById("poem-canvas");
 
     function loadWords() {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) {
         return JSON.parse(saved);
       }
@@ -301,7 +301,7 @@
     }
 
     function saveWords(words) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(words));
     }
 
     function renderWords(words) {
