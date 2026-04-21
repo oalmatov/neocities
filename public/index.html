@@ -9,7 +9,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background-image: url("assets/refrigerator-texture.png");
+      background-image: url("assets/refrigerator-texture.jpg");
       background-repeat: repeat;
       font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
     }
@@ -25,9 +25,15 @@
       box-sizing: border-box;
     }
 
-    .poem-canvas,
-    .right-column {
+    .poem-canvas {
       flex: 1;
+      position: relative;
+      min-height: 600px;
+    }
+
+    .right-column {
+      width: 600px;
+      flex-shrink: 0;
       position: relative;
       min-height: 600px;
     }
@@ -57,16 +63,34 @@
       width: 280px;
       height: 280px;
       padding: 1.5em;
-      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
       font-family: serif;
     }
 
     .sticky-plum {
       top: 60px;
       left: 40px;
-      background: plum;
       transform: rotate(-3deg);
       font-family: "Comic Sans MS", cursive;
+    }
+
+    .sticky-image {
+      position: absolute;
+      top: -40px;
+      left: -17px;
+      width: 450px;
+      height: auto;
+      transform: rotate(-5deg);
+      z-index: 0;
+    }
+
+    .sticky-image-blue {
+      position: absolute;
+      top: 285px;
+      left: 130px;
+      width: 420px;
+      height: auto;
+      transform: rotate(3deg);
+      z-index: 0;
     }
 
     .sticky-plum h2 {
@@ -88,9 +112,46 @@
     .sticky-cyan {
       top: 380px;
       left: 200px;
-      background: #a8e0eb;
       transform: rotate(2.5deg);
       font-family: "Comic Sans MS", cursive;
+    }
+
+    .spotify-embed {
+      position: absolute;
+      top: 570px;
+      left: 85px;
+      background: palegreen;
+      padding: 0.75em;
+      transform: rotate(-4deg);
+      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    .spotify-embed iframe {
+      display: block;
+      border: none;
+    }
+
+    .kazakhstan-magnet {
+      position: absolute;
+      top: 260px;
+      right: 35px;
+      width: 250px;
+      height: auto;
+      transform: rotate(12deg);
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.25));
+      z-index: 3;
+    }
+
+    .tortoise-magnet {
+      position: absolute;
+      top: 285px;
+      right: 240px;
+      width: 400px;
+      height: auto;
+      transform: rotate(-12deg);
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.25));
+      z-index: 3;
     }
 
     .sticky-cyan h2 {
@@ -123,6 +184,10 @@
   <div class="container">
     <div class="poem-canvas" id="poem-canvas"></div>
     <div class="right-column">
+      <img src="assets/sticky-note-yellow.png" class="sticky-image" alt="" />
+      <img src="assets/sticky-note-blue.png" class="sticky-image-blue" alt="" />
+      <img src="assets/kazakhstan-magnet.png" class="kazakhstan-magnet" alt="" />
+      <img src="assets/tortoise.png" class="tortoise-magnet" alt="" />
       <div class="sticky-note sticky-plum">
         <h2>ABOUT ME</h2>
         <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I
@@ -131,6 +196,11 @@
           the beach, and I recently started figure drawing.<br><br>If you want to reach out to me you can mail me here
           <a href="mailto:omar.almatov@gmail.com">📧</a>
         </p>
+      </div>
+      <div class="spotify-embed">
+        <iframe src="https://open.spotify.com/embed/track/1rN5lPz3NO5ckrsOWz3gx6?utm_source=generator&theme=0"
+          width="280" height="80" allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
       <div class="sticky-note sticky-cyan">
         <h2>SITEMAP</h2>
