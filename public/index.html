@@ -1,179 +1,259 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>leave me a poem</title>
-        <style>
-            body {
-                margin: 0;
-                min-height: 100vh;
-                background-image: url("assets/refrigerator-texture.png");
-                background-repeat: repeat;
-                font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
-            }
 
-            .container {
-                display: flex;
-                max-width: 1400px;
-                margin: 0 auto;
-                padding: 2em;
-                gap: 2em;
-                min-height: 100vh;
-                box-sizing: border-box;
-            }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>leave me a poem</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-image: url("assets/refrigerator-texture.png");
+      background-repeat: repeat;
+      font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
+    }
 
-            .poem-canvas,
-            .right-column {
-                flex: 1;
-                position: relative;
-                min-height: 600px;
-            }
+    .container {
+      display: flex;
+      max-width: 1400px;
+      min-width: 1200px;
+      margin: 0 auto;
+      padding: 2em;
+      gap: 2em;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
 
-            .word-magnet {
-                position: absolute;
-                background: #faf7ef;
-                border: 2px solid black;
-                padding: 4px 10px;
-                font-size: 16px;
-                font-family: serif;
-                cursor: grab;
-                user-select: none;
-                -webkit-user-select: none;
-                box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
-                white-space: nowrap;
-            }
+    .poem-canvas,
+    .right-column {
+      flex: 1;
+      position: relative;
+      min-height: 600px;
+    }
 
-            .word-magnet.dragging {
-                cursor: grabbing;
-                z-index: 1000;
-                box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
-            }
+    .word-magnet {
+      position: absolute;
+      background: #faf7ef;
+      border: 2px solid black;
+      padding: 4px 10px;
+      font-size: 16px;
+      font-family: serif;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
 
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="poem-canvas" id="poem-canvas"></div>
-            <div class="right-column"></div>
-        </div>
+    .word-magnet.dragging {
+      cursor: grabbing;
+      z-index: 1000;
+      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
+    }
 
-        <script>
-            const INITIAL_WORDS = [
-                { text: "moon", x: 20, y: 40 },
-                { text: "whispers", x: 110, y: 30 },
-                { text: "soft", x: 240, y: 60 },
-                { text: "between", x: 40, y: 110 },
-                { text: "my", x: 170, y: 100 },
-                { text: "hands", x: 230, y: 130 },
-                { text: "quiet", x: 60, y: 180 },
-                { text: "the", x: 170, y: 180 },
-                { text: "light", x: 240, y: 210 },
-                { text: "wanders", x: 80, y: 240 },
-                { text: "slow", x: 30, y: 290 },
-                { text: "like", x: 120, y: 280 },
-                { text: "water", x: 200, y: 300 },
-                { text: "through", x: 40, y: 340 },
-                { text: "stone", x: 170, y: 350 },
-                { text: "breathe", x: 260, y: 380 },
-                { text: "and", x: 80, y: 400 },
-                { text: "forget", x: 160, y: 420 },
-                { text: "time", x: 40, y: 460 },
-                { text: "is", x: 150, y: 470 },
-            ];
+    .sticky-note {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      padding: 1.5em;
+      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+      font-family: serif;
+    }
 
-            function randomRotation() {
-                return Math.random() * 6 - 3;
-            }
+    .sticky-plum {
+      top: 60px;
+      left: 40px;
+      background: plum;
+      transform: rotate(-3deg);
+      font-family: "Comic Sans MS", cursive;
+    }
 
-            const STORAGE_KEY = "fridge-poem";
-            const canvas = document.getElementById("poem-canvas");
+    .sticky-plum h2 {
+      margin: 0 0 0.5em 0;
+      font-size: 1.2em;
+    }
 
-            function loadWords() {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    try {
-                        return JSON.parse(saved);
-                    } catch (e) {
-                        // fall through
-                    }
-                }
-                return INITIAL_WORDS.map((w) => ({ ...w, rotation: randomRotation() }));
-            }
+    .sticky-plum p {
+      margin: 0 0 0.4em 0;
+      font-size: 0.8em;
+      line-height: 1.3;
+    }
 
-            function saveWords(words) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
-            }
+    .sticky-plum a {
+      color: black;
+      text-decoration: underline;
+    }
 
-            function renderWords(words) {
-                canvas.innerHTML = "";
-                for (const word of words) {
-                    const el = document.createElement("div");
-                    el.className = "word-magnet";
-                    el.textContent = word.text;
-                    el.style.left = word.x + "px";
-                    el.style.top = word.y + "px";
-                    el.style.transform = `rotate(${word.rotation}deg)`;
-                    el.dataset.rotation = word.rotation;
-                    canvas.appendChild(el);
-                }
-            }
+    .sticky-cyan {
+      top: 380px;
+      left: 200px;
+      background: #a8e0eb;
+      transform: rotate(2.5deg);
+      font-family: "Comic Sans MS", cursive;
+    }
 
-            function currentWords() {
-                const magnets = canvas.querySelectorAll(".word-magnet");
-                return Array.from(magnets).map((el) => ({
-                    text: el.textContent,
-                    x: parseInt(el.style.left, 10),
-                    y: parseInt(el.style.top, 10),
-                    rotation: parseFloat(el.dataset.rotation),
-                }));
-            }
+    .sticky-cyan h2 {
+      margin: 0 0 0.5em 0;
+      font-size: 1.2em;
+    }
 
-            renderWords(loadWords());
+    .sticky-cyan ul {
+      margin: 0;
+      padding-left: 1.2em;
+      font-size: 0.8em;
+    }
 
-            // Drag logic
-            let active = null;
-            let offsetX = 0;
-            let offsetY = 0;
+    .sticky-cyan li {
+      margin-bottom: 0.3em;
+    }
 
-            canvas.addEventListener("mousedown", (e) => {
-                const target = e.target.closest(".word-magnet");
-                if (!target) return;
+    .sticky-note a {
+      color: black;
+      text-decoration: underline;
+    }
 
-                active = target;
-                active.classList.add("dragging");
+    .sticky-note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
 
-                const rect = active.getBoundingClientRect();
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
+<body>
+  <div class="container">
+    <div class="poem-canvas" id="poem-canvas"></div>
+    <div class="right-column">
+      <div class="sticky-note sticky-plum">
+        <h2>ABOUT ME</h2>
+        <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I
+          live in SF.<br><br>Interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/"
+            target="_blank">permacomputing</a>.<br><br>In my free time I like to write poems, climb rocks, go alone to
+          the beach, and I recently started figure drawing.<br><br>If you want to reach out to me you can mail me here
+          <a href="mailto:omar.almatov@gmail.com">📧</a>
+        </p>
+      </div>
+      <div class="sticky-note sticky-cyan">
+        <h2>SITEMAP</h2>
+        <ul>
+          <li><a href="#">shitposts</a></li>
+          <li><a href="#">books i read</a></li>
+          <li><a href="#">movies i watched</a></li>
+          <li><a href="#">journal & poems</a></li>
+          <li><a href="#">barter with me</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-                e.preventDefault();
-            });
+  <script>
+    const INITIAL_WORDS = [
+      {text: "moon", x: 20, y: 40, rotation: -2.4},
+      {text: "whispers", x: 110, y: 30, rotation: 1.8},
+      {text: "soft", x: 240, y: 60, rotation: -0.9},
+      {text: "between", x: 40, y: 110, rotation: 2.3},
+      {text: "my", x: 170, y: 100, rotation: 0.6},
+      {text: "hands", x: 230, y: 130, rotation: -2.8},
+      {text: "quiet", x: 60, y: 180, rotation: 1.4},
+      {text: "the", x: 170, y: 180, rotation: -1.2},
+      {text: "light", x: 240, y: 210, rotation: 2.0},
+      {text: "wanders", x: 80, y: 240, rotation: -0.4},
+      {text: "slow", x: 30, y: 290, rotation: -2.1},
+      {text: "like", x: 120, y: 280, rotation: 2.7},
+      {text: "water", x: 200, y: 300, rotation: -1.5},
+      {text: "through", x: 40, y: 340, rotation: 0.9},
+      {text: "stone", x: 170, y: 350, rotation: -2.6},
+      {text: "breathe", x: 260, y: 380, rotation: 0.3},
+      {text: "and", x: 80, y: 400, rotation: 1.7},
+      {text: "forget", x: 160, y: 420, rotation: -0.8},
+      {text: "time", x: 40, y: 460, rotation: 2.5},
+      {text: "is", x: 150, y: 470, rotation: -1.9},
+    ];
 
-            document.addEventListener("mousemove", (e) => {
-                if (!active) return;
+    const STORAGE_KEY = "fridge-poem";
+    const canvas = document.getElementById("poem-canvas");
 
-                const canvasRect = canvas.getBoundingClientRect();
-                let x = e.clientX - canvasRect.left - offsetX;
-                let y = e.clientY - canvasRect.top - offsetY;
+    function loadWords() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      return INITIAL_WORDS;
+    }
 
-                // Clamp to canvas bounds
-                const w = active.offsetWidth;
-                const h = active.offsetHeight;
-                x = Math.max(0, Math.min(x, canvasRect.width - w));
-                y = Math.max(0, Math.min(y, canvasRect.height - h));
+    function saveWords(words) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+    }
 
-                active.style.left = x + "px";
-                active.style.top = y + "px";
-            });
+    function renderWords(words) {
+      canvas.innerHTML = "";
+      for (const word of words) {
+        const el = document.createElement("div");
+        el.className = "word-magnet";
+        el.textContent = word.text;
+        el.style.left = word.x + "px";
+        el.style.top = word.y + "px";
+        el.style.transform = `rotate(${word.rotation}deg)`;
+        el.dataset.rotation = word.rotation;
+        canvas.appendChild(el);
+      }
+    }
 
-            document.addEventListener("mouseup", () => {
-                if (!active) return;
-                active.classList.remove("dragging");
-                active = null;
-                saveWords(currentWords());
-            });
+    function currentWords() {
+      const magnets = canvas.querySelectorAll(".word-magnet");
+      return Array.from(magnets).map((el) => ({
+        text: el.textContent,
+        x: parseInt(el.style.left, 10),
+        y: parseInt(el.style.top, 10),
+        rotation: parseFloat(el.dataset.rotation),
+      }));
+    }
 
-        </script>
-    </body>
+    renderWords(loadWords());
+
+    // Drag logic
+    let active = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    canvas.addEventListener("mousedown", (e) => {
+      const target = e.target.closest(".word-magnet");
+      if (!target) return;
+
+      active = target;
+      active.classList.add("dragging");
+
+      const rect = active.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+
+      e.preventDefault();
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!active) return;
+
+      const canvasRect = canvas.getBoundingClientRect();
+      let x = e.clientX - canvasRect.left - offsetX;
+      let y = e.clientY - canvasRect.top - offsetY;
+
+      // Clamp to canvas bounds
+      const w = active.offsetWidth;
+      const h = active.offsetHeight;
+      x = Math.max(0, Math.min(x, canvasRect.width - w));
+      y = Math.max(0, Math.min(y, canvasRect.height - h));
+
+      active.style.left = x + "px";
+      active.style.top = y + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (!active) return;
+      active.classList.remove("dragging");
+      active = null;
+      saveWords(currentWords());
+    });
+
+  </script>
+</body>
+
 </html>
