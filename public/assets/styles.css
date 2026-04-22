@@ -46,10 +46,14 @@ a:hover {
   }
 }
 
-.home-link {
-  position: fixed;
-  top: 1em;
-  left: 1em;
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 1.5em;
+  position: sticky;
+  top: 0;
+  background: white;
   z-index: 10002;
 }
 
@@ -62,13 +66,6 @@ a:hover {
 
 .home-link:hover img {
   transform: rotate(-3deg);
-}
-
-.tooltip-wrap.fixed-eye {
-  position: fixed;
-  top: 1.5em;
-  right: 1.5em;
-  z-index: 10002;
 }
 
 .tooltip-wrap.fixed-eye img {
@@ -110,7 +107,7 @@ a:hover {
 
 .content {
   position: relative;
-  padding: 4em 120px;
+  padding: 2em 1.5em;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
@@ -284,12 +281,19 @@ a:hover {
 }
 
 .popover {
-  width: 50vw;
-  max-height: 50vw;
+  width: min(50vw, 90vw);
+  max-height: min(50vw, 90vh);
   background: white;
   padding: 2em;
   position: relative;
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .popover {
+    width: 90vw;
+    max-height: 85vh;
+  }
 }
 
 .popover-close {

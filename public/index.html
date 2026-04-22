@@ -49,6 +49,7 @@
       cursor: grab;
       user-select: none;
       -webkit-user-select: none;
+      touch-action: none;
       box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
       white-space: nowrap;
     }
@@ -335,12 +336,13 @@
     let offsetX = 0;
     let offsetY = 0;
 
-    canvas.addEventListener("mousedown", (e) => {
+    canvas.addEventListener("pointerdown", (e) => {
       const target = e.target.closest(".word-magnet");
       if (!target) return;
 
       active = target;
       active.classList.add("dragging");
+      active.setPointerCapture(e.pointerId);
 
       const rect = active.getBoundingClientRect();
       offsetX = e.clientX - rect.left;
@@ -349,7 +351,7 @@
       e.preventDefault();
     });
 
-    document.addEventListener("mousemove", (e) => {
+    canvas.addEventListener("pointermove", (e) => {
       if (!active) return;
 
       const canvasRect = canvas.getBoundingClientRect();
@@ -366,7 +368,7 @@
       active.style.top = y + "px";
     });
 
-    document.addEventListener("mouseup", () => {
+    canvas.addEventListener("pointerup", () => {
       if (!active) return;
       active.classList.remove("dragging");
       active = null;
