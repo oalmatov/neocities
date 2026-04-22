@@ -167,6 +167,13 @@ a:hover {
   margin: 0;
 }
 
+.feed-text video,
+.feed-text img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 .feed-date {
   font-size: 0.75em;
   color: #999;
