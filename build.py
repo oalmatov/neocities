@@ -362,7 +362,7 @@ def render_poems_section() -> str:
 
 
 POEM_CANVAS_WIDTH = 504
-POEM_CANVAS_HEIGHT = 600
+POEM_CANVAS_HEIGHT = 900
 
 
 def json_to_svg(words: list[dict]) -> str:

@@ -29,14 +29,14 @@
     .poem-canvas {
       flex: 1;
       position: relative;
-      min-height: 600px;
+      height: 900px;
     }
 
     .right-column {
       width: 600px;
       flex-shrink: 0;
       position: relative;
-      min-height: 600px;
+      min-height: 900px;
     }
 
     .word-magnet {
@@ -358,11 +358,13 @@
       let x = e.clientX - canvasRect.left - offsetX;
       let y = e.clientY - canvasRect.top - offsetY;
 
-      // Clamp to canvas bounds
+      // Clamp to canvas bounds (use fixed dims so mobile layout quirks don't let words drift out of view)
       const w = active.offsetWidth;
       const h = active.offsetHeight;
-      x = Math.max(0, Math.min(x, canvasRect.width - w));
-      y = Math.max(0, Math.min(y, canvasRect.height - h));
+      const maxX = Math.min(canvasRect.width, 504);
+      const maxY = 900;
+      x = Math.max(0, Math.min(x, maxX - w));
+      y = Math.max(0, Math.min(y, maxY - h));
 
       active.style.left = x + "px";
       active.style.top = y + "px";
