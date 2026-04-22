@@ -30,7 +30,7 @@ def parse_post(post_path: Path) -> dict:
     frontmatter = yaml.safe_load(parts[1])
     body = parts[2].strip()
 
-    slug = post_path.parent.name
+    slug = post_path.stem
     html = markdown.markdown(body)
 
     return {
@@ -53,12 +53,7 @@ def load_section(section: str) -> list[dict]:
         return []
 
     posts = []
-    for post_dir in sorted(section_dir.iterdir()):
-        post_file = post_dir / "post.md"
-
-        if not post_file.exists():
-            continue
-
+    for post_file in sorted(section_dir.glob("*.md")):
         post = parse_post(post_file)
         if post.get("hidden"):
             continue
@@ -81,24 +76,18 @@ def load_section(section: str) -> list[dict]:
     return posts
 
 
-def copy_assets(section: str) -> None:
-    """Copy post assets (images etc) to output directory."""
-    section_dir = CONTENT_DIR / section
-    output_section = PUBLIC_DIR / "posts" / section
+def copy_post_assets() -> None:
+    """Copy the global content/assets folder to public/posts."""
+    src = CONTENT_DIR / "assets"
+    dst = PUBLIC_DIR / "posts"
 
-    if not section_dir.exists():
+    if not src.exists():
         return
 
-    for post_dir in section_dir.iterdir():
-        if not post_dir.is_dir():
-            continue
-
-        output_post = output_section / post_dir.name
-
-        if output_post.exists():
-            shutil.rmtree(output_post)
-
-        shutil.copytree(post_dir, output_post, ignore=shutil.ignore_patterns("post.md"))
+    dst.mkdir(parents=True, exist_ok=True)
+    for item in src.iterdir():
+        if item.is_file():
+            shutil.copy2(item, dst / item.name)
 
 
 def render_stars(rating: int | None) -> str:
@@ -120,7 +109,7 @@ def render_card(post: dict) -> str:
 
     thumb_html = ""
     if post["thumbnail"]:
-        thumb_src = f"/posts/{section}/{slug}/{post['thumbnail']}"
+        thumb_src = f"/posts/{post['thumbnail']}"
         thumb_html = f'<img class="card-thumb" src="{thumb_src}" alt="" />'
     else:
         thumb_html = '<div class="card-thumb card-thumb-placeholder"></div>'
@@ -163,7 +152,7 @@ def render_popover(post: dict) -> str:
     post_id = f"{section}-{slug}"
 
     # Rewrite image paths in content
-    content_html = post["html"].replace('src="', f'src="/posts/{section}/{slug}/')
+    content_html = post["html"].replace('src="', 'src="/posts/')
 
     stars_html = render_stars(post.get("rating"))
 
@@ -197,12 +186,7 @@ def load_feed() -> list[dict]:
         return []
 
     entries = []
-    for entry_dir in sorted(feed_dir.iterdir()):
-        post_file = entry_dir / "post.md"
-
-        if not post_file.exists():
-            continue
-
+    for post_file in sorted(feed_dir.glob("*.md")):
         text = post_file.read_text()
         parts = text.split("---", 2)
         frontmatter = yaml.safe_load(parts[1])
@@ -213,7 +197,7 @@ def load_feed() -> list[dict]:
             continue
 
         entries.append({
-            "slug": entry_dir.name,
+            "slug": post_file.stem,
             "date": frontmatter.get("date"),
             "image": frontmatter.get("image"),
             "html": html,
@@ -238,11 +222,9 @@ def render_feed(entries: list[dict]) -> str:
 
     items = []
     for entry in entries:
-        slug = entry["slug"]
-
         image_html = ""
         if entry["image"]:
-            src = f"/posts/feed/{slug}/{entry['image']}"
+            src = f"/posts/{entry['image']}"
             image_html = f'<img class="feed-image" src="{src}" alt="" />'
 
         date_html = ""
@@ -259,7 +241,7 @@ def render_feed(entries: list[dict]) -> str:
 
         text_html = ""
         if entry["html"].strip():
-            content = entry["html"].replace('src="', f'src="/posts/feed/{slug}/')
+            content = entry["html"].replace('src="', 'src="/posts/')
             text_html = f'<div class="feed-text">{content}</div>'
 
         items.append(f"""
@@ -459,16 +441,8 @@ def build() -> None:
     if posts_output.exists():
         shutil.rmtree(posts_output)
 
-    for section in SECTIONS:
-        if section == "barter":
-            copy_assets("barter/offering")
-            copy_assets("barter/looking-for")
-        elif section == "poems":
-            copy_poems()
-        else:
-            copy_assets(section)
-
-    copy_assets("feed")
+    copy_post_assets()
+    copy_poems()
 
     # Render feed
     feed_html = render_feed(feed_entries)
