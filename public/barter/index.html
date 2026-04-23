@@ -1,32 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/assets/heart.png" type="image/png" />
-  <link rel="stylesheet" href="/assets/styles.css" />
-  <title>barter</title>
-</head>
-
-<body>
-  <header class="top-bar">
-    <a href="/" class="home-link"><img src="/assets/refrigerator.png" alt="home" /></a>
-
-    <span class="fixed-eye tooltip-wrap tooltip-left">
-      <span class="tooltip-icon"><img src="/assets/eye.png" alt="" /></span>
-      <span class="tooltip-text">The Big Other is the symbolic order, the anonymous "they" whose gaze — imagined, not real — shapes how we present ourselves even in private. An internalized audience, a set of expectations that we perform for without even being able to name who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this note is again just a performance of my awareness of the gaze to the gaze.</span>
-    </span>
-  </header>
-
-  <main class="content">
-    <div class="eyes-container">
-      <img src="/assets/eye-open-left.png" class="eye base-eye" alt="" />
-      <img src="/assets/eye-open-right.png" class="eye base-eye" alt="" />
-      <img src="/assets/eye-closed-left.png" class="eye left-closed" alt="" />
-      <img src="/assets/eye-closed-right.png" class="eye right-closed" alt="" />
-    </div>
-    
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/assets/heart.png" type="image/png" />
+        <link rel="stylesheet" href="/assets/styles.css" />
+        <title>barter</title>
+    </head>
+    <body>
+        <header class="top-bar">
+            <a href="/" class="home-link">
+                <img src="/assets/refrigerator.png" alt="home" />
+            </a>
+            <span class="fixed-eye tooltip-wrap tooltip-left">
+                <span class="tooltip-icon">
+                    <img src="/assets/eye.png" alt="" />
+                </span>
+                <span class="tooltip-text">The Big Other is the symbolic order, the anonymous "they" whose gaze shapes how we present
+                    ourselves even in private. An internalized audience, a set of expectations that we perform for
+                    without even being able to name who's watching. Even when I write in private, in secret, in my
+                    journal, I am still not fully myself. Even this note is again just a performance of my awareness of
+                the gaze to the gaze.</span>
+            </span>
+        </header>
+        <main class="content">
+            <div class="eyes-container">
+                <img src="/assets/eye-open-left.png" class="eye base-eye" alt="" />
+                <img src="/assets/eye-open-right.png" class="eye base-eye" alt="" />
+                <img src="/assets/eye-closed-left.png" class="eye left-closed" alt="" />
+                <img src="/assets/eye-closed-right.png" class="eye right-closed" alt="" />
+            </div>
+            
     <section id="barter" class="section">
       <div class="barter-columns">
         <div class="barter-column">
@@ -181,15 +185,14 @@
         </div>
       </div>
     </section>
-  </main>
-
-  <div class="popover-overlay" style="display: none;">
-    <div class="popover">
-      <button class="popover-close">&times;</button>
-      <div class="popover-content"></div>
-    </div>
-  </div>
-  
+        </main>
+        <div class="popover-overlay" style="display: none">
+            <div class="popover">
+                <button class="popover-close">&times;</button>
+                <div class="popover-content"></div>
+            </div>
+        </div>
+        
     <div class="popover-data" id="popover-barter/offering-bouldering-lessons" style="display: none;">
       <h2>Bouldering Lessons</h2>
       
@@ -245,94 +248,92 @@
       
       <div class="popover-body"><p>Looking for a venue to host a neocities/data sovereignty workshop in the bay area (preferably Oakland or SF) June 2026. Need desks, outlets, and wifi. Accommodate for ~20 people.</p></div>
     </div>
+        <script>
+            // Blinking eyes
+            const leftClosed = document.querySelector(".left-closed");
+            const rightClosed = document.querySelector(".right-closed");
+            const BLINK_INTERVAL = 8000;
+            const JITTER = 1000;
 
-  <script>
-    // Blinking eyes
-    const leftClosed = document.querySelector(".left-closed");
-    const rightClosed = document.querySelector(".right-closed");
-    const BLINK_INTERVAL = 8000;
-    const JITTER = 1000;
+            function blink() {
+                leftClosed.style.display = "block";
+                rightClosed.style.display = "block";
+                setTimeout(() => {
+                    leftClosed.style.display = "none";
+                    rightClosed.style.display = "none";
+                }, 150);
+                const jitter = Math.random() * JITTER * 2 - JITTER;
+                setTimeout(blink, BLINK_INTERVAL + jitter);
+            }
+            setTimeout(blink, BLINK_INTERVAL);
 
-    function blink() {
-      leftClosed.style.display = "block";
-      rightClosed.style.display = "block";
-      setTimeout(() => {
-        leftClosed.style.display = "none";
-        rightClosed.style.display = "none";
-      }, 150);
-      const jitter = Math.random() * JITTER * 2 - JITTER;
-      setTimeout(blink, BLINK_INTERVAL + jitter);
-    }
-    setTimeout(blink, BLINK_INTERVAL);
+            // Popover
+            const overlay = document.querySelector(".popover-overlay");
+            const popoverContent = document.querySelector(".popover-content");
+            const popoverClose = document.querySelector(".popover-close");
 
-    // Popover
-    const overlay = document.querySelector(".popover-overlay");
-    const popoverContent = document.querySelector(".popover-content");
-    const popoverClose = document.querySelector(".popover-close");
+            function openPopover(postId) {
+                const data = document.getElementById("popover-" + postId);
+                if (data) {
+                    popoverContent.innerHTML = data.innerHTML;
+                    overlay.style.display = "flex";
+                    const url = new URL(window.location);
+                    url.searchParams.set("post", postId);
+                    history.replaceState(null, "", url);
+                }
+            }
 
-    function openPopover(postId) {
-      const data = document.getElementById("popover-" + postId);
-      if (data) {
-        popoverContent.innerHTML = data.innerHTML;
-        overlay.style.display = "flex";
-        const url = new URL(window.location);
-        url.searchParams.set("post", postId);
-        history.replaceState(null, "", url);
-      }
-    }
+            function closePopover() {
+                overlay.style.display = "none";
+                const url = new URL(window.location);
+                url.searchParams.delete("post");
+                history.replaceState(null, "", url);
+            }
 
-    function closePopover() {
-      overlay.style.display = "none";
-      const url = new URL(window.location);
-      url.searchParams.delete("post");
-      history.replaceState(null, "", url);
-    }
+            document.querySelectorAll(".card-clickable").forEach((card) => {
+                card.addEventListener("click", () => {
+                    openPopover(card.dataset.post);
+                });
+            });
 
-    document.querySelectorAll(".card-clickable").forEach(card => {
-      card.addEventListener("click", () => {
-        openPopover(card.dataset.post);
-      });
-    });
+            popoverClose.addEventListener("click", closePopover);
+            overlay.addEventListener("click", (e) => {
+                if (e.target === overlay) closePopover();
+            });
 
-    popoverClose.addEventListener("click", closePopover);
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closePopover();
-    });
+            // Deep-link to specific post via ?post=
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("post")) {
+                openPopover(params.get("post"));
+            }
 
-    // Deep-link to specific post via ?post=
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("post")) {
-      openPopover(params.get("post"));
-    }
+            // Tooltips
+            document.querySelectorAll(".tooltip-wrap").forEach((wrap) => {
+                const icon = wrap.querySelector(".tooltip-icon");
+                const text = wrap.querySelector(".tooltip-text");
 
-    // Tooltips
-    document.querySelectorAll(".tooltip-wrap").forEach(wrap => {
-      const icon = wrap.querySelector(".tooltip-icon");
-      const text = wrap.querySelector(".tooltip-text");
+                wrap.addEventListener("mouseenter", () => {
+                    const rect = icon.getBoundingClientRect();
+                    const isUp = wrap.classList.contains("tooltip-up");
+                    const isLeft = wrap.classList.contains("tooltip-left");
 
-      wrap.addEventListener("mouseenter", () => {
-        const rect = icon.getBoundingClientRect();
-        const isUp = wrap.classList.contains("tooltip-up");
-        const isLeft = wrap.classList.contains("tooltip-left");
+                    if (isLeft) {
+                        text.style.right = window.innerWidth - rect.right + "px";
+                        text.style.left = "auto";
+                    } else {
+                        text.style.left = rect.left + "px";
+                        text.style.right = "auto";
+                    }
 
-        if (isLeft) {
-          text.style.right = (window.innerWidth - rect.right) + "px";
-          text.style.left = "auto";
-        } else {
-          text.style.left = rect.left + "px";
-          text.style.right = "auto";
-        }
-
-        if (isUp) {
-          text.style.bottom = (window.innerHeight - rect.top) + "px";
-          text.style.top = "auto";
-        } else {
-          text.style.top = rect.bottom + "px";
-          text.style.bottom = "auto";
-        }
-      });
-    });
-  </script>
-</body>
-
+                    if (isUp) {
+                        text.style.bottom = window.innerHeight - rect.top + "px";
+                        text.style.top = "auto";
+                    } else {
+                        text.style.top = rect.bottom + "px";
+                        text.style.bottom = "auto";
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>

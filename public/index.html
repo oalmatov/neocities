@@ -1,12 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>leave me a poem</title>
-  <link rel="icon" href="assets/refrigerator.png" type="image/png" />
-  <style>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>leave me a poem</title>
+        <link rel="icon" href="assets/refrigerator.png" type="image/png" />
+        <style>
     body {
       margin: 0;
       min-height: 100vh;
@@ -218,50 +217,76 @@
     .sticky-note a:hover {
       text-decoration: underline;
     }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="poem-canvas" id="poem-canvas">
-      <a href="#" class="share-poem" id="share-poem"><img src="assets/mail-man.png" alt="share poem" /></a>
-    </div>
-    <div class="right-column">
-      <img src="assets/sticky-note-yellow.png" class="sticky-image" alt="" />
-      <img src="assets/sticky-note-blue.png" class="sticky-image-blue" alt="" />
-      <img src="assets/kazakhstan-magnet.png" class="kazakhstan-magnet" alt="" />
-      <img src="assets/tortoise.png" class="tortoise-magnet" alt="" />
-      <img src="assets/sf-magnet.png" class="sf-magnet" alt="" />
-      <img src="assets/cal-magnet.png" class="cal-magnet" alt="" />
-      <div class="sticky-note sticky-plum">
-        <h2><br>ABOUT ME</h2>
-        <p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I
-          live in SF.<br><br>Interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/"
-            target="_blank">permacomputing</a>.<br><br>In my free time I like to write poems, climb rocks, go alone to
-          the beach, and I recently started figure drawing.
-        </p>
-      </div>
-      <div class="spotify-embed">
-        <iframe src="https://open.spotify.com/embed/track/2iaNWBQNM7SGaJEduGxZYT?utm_source=generator&theme=0"
-          width="280" height="80" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="sticky-note sticky-cyan">
-        <h2>SITEMAP</h2>
-        <ul>
-          <li><a href="/feed/">feed</a></li>
-          <li><a href="/books/">books</a></li>
-          <li><a href="/movies/">movies</a></li>
-          <li><a href="/journal/">journal</a></li>
-          <li><a href="/barter/">barter</a></li>
-          <li><a href="/poems/">your poems</a></li>
-          <li><a href="/guestbook/">guestbook</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <script>
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="poem-canvas" id="poem-canvas">
+                <a href="#" class="share-poem" id="share-poem">
+                    <img src="assets/mail-man.png" alt="share poem" />
+                </a>
+            </div>
+            <div class="right-column">
+                <img src="assets/sticky-note-yellow.png" class="sticky-image" alt="" />
+                <img src="assets/sticky-note-blue.png" class="sticky-image-blue" alt="" />
+                <img src="assets/kazakhstan-magnet.png" class="kazakhstan-magnet" alt="" />
+                <img src="assets/tortoise.png" class="tortoise-magnet" alt="" />
+                <img src="assets/sf-magnet.png" class="sf-magnet" alt="" />
+                <img src="assets/cal-magnet.png" class="cal-magnet" alt="" />
+                <div class="sticky-note sticky-plum">
+                    <h2>
+                        <br>
+                        ABOUT ME
+                    </h2>
+                    <p>
+                        I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I
+                        live in SF.
+                        <br>
+                        <br>
+                        Interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.
+                        <br>
+                        <br>
+                        In my free time I like to write poems, climb rocks, go alone to
+                        the beach, and I recently started figure drawing.
+                    </p>
+                </div>
+                <div class="spotify-embed">
+                    <iframe src="https://open.spotify.com/embed/track/2iaNWBQNM7SGaJEduGxZYT?utm_source=generator&theme=0"
+                            width="280"
+                            height="80"
+                            allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy"></iframe>
+                </div>
+                <div class="sticky-note sticky-cyan">
+                    <h2>SITEMAP</h2>
+                    <ul>
+                        <li>
+                            <a href="/feed/">feed</a>
+                        </li>
+                        <li>
+                            <a href="/books/">books</a>
+                        </li>
+                        <li>
+                            <a href="/movies/">movies</a>
+                        </li>
+                        <li>
+                            <a href="/journal/">journal</a>
+                        </li>
+                        <li>
+                            <a href="/barter/">barter</a>
+                        </li>
+                        <li>
+                            <a href="/poems/">your poems</a>
+                        </li>
+                        <li>
+                            <a href="/guestbook/">guestbook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
     const INITIAL_WORDS = [
       {text: "to", x: 62, y: 172, rotation: 0.1},
       {text: "roam", x: 199, y: 213, rotation: -0.6},
@@ -385,7 +410,6 @@
       window.location.href = `mailto:omar.almatov@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
 
-  </script>
-</body>
-
+        </script>
+    </body>
 </html>

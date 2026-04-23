@@ -305,9 +305,9 @@ def build() -> None:
     for slug, section in SECTIONS.items():
         content, popovers = section.render()
         rendered = (
-            template.replace("{{title}}", section.title)
-            .replace("{{content}}", content)
-            .replace("{{popovers}}", popovers)
+            template.replace("{{ title }}", section.title)
+            .replace("{{ content }}", content)
+            .replace("{{ popovers }}", popovers)
         )
         section_dir = PUBLIC_DIR / slug
         section_dir.mkdir(parents=True, exist_ok=True)
