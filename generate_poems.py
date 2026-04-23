@@ -1,4 +1,4 @@
-"""Pick 20 random words from the magnet-poetry pool and update INITIAL_WORDS in public/index.html.
+"""Pick random words from the magnet-poetry pool and update INITIAL_WORDS in public/index.html.
 
 Word pool sourced from https://github.com/sadgrlonline/magnetic-poetry
 """
@@ -638,9 +638,7 @@ def pick_words() -> list[dict]:
 def format_words(words: list[dict]) -> str:
     lines = []
     for w in words:
-        lines.append(
-            f"      {{text: {json.dumps(w['text'])}, x: {w['x']}, y: {w['y']}, rotation: {w['rotation']}}},"
-        )
+        lines.append(f"      {{text: {json.dumps(w['text'])}, x: {w['x']}, y: {w['y']}, rotation: {w['rotation']}}},")
     return "const INITIAL_WORDS = [\n" + "\n".join(lines) + "\n    ];"
 
 

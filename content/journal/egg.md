@@ -1,6 +1,6 @@
 ---
 title: Egg
-date: 2026-04-14
+date: 2026-04-14 00:00:00
 thumbnail: eggs.jpeg
 ---
 

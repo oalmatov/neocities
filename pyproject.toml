@@ -1,0 +1,21 @@
+[project]
+name = "neocities-frfr"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "markdown>=3.10.2",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.11",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+

@@ -1,6 +1,6 @@
 ---
 title: Speaking with God
-date: 2026-01-03
+date: 2026-01-03 00:00:00
 thumbnail: count-kagura.png
 ---
 

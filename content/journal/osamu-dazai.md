@@ -1,6 +1,6 @@
 ---
 title: Osamu Dazai
-date: 2026-01-16
+date: 2026-01-16 00:00:00
 thumbnail: osamu-dazai-cover.jpg
 ---
 

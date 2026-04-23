@@ -1,6 +1,6 @@
 ---
 title: Шай Кесе
-date: 2026-01-28
+date: 2026-01-28 00:00:00
 thumbnail: kese.jpg
 ---
 

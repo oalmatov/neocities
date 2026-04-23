@@ -1,6 +1,6 @@
 ---
 title: The Quiet Eye
-date: 2026-03-01
+date: 2026-03-01 00:00:00
 thumbnail: quiet-eye-cover.jpg
 ---
 

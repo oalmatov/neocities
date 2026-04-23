@@ -1,6 +1,6 @@
 ---
 title: On White Men
-date: 2026-04-01
+date: 2026-04-01 00:00:00
 thumbnail: will.jpeg
 hidden: true
 ---
