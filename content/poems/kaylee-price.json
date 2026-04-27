@@ -1,0 +1,30 @@
+{
+  "name": "kaylee",
+  "words": [
+    {"text": "to", "x": 330, "y": 243, "rotation": 0.1},
+    {"text": "roam", "x": 155, "y": 547, "rotation": -0.6},
+    {"text": "nothing", "x": 232, "y": 482, "rotation": 0.5},
+    {"text": "frozen", "x": 395, "y": 30, "rotation": -2.1},
+    {"text": "other", "x": 106, "y": 551, "rotation": -2},
+    {"text": "steel", "x": 272, "y": 247, "rotation": 1.1},
+    {"text": "birth", "x": 372, "y": 240, "rotation": -0.7},
+    {"text": "dessert", "x": 264, "y": 649, "rotation": -1.3},
+    {"text": "thing", "x": 254, "y": 531, "rotation": 1.5},
+    {"text": "woman", "x": 24, "y": 250, "rotation": 0.1},
+    {"text": "cruelly", "x": 178, "y": 514, "rotation": 0},
+    {"text": "swallow", "x": 187, "y": 251, "rotation": -0.2},
+    {"text": "beside", "x": 230, "y": 509, "rotation": -3},
+    {"text": "within", "x": 317, "y": 60, "rotation": 2.7},
+    {"text": "an", "x": 314, "y": 402, "rotation": -1.1},
+    {"text": "fiercely", "x": 106, "y": 250, "rotation": 1.6},
+    {"text": "what", "x": 88, "y": 608, "rotation": -2.1},
+    {"text": "neck", "x": 321, "y": 571, "rotation": -0.9},
+    {"text": "growth", "x": 313, "y": 498, "rotation": 2.8},
+    {"text": "strength", "x": 428, "y": 241, "rotation": -2.2},
+    {"text": "drift", "x": 191, "y": 645, "rotation": 2.6},
+    {"text": "give", "x": 249, "y": 507, "rotation": -0.7},
+    {"text": "grow", "x": 126, "y": 609, "rotation": 2.1},
+    {"text": "fresh", "x": 303, "y": 595, "rotation": -0.1},
+    {"text": "hope", "x": 240, "y": 396, "rotation": -1.7}
+  ]
+}
