@@ -203,6 +203,19 @@ a:hover {
     color: plum;
 }
 
+.poem-month + .poem-month {
+    margin-top: 2em;
+}
+
+.poem-month-header {
+    font-size: 1em;
+    font-weight: normal;
+    color: #999;
+    margin-bottom: 0.8em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.4em;
+}
+
 /* Guestbook */
 .guestbook-frame {
     width: 100%;

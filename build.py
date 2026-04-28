@@ -3,6 +3,7 @@
 import html
 import json
 import shutil
+from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
@@ -28,6 +29,7 @@ from templates import (
     POEM_CREDIT_LINK_TEMPLATE,
     POEM_CREDIT_TEMPLATE,
     POEM_JSON_TILE_TEMPLATE,
+    POEM_MONTH_TEMPLATE,
     POEMS_PAGE_TEMPLATE,
     POPOVER_AUTHOR_TEMPLATE,
     POPOVER_DATE_TEMPLATE,
@@ -223,8 +225,7 @@ def json_to_svg(words: list[dict]) -> str:
     )
 
 
-def render_poem_tile(path: Path) -> str:
-    data = json.loads(path.read_text())
+def render_poem_tile(data: dict) -> str:
     name, website = data.get("name"), data.get("website")
     if name and website:
         credit = POEM_CREDIT_LINK_TEMPLATE.format(href=html.escape(website), label=html.escape(name))
@@ -271,8 +272,21 @@ def render_barter_page() -> tuple[str, str]:
 
 
 def render_poems_page() -> tuple[str, str]:
-    tiles = [render_poem_tile(p) for p in sorted((CONTENT_DIR / "poems").glob("*.json"))]
-    content = POEMS_PAGE_TEMPLATE.format(tiles="\n".join(tiles))
+    by_month: dict[tuple[int, int], list[tuple[datetime, dict]]] = defaultdict(list)
+    for path in (CONTENT_DIR / "poems").glob("*.json"):
+        data = json.loads(path.read_text())
+        date = datetime.fromisoformat(data.get("date", "1970-01-01"))
+        by_month[(date.year, date.month)].append((date, data))
+
+    months = []
+    for key in sorted(by_month, reverse=True):
+        year, month = key
+        poems = sorted(by_month[key], key=lambda x: x[0], reverse=True)
+        tiles = "\n".join(render_poem_tile(data) for _, data in poems)
+        label = datetime(year, month, 1).strftime("%B %Y")
+        months.append(POEM_MONTH_TEMPLATE.format(label=label, tiles=tiles))
+
+    content = POEMS_PAGE_TEMPLATE.format(months="\n".join(months))
     return content, ""
 
 

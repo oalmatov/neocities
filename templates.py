@@ -102,10 +102,16 @@ BARTER_PAGE_TEMPLATE = """
 POEMS_PAGE_TEMPLATE = """
     <section id="poems" class="section">
       <p class="poems-preface">i'll try my best to check my mail and update this page with your poems</p>
-      <div class="poems-grid">
-        {tiles}
-      </div>
+      {months}
     </section>"""
+
+POEM_MONTH_TEMPLATE = """
+      <div class="poem-month">
+        <h3 class="poem-month-header">{label}</h3>
+        <div class="poems-grid">
+          {tiles}
+        </div>
+      </div>"""
 
 GUESTBOOK_PAGE_TEMPLATE = """
     <section id="guestbook" class="section">
