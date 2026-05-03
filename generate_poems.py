@@ -585,17 +585,17 @@ PREPOSITIONS = [
 
 # Bounds per category: (pool, min, max). Total of mins <= NUM_WORDS <= total of maxes.
 BOUNDS = {
-    "common": (COMMON, 3, 6),
-    "nouns": (NOUNS, 4, 8),
-    "verbs": (VERBS, 3, 6),
-    "adjectives": (ADJECTIVES, 2, 5),
-    "adverbs": (ADVERBS, 1, 3),
-    "prepositions": (PREPOSITIONS, 1, 3),
+    "common": (COMMON, 4, 8),
+    "nouns": (NOUNS, 6, 11),
+    "verbs": (VERBS, 4, 8),
+    "adjectives": (ADJECTIVES, 3, 7),
+    "adverbs": (ADVERBS, 1, 4),
+    "prepositions": (PREPOSITIONS, 1, 4),
 }
 
-NUM_WORDS = 25
-CANVAS_WIDTH = 504
-CANVAS_HEIGHT = 600
+NUM_WORDS = 35
+CANVAS_WIDTH = 1136
+CANVAS_HEIGHT = 900
 
 INDEX_PATH = Path(__file__).parent / "public" / "index.html"
 

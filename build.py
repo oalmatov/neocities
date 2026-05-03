@@ -43,7 +43,7 @@ ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content"
 PUBLIC_DIR = ROOT / "public"
 
-POEM_CANVAS_WIDTH = 504
+POEM_CANVAS_WIDTH = 1136
 POEM_CANVAS_HEIGHT = 900
 
 IMAGE_EXTS = frozenset({".jpg", ".jpeg", ".png", ".gif", ".webp"})
