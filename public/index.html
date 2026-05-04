@@ -234,7 +234,9 @@
 <body>
   <a class="sitemap-link" href="/sitemap/">perceive me</a>
   <div class="container">
-    <p class="share-prompt">please <a href="#" id="share-poem">share</a> a poem if u want</p>
+    <p class="share-prompt">please <a href="#" id="share-poem">share</a> a poem if u want.<br><br>this page is not the
+      most
+      mobile friendly. if you can't access it on ur desktop, flipping your phone may be a better experience.</p>
     <div class="canvas-scroll">
       <div class="poem-canvas" id="poem-canvas"></div>
     </div>
@@ -264,41 +266,41 @@
     </section>
   <script>
     const INITIAL_WORDS = [
-      {text: "sparkle", x: 128, y: 150, rotation: 1.8},
-      {text: "warrior", x: 177, y: 519, rotation: -2.7},
-      {text: "soak", x: 747, y: 209, rotation: -2.7},
-      {text: "surrender", x: 545, y: 163, rotation: 0.9},
-      {text: "tangled", x: 745, y: 502, rotation: 1.0},
-      {text: "wistfully", x: 498, y: 42, rotation: -2.2},
-      {text: "raw", x: 616, y: 697, rotation: 1.0},
-      {text: "next", x: 235, y: 371, rotation: -1.4},
-      {text: "let", x: 159, y: 99, rotation: -2.2},
-      {text: "say", x: 944, y: 343, rotation: -2.3},
-      {text: "cave", x: 939, y: 683, rotation: -2.0},
-      {text: "believe", x: 881, y: 228, rotation: -1.7},
-      {text: "he", x: 1056, y: 844, rotation: 1.8},
-      {text: "unsettled", x: 830, y: 854, rotation: -0.4},
-      {text: "serendipity", x: 307, y: 132, rotation: -1.8},
-      {text: "willow", x: 689, y: 782, rotation: -1.6},
-      {text: "bewitched", x: 427, y: 226, rotation: -0.2},
-      {text: "along", x: 707, y: 141, rotation: 1.4},
-      {text: "sharp", x: 962, y: 175, rotation: -2.1},
-      {text: "vine", x: 45, y: 828, rotation: -2.5},
-      {text: "within", x: 427, y: 868, rotation: -2.3},
-      {text: "mercy", x: 689, y: 758, rotation: 0.5},
-      {text: "intensify", x: 298, y: 207, rotation: 0.9},
-      {text: "mysterious", x: 27, y: 538, rotation: 1.1},
-      {text: "deadly", x: 111, y: 430, rotation: -2.4},
-      {text: "won't", x: 146, y: 337, rotation: 1.2},
-      {text: "am", x: 486, y: 209, rotation: 2.1},
-      {text: "unknown", x: 742, y: 257, rotation: 0.4},
-      {text: "lurch", x: 748, y: 360, rotation: -2.0},
-      {text: "for", x: 617, y: 299, rotation: 2.1},
-      {text: "across", x: 900, y: 570, rotation: -1.1},
-      {text: "them", x: 580, y: 505, rotation: -1.1},
-      {text: "smooth", x: 144, y: 60, rotation: 0.3},
-      {text: "came", x: 948, y: 619, rotation: 2.4},
-      {text: "sea-foam", x: 529, y: 517, rotation: 2.8},
+      {text: "beautiful", x: 468, y: 90, rotation: -0.8},
+      {text: "dying", x: 475, y: 523, rotation: 1.6},
+      {text: "up", x: 710, y: 268, rotation: -0.3},
+      {text: "honeydew", x: 98, y: 785, rotation: 1.5},
+      {text: "bark", x: 822, y: 23, rotation: -2.4},
+      {text: "vine", x: 750, y: 467, rotation: -0.8},
+      {text: "no", x: 875, y: 258, rotation: -0.9},
+      {text: "embrace", x: 787, y: 372, rotation: 2.5},
+      {text: "watch", x: 809, y: 287, rotation: 1.1},
+      {text: "soak", x: 525, y: 810, rotation: -0.1},
+      {text: "inside", x: 511, y: 526, rotation: 2.5},
+      {text: "but", x: 504, y: 429, rotation: -0.3},
+      {text: "storm", x: 1047, y: 514, rotation: 1.4},
+      {text: "on", x: 895, y: 635, rotation: -0.3},
+      {text: "drift", x: 945, y: 111, rotation: -0.1},
+      {text: "as", x: 620, y: 535, rotation: 2.9},
+      {text: "might", x: 438, y: 634, rotation: -0.4},
+      {text: "barely", x: 660, y: 500, rotation: 1.8},
+      {text: "moth", x: 929, y: 649, rotation: 1.9},
+      {text: "an", x: 951, y: 129, rotation: 0.4},
+      {text: "twin", x: 850, y: 176, rotation: 2.5},
+      {text: "shimmering", x: 380, y: 350, rotation: 0.3},
+      {text: "clumsily", x: 857, y: 688, rotation: -1.7},
+      {text: "still", x: 458, y: 53, rotation: -0.0},
+      {text: "dry", x: 837, y: 222, rotation: -1.6},
+      {text: "first", x: 447, y: 624, rotation: -3.0},
+      {text: "poison", x: 492, y: 239, rotation: 2.1},
+      {text: "their", x: 47, y: 43, rotation: -2.9},
+      {text: "cruelly", x: 261, y: 52, rotation: -1.8},
+      {text: "stream", x: 95, y: 404, rotation: -1.7},
+      {text: "touch", x: 66, y: 54, rotation: -3.0},
+      {text: "roam", x: 111, y: 462, rotation: 1.1},
+      {text: "woods", x: 941, y: 183, rotation: 0.5},
+      {text: "noiselessly", x: 863, y: 275, rotation: 2.4},
+      {text: "seawater", x: 356, y: 485, rotation: 1.8},
     ];
 
     const STORAGE_KEY = "fridge-poem";

@@ -472,7 +472,7 @@ body:has(.journal-layout) {
 
 .content:has(.journal-layout) {
     padding: 0;
-    max-width: none;
+    max-width: 1200px;
 }
 
 .journal-layout {
