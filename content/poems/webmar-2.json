@@ -1,0 +1,32 @@
+{
+  "name": "webmar",
+  "website": "https://webmar27.neocities.org/",
+  "date": "2026-05-04T00:00:00-07:00",
+  "words": [
+    {"text": "war", "x": 435, "y": 169, "rotation": -0.8},
+    {"text": "mermaid", "x": 562, "y": 642, "rotation": -0.2},
+    {"text": "rarely", "x": 551, "y": 632, "rotation": 0.8},
+    {"text": "rose", "x": 549, "y": 633, "rotation": -0.4},
+    {"text": "of", "x": 554, "y": 631, "rotation": -0.7},
+    {"text": "we", "x": 601, "y": 221, "rotation": 2.5},
+    {"text": "half-lit", "x": 550, "y": 628, "rotation": 3},
+    {"text": "growth", "x": 364, "y": 226, "rotation": -1.2},
+    {"text": "for", "x": 596, "y": 626, "rotation": -2.3},
+    {"text": "yourself", "x": 366, "y": 339, "rotation": 0.3},
+    {"text": "glide", "x": 573, "y": 634, "rotation": -2.7},
+    {"text": "hang", "x": 574, "y": 624, "rotation": 0.8},
+    {"text": "bright", "x": 581, "y": 622, "rotation": 0.3},
+    {"text": "strength", "x": 275, "y": 225, "rotation": 2.4},
+    {"text": "myself", "x": 373, "y": 446, "rotation": -1.9},
+    {"text": "brightly", "x": 449, "y": 224, "rotation": -2},
+    {"text": "bough", "x": 576, "y": 637, "rotation": -1.6},
+    {"text": "powerful", "x": 378, "y": 286, "rotation": -0.1},
+    {"text": "illuminate", "x": 279, "y": 285, "rotation": -2.2},
+    {"text": "awaken", "x": 285, "y": 337, "rotation": 1.9},
+    {"text": "twilight", "x": 568, "y": 637, "rotation": 0.1},
+    {"text": "despite", "x": 271, "y": 171, "rotation": -2.4},
+    {"text": "onto", "x": 535, "y": 223, "rotation": 0.6},
+    {"text": "along", "x": 582, "y": 627, "rotation": 1.3},
+    {"text": "twisted", "x": 354, "y": 168, "rotation": 0}
+  ]
+}
