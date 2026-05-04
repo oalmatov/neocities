@@ -15,6 +15,8 @@ import markdown
 import yaml
 
 from templates import (
+    BARTER_ITEM_TEMPLATE,
+    BARTER_ITEM_THUMB_TEMPLATE,
     BARTER_PAGE_TEMPLATE,
     CARD_AUTHOR_TEMPLATE,
     CARD_DATE_TEMPLATE,
@@ -267,14 +269,21 @@ def render_grid_page(section: GridSectionName) -> tuple[str, str]:
     return content, popovers
 
 
+def render_barter_item(post: Post) -> str:
+    thumb_html = (
+        BARTER_ITEM_THUMB_TEMPLATE.format(thumbnail=post.thumbnail) if post.thumbnail else ""
+    )
+    return BARTER_ITEM_TEMPLATE.format(
+        title=html.escape(post.title),
+        thumb_html=thumb_html,
+        body_html=rewrite_asset_urls(post.html),
+    )
+
+
 def render_barter_page() -> tuple[str, str]:
-    offering = load_section("barter/offering")
-    looking_for = load_section("barter/looking-for")
-    offering_cards = "\n".join(render_card(p) for p in offering)
-    looking_for_cards = "\n".join(render_card(p) for p in looking_for)
-    popovers = "\n".join(render_popover(p) for p in offering + looking_for)
-    content = BARTER_PAGE_TEMPLATE.format(offering=offering_cards, looking_for=looking_for_cards)
-    return content, popovers
+    offering = "\n".join(render_barter_item(p) for p in load_section("barter/offering"))
+    looking_for = "\n".join(render_barter_item(p) for p in load_section("barter/looking-for"))
+    return BARTER_PAGE_TEMPLATE.format(offering=offering, looking_for=looking_for), ""
 
 
 def render_poems_page() -> tuple[str, str]:

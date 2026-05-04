@@ -82,22 +82,85 @@ GRID_PAGE_TEMPLATE = """
     </section>"""
 
 BARTER_PAGE_TEMPLATE = """
-    <section id="barter" class="section">
+    <section id="barter" class="barter-page">
+      <p class="barter-preface">bartering is the exchange of goods or services directly for other goods or services without using money. It is one of the oldest forms of commerce, allowing individuals to trade what they have for what they need.</p>
       <div class="barter-columns">
         <div class="barter-column">
-          <h2>I can offer...</h2>
-          <div class="grid">
+          <h3 class="barter-heading">i can offer</h3>
+          <ul class="barter-list" data-side="offering">
             {offering}
-          </div>
+          </ul>
         </div>
         <div class="barter-column">
-          <h2>I am looking for...</h2>
-          <div class="grid">
+          <h3 class="barter-heading">i am looking for</h3>
+          <ul class="barter-list" data-side="looking_for">
             {looking_for}
-          </div>
+          </ul>
         </div>
       </div>
-    </section>"""
+
+      <div class="barter-form">
+        <p class="barter-hint">also feel free to send any other offer or add any additional information</p>
+        <textarea id="barter-message" rows="12"></textarea>
+        <button id="barter-send" type="button">send offer</button>
+      </div>
+    </section>
+    <script>
+      (function () {{
+        const textarea = document.getElementById('barter-message');
+        const sendBtn = document.getElementById('barter-send');
+        const email = 'omar.almatov@gmail.com';
+
+        function selected(side) {{
+          return Array.from(
+            document.querySelectorAll('.barter-list[data-side="' + side + '"] input[type=checkbox]:checked')
+          ).map(i => i.dataset.title);
+        }}
+
+        function bullets(items) {{
+          return items.length ? items.map(t => '- ' + t).join('\\n') : '- ';
+        }}
+
+        function rebuild() {{
+          const offering = selected('offering');
+          const wanting = selected('looking_for');
+          textarea.value =
+            "i can give u this:\\n" +
+            bullets(wanting) +
+            "\\n\\nfor this:\\n" +
+            bullets(offering);
+        }}
+
+        document.querySelectorAll('.barter-list input[type=checkbox]').forEach(cb => {{
+          cb.addEventListener('change', rebuild);
+        }});
+
+        sendBtn.addEventListener('click', () => {{
+          const subject = 'barter offer';
+          const body = textarea.value;
+          window.location.href =
+            'mailto:' + email +
+            '?subject=' + encodeURIComponent(subject) +
+            '&body=' + encodeURIComponent(body);
+        }});
+
+        rebuild();
+      }})();
+    </script>"""
+
+BARTER_ITEM_TEMPLATE = """
+            <li class="barter-item">
+              <label>
+                <input type="checkbox" data-title="{title}" />
+                {thumb_html}
+                <div class="barter-item-info">
+                  <span class="barter-item-title">{title}</span>
+                  {body_html}
+                </div>
+              </label>
+            </li>"""
+
+BARTER_ITEM_THUMB_TEMPLATE = '<img class="barter-item-thumb" src="/posts/{thumbnail}" alt="" />'
 
 POEMS_PAGE_TEMPLATE = """
     <section id="poems" class="section">
