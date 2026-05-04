@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sitemap</title>
+  <link rel="icon" href="/assets/refrigerator.png" type="image/png" />
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: white;
+      font-family: "Trebuchet MS", sans-serif;
+    }
+
+    .stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .drift-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-decoration: none;
+      font-size: 18px;
+      white-space: nowrap;
+      will-change: transform;
+    }
+
+    .drift-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage" id="stage">
+    <a class="drift-link" href="/" style="color: red;">home</a>
+    <a class="drift-link" href="/about/" style="color: green;">about</a>
+    <a class="drift-link" href="/feed/" style="color: blue;">feed</a>
+    <a class="drift-link" href="/journal/" style="color: orange;">journal</a>
+    <a class="drift-link" href="/books/" style="color: purple;">books</a>
+    <a class="drift-link" href="/movies/" style="color: red;">movies</a>
+    <a class="drift-link" href="/barter/" style="color: green;">barter</a>
+    <a class="drift-link" href="/guestbook/" style="color: blue;">guestbook</a>
+    <a class="drift-link" href="/epiccoolgirl/" style="color: orange;">epiccoolgirl</a>
+    <a class="drift-link" href="/v-day-w-vi/" style="color: purple;">v-day-w-vi</a>
+    <a class="drift-link" href="/wnrs/" style="color: red;">wnrs</a>
+  </div>
+
+  <script>
+    const stage = document.getElementById("stage");
+    const links = Array.from(document.querySelectorAll(".drift-link"));
+
+    const items = links.map((el) => ({
+      el,
+      x: Math.random() * (stage.clientWidth - 100),
+      y: Math.random() * (stage.clientHeight - 30),
+      vx: (Math.random() < 0.5 ? -1 : 1) * (0.1 + Math.random() * 0.3),
+      vy: (Math.random() < 0.5 ? -1 : 1) * (0.1 + Math.random() * 0.3),
+    }));
+
+    function tick() {
+      const w = stage.clientWidth;
+      const h = stage.clientHeight;
+      for (const it of items) {
+        const ew = it.el.offsetWidth;
+        const eh = it.el.offsetHeight;
+        it.x += it.vx;
+        it.y += it.vy;
+        if (it.x < 0) {it.x = 0; it.vx = -it.vx;}
+        if (it.x + ew > w) {it.x = w - ew; it.vx = -it.vx;}
+        if (it.y < 0) {it.y = 0; it.vy = -it.vy;}
+        if (it.y + eh > h) {it.y = h - eh; it.vy = -it.vy;}
+        it.el.style.transform = `translate(${it.x}px, ${it.y}px)`;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  </script>
+</body>
+
+</html>

@@ -9,16 +9,16 @@ body {
     background: white;
     font-style: normal;
     height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
+    font-family: "Trebuchet MS", sans-serif;
 }
 
 a {
-    color: plum;
+    color: black;
     text-decoration: none;
 }
 
 a:visited {
-    color: plum;
+    color: black;
 }
 
 a:hover {
@@ -46,32 +46,49 @@ a:hover {
     }
 }
 
-.top-bar {
+nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em 1.5em;
-    position: sticky;
+    gap: 2em;
+    padding: 2em 3em;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
     top: 0;
-    background: transparent;
-    z-index: 10002;
+    left: 0;
+    background: white;
+    z-index: 100;
 }
 
-.home-link img {
-    width: 40px;
-    height: auto;
-    display: block;
-    transition: transform 0.2s ease;
+nav a {
+    color: black;
 }
 
-.home-link:hover img {
-    transform: rotate(-3deg);
+nav #share-poem {
+    margin-left: auto;
+}
+
+body {
+    padding-top: 2em;
+}
+
+.tooltip-wrap.fixed-eye {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 100;
 }
 
 .tooltip-wrap.fixed-eye img {
     width: 40px;
     height: auto;
     display: block;
+}
+
+.tooltip-wrap.fixed-eye .tooltip-text {
+    bottom: 70px;
+    right: 16px;
+    top: auto;
+    left: auto;
 }
 
 .tooltip-wrap {
@@ -84,7 +101,7 @@ a:hover {
 }
 
 .tooltip-inline .tooltip-icon {
-    color: plum;
+    color: black;
 }
 
 .tooltip-text {
@@ -200,7 +217,7 @@ a:hover {
     text-align: center;
     margin-top: 0.4em;
     font-size: 0.85em;
-    color: plum;
+    color: black;
 }
 
 .poem-month + .poem-month {
@@ -312,7 +329,6 @@ a:hover {
     border: none;
     font-size: 1.5em;
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
 }
 
 .popover-content {
@@ -347,7 +363,23 @@ a:hover {
 
 .card-rating {
     font-style: normal;
-    color: plum;
+    color: black;
+}
+
+/* About */
+.about-blurb {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.about-blurb p {
+    margin-bottom: 1em;
+}
+
+.about-blurb a {
+    color: black;
+    text-decoration: underline;
 }
 
 /* Eyes */

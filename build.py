@@ -49,7 +49,7 @@ POEM_CANVAS_HEIGHT = 900
 IMAGE_EXTS = frozenset({".jpg", ".jpeg", ".png", ".gif", ".webp"})
 
 GridSectionName = Literal["journal", "books", "movies"]
-SectionName = GridSectionName | Literal["feed", "barter", "poems", "guestbook"]
+SectionName = GridSectionName | Literal["feed", "barter", "poems", "guestbook", "about"]
 
 
 # ----- types -----
@@ -294,6 +294,19 @@ def render_guestbook_page() -> tuple[str, str]:
     return GUESTBOOK_PAGE_TEMPLATE, ""
 
 
+def render_about_page() -> tuple[str, str]:
+    return (
+        '<section id="about" class="section">'
+        '<div class="about-blurb">'
+        '<p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I live in SF.</p>'
+        '<p>Interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.</p>'
+        '<p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.</p>'
+        '</div>'
+        '</section>',
+        "",
+    )
+
+
 # ----- dispatch table -----
 
 SECTIONS: dict[SectionName, Section] = {
@@ -302,8 +315,8 @@ SECTIONS: dict[SectionName, Section] = {
     "books": Section(title="books", render=partial(render_grid_page, "books")),
     "movies": Section(title="movies", render=partial(render_grid_page, "movies")),
     "barter": Section(title="barter", render=render_barter_page),
-    "poems": Section(title="your poems", render=render_poems_page),
     "guestbook": Section(title="guestbook", render=render_guestbook_page),
+    "about": Section(title="about", render=render_about_page),
 }
 
 
@@ -327,7 +340,11 @@ def build() -> None:
         section_dir.mkdir(parents=True, exist_ok=True)
         (section_dir / "index.html").write_text(rendered)
 
-    print(f"Built {len(SECTIONS)} sections")
+    home_template = (ROOT / "home.html").read_text()
+    poems_html, _ = render_poems_page()
+    (PUBLIC_DIR / "index.html").write_text(home_template.replace("{{ poems }}", poems_html))
+
+    print(f"Built {len(SECTIONS)} sections + home")
 
 
 if __name__ == "__main__":

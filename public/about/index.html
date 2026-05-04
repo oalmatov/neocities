@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/assets/heart.png" type="image/png" />
         <link rel="stylesheet" href="/assets/styles.css" />
-        <title>{{ title }}</title>
+        <title>about</title>
     </head>
     <body>
         <span class="fixed-eye tooltip-wrap tooltip-up tooltip-left">
@@ -25,7 +25,7 @@
                 <img src="/assets/eye-closed-left.png" class="eye left-closed" alt="" />
                 <img src="/assets/eye-closed-right.png" class="eye right-closed" alt="" />
             </div>
-            {{ content }}
+            <section id="about" class="section"><div class="about-blurb"><p>I grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now I live in SF.</p><p>Interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.</p><p>In my free time I like to write poems, climb rocks, go alone to the beach, and I recently started figure drawing.</p></div></section>
         </main>
         <div class="popover-overlay" style="display: none">
             <div class="popover">
@@ -33,7 +33,7 @@
                 <div class="popover-content"></div>
             </div>
         </div>
-        {{ popovers }}
+        
         <script>
             // Blinking eyes
             const leftClosed = document.querySelector(".left-closed");

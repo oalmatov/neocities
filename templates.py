@@ -101,7 +101,7 @@ BARTER_PAGE_TEMPLATE = """
 
 POEMS_PAGE_TEMPLATE = """
     <section id="poems" class="section">
-      <p class="poems-preface">i'll try my best to check my mail and update this page with your poems</p>
+      <p class="poems-preface">i'll try my best to check my mail and update this page promptly</p>
       {months}
     </section>"""
 
