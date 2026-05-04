@@ -12,3 +12,6 @@ Androgynous friends step aside to smoke cigarettes. I’m pretending to read a b
 
 Listening to the glistening shimmering ocean whispering secrets only the sun understands. They must be laughing at us.  I can’t say I didn’t enjoy myself either. 
 
+
+
+![](some-rock.jpeg)

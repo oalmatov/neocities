@@ -15,3 +15,6 @@ I will jog my memory, practice my speak, learn again how to see the seasons. I s
 “Is”, “was”, “has been”, “will”, there’s no tenses in the Kazakh language only whats completed, ongoing, or habitual. A ritual. No “have done”s or “should do”s the world’s a fleeting moment cherish the beauty that surrounds you. Through you grew me too, used to be I and you together. Not forever however. And that is okay because I have learned again to see the seasons. To see the features, changing reasons only deepen not weaken my light. I see you clearly and dearly, sincerely, and queerly it’s as natural for me as my speech and my sight. Мен сені жақсы көремін. 
 
 Through ills and uphills, fears, thick and thins, and standstills, by God or free will — Мен сені жақсы көремін. 
+
+
+![](stickers.jpeg)

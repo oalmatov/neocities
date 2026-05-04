@@ -12,18 +12,6 @@ body {
     font-family: "Trebuchet MS", sans-serif;
 }
 
-a {
-    color: black;
-    text-decoration: none;
-}
-
-a:visited {
-    color: black;
-}
-
-a:hover {
-    text-decoration: underline;
-}
 
 .mobile-block {
     display: none;
@@ -366,6 +354,165 @@ body {
     color: black;
 }
 
+/* Journal */
+body:has(.journal-layout) {
+    padding-top: 0;
+}
+
+.content:has(.journal-layout) {
+    padding: 0;
+    max-width: none;
+}
+
+.journal-layout {
+    display: flex;
+    gap: 3em;
+    align-items: flex-start;
+}
+
+.journal-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    padding: 2em 1.5em;
+    box-sizing: border-box;
+}
+
+.journal-sidebar-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.journal-year + .journal-year {
+    margin-top: 1.5em;
+}
+
+.journal-year h3 {
+    font-size: 1em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+.journal-month {
+    margin-bottom: 1em;
+}
+
+.journal-month h4 {
+    font-size: 0.85em;
+    color: #666;
+    font-weight: normal;
+    margin: 0.5em 0 0.3em 0;
+}
+
+.journal-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.journal-sidebar li {
+    padding: 0.2em 0;
+}
+
+.journal-sitemap-link {
+    display: block;
+    flex-shrink: 0;
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid #ccc;
+}
+
+.journal-link.active {
+    font-weight: bold;
+}
+
+.journal-content {
+    flex: 1;
+    min-width: 0;
+    padding: 2em 1.5em;
+}
+
+.journal-entry {
+    display: none;
+}
+
+.journal-entry.active {
+    display: block;
+}
+
+.journal-thumb {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 1em;
+}
+
+.journal-entry h2 {
+    margin-bottom: 0.3em;
+}
+
+.journal-date {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 1.5em;
+}
+
+.journal-body {
+    line-height: 1.7;
+}
+
+.journal-body p {
+    margin-bottom: 1em;
+}
+
+.journal-body img {
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
+}
+
+.journal-body blockquote {
+    border-left: 2px solid #ccc;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #444;
+}
+
+@media (max-width: 768px) {
+    .journal-layout {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .journal-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        padding: 1em 1.5em;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .journal-sidebar-list {
+        overflow-y: visible;
+        flex: none;
+    }
+
+    .journal-sitemap-link {
+        margin-top: 1em;
+    }
+
+    .journal-content {
+        padding: 1.5em;
+    }
+}
+
 /* About */
 .about-blurb {
     max-width: 600px;
@@ -375,11 +522,6 @@ body {
 
 .about-blurb p {
     margin-bottom: 1em;
-}
-
-.about-blurb a {
-    color: black;
-    text-decoration: underline;
 }
 
 /* Eyes */

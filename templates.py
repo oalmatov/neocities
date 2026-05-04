@@ -117,3 +117,65 @@ GUESTBOOK_PAGE_TEMPLATE = """
     <section id="guestbook" class="section">
       <iframe src="https://webmar27.atabook.org" class="guestbook-frame"></iframe>
     </section>"""
+
+
+# ----- journal -----
+
+JOURNAL_PAGE_TEMPLATE = """
+    <section id="journal" class="journal-layout">
+      <aside class="journal-sidebar">
+        <div class="journal-sidebar-list">
+          {sidebar}
+        </div>
+        <a class="journal-sitemap-link" href="/sitemap/">keep perceiving</a>
+      </aside>
+      <main class="journal-content">
+        {entries}
+      </main>
+    </section>
+    <script>
+      (function () {{
+        function setActive(slug) {{
+          document.querySelectorAll('.journal-entry').forEach(el => el.classList.remove('active'));
+          document.querySelectorAll('.journal-link').forEach(el => el.classList.remove('active'));
+          const entry = document.getElementById('entry-' + slug);
+          const link = document.querySelector('.journal-link[data-slug="' + slug + '"]');
+          if (entry) entry.classList.add('active');
+          if (link) link.classList.add('active');
+        }}
+        function fromHash() {{
+          const m = location.hash.match(/^#entry-(.+)$/);
+          if (m) return m[1];
+          const first = document.querySelector('.journal-entry');
+          return first ? first.id.replace(/^entry-/, '') : null;
+        }}
+        window.addEventListener('hashchange', () => setActive(fromHash()));
+        const slug = fromHash();
+        if (slug) setActive(slug);
+      }})();
+    </script>"""
+
+JOURNAL_YEAR_TEMPLATE = """
+        <div class="journal-year">
+          <h3>{year}</h3>
+          {months}
+        </div>"""
+
+JOURNAL_MONTH_TEMPLATE = """
+          <div class="journal-month">
+            <h4>{month}</h4>
+            <ul>
+              {links}
+            </ul>
+          </div>"""
+
+JOURNAL_LINK_TEMPLATE = '<li><a class="journal-link" data-slug="{slug}" href="#entry-{slug}">{title}</a></li>'
+
+JOURNAL_ENTRY_TEMPLATE = """
+        <article id="entry-{slug}" class="journal-entry">
+          <h2>{title}</h2>
+          {date_html}
+          <div class="journal-body">{body_html}</div>
+        </article>"""
+
+JOURNAL_DATE_TEMPLATE = '<p class="journal-date">{date}</p>'

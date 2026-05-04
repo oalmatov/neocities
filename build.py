@@ -26,6 +26,12 @@ from templates import (
     FEED_PAGE_TEMPLATE,
     GRID_PAGE_TEMPLATE,
     GUESTBOOK_PAGE_TEMPLATE,
+    JOURNAL_DATE_TEMPLATE,
+    JOURNAL_ENTRY_TEMPLATE,
+    JOURNAL_LINK_TEMPLATE,
+    JOURNAL_MONTH_TEMPLATE,
+    JOURNAL_PAGE_TEMPLATE,
+    JOURNAL_YEAR_TEMPLATE,
     POEM_CREDIT_LINK_TEMPLATE,
     POEM_CREDIT_TEMPLATE,
     POEM_JSON_TILE_TEMPLATE,
@@ -294,6 +300,46 @@ def render_guestbook_page() -> tuple[str, str]:
     return GUESTBOOK_PAGE_TEMPLATE, ""
 
 
+def render_journal_page() -> tuple[str, str]:
+    posts = load_section("journal")  # already date-desc sorted
+
+    # Sidebar grouped by year then month, descending
+    by_year: dict[int, dict[int, list[Post]]] = defaultdict(lambda: defaultdict(list))
+    for post in posts:
+        by_year[post.date.year][post.date.month].append(post)
+
+    year_blocks = []
+    for year in sorted(by_year, reverse=True):
+        month_blocks = []
+        for month in sorted(by_year[year], reverse=True):
+            links = "\n              ".join(
+                JOURNAL_LINK_TEMPLATE.format(slug=p.slug, title=html.escape(p.title))
+                for p in by_year[year][month]
+            )
+            month_label = datetime(year, month, 1).strftime("%B")
+            month_blocks.append(JOURNAL_MONTH_TEMPLATE.format(month=month_label, links=links))
+        year_blocks.append(JOURNAL_YEAR_TEMPLATE.format(year=year, months="".join(month_blocks)))
+
+    entries = []
+    for post in posts:
+        date_str = format_date(post.date)
+        date_html = JOURNAL_DATE_TEMPLATE.format(date=date_str) if date_str else ""
+        entries.append(
+            JOURNAL_ENTRY_TEMPLATE.format(
+                slug=post.slug,
+                title=html.escape(post.title),
+                date_html=date_html,
+                body_html=rewrite_asset_urls(post.html),
+            )
+        )
+
+    content = JOURNAL_PAGE_TEMPLATE.format(
+        sidebar="".join(year_blocks),
+        entries="".join(entries),
+    )
+    return content, ""
+
+
 def render_about_page() -> tuple[str, str]:
     return (
         '<section id="about" class="section">'
@@ -311,7 +357,7 @@ def render_about_page() -> tuple[str, str]:
 
 SECTIONS: dict[SectionName, Section] = {
     "feed": Section(title="feed", render=render_feed_page),
-    "journal": Section(title="journal", render=partial(render_grid_page, "journal")),
+    "journal": Section(title="journal", render=render_journal_page),
     "books": Section(title="books", render=partial(render_grid_page, "books")),
     "movies": Section(title="movies", render=partial(render_grid_page, "movies")),
     "barter": Section(title="barter", render=render_barter_page),

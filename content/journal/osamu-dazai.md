@@ -15,3 +15,6 @@ What was that sudden obsession? The body and soul's final act of love? Or a viol
 If by some miracle Dazai happened to survive that fatal river, if the soul answered, saw those cries and stayed, would that moment fade? Would he go jumping for a 4th, 5th, 6th time?
 
 I think probably.
+
+
+![](osamu-dazai-cover.jpg)
