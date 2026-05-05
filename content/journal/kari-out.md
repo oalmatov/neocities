@@ -23,7 +23,7 @@ In. Out.
 
 In. Out.
 
-How sweet is it that a breath in is always followed by a breath out — the original monogamists. From a babies first gasp, to the child’s last laugh, the body’s last breath in is always followed by a breath out.
+How sweet is it that a breath in is always followed by a breath out — the original monogamists. From a baby's first gasp, to the child’s last laugh, the body’s last breath in is always followed by a breath out.
 
 The eye starts closed and then they meet open. Close. Open. Close. Open. And one day close is not followed by open. Maybe I’m heart broken because simply blinking makes me emotional.
 
