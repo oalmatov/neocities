@@ -1,5 +1,5 @@
 ---
-title: Pitfalls of a Yearner
+title: Would you like that to go?
 date: 2026-05-04 00:00:00
 ---
 I saw this at work today.
