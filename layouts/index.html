@@ -4,251 +4,123 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>leave me a poem</title>
+  <title>sitemap</title>
   <link rel="icon" href="/assets/refrigerator.png" type="image/png" />
-  <link rel="stylesheet" href="/assets/styles.css" />
   <style>
+    @font-face {
+      font-family: "Molot";
+      src: url("/assets/fonts/Molot.otf") format("opentype");
+      font-display: swap;
+    }
+
+    html,
     body {
       margin: 0;
-      padding-top: 2em;
-      min-height: 100vh;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    a {
-      color: revert;
-      text-decoration: revert;
-    }
-
-    a:visited {
-      color: revert;
-    }
-
-    .container {
+      padding: 0;
       width: 100%;
-      padding: 2em;
-      box-sizing: border-box;
+      height: 100%;
+      overflow: hidden;
+      background: url("/assets/sitemap-tile.png") repeat;
+      background-size: 200px 200px;
+      font-family: "Trebuchet MS", sans-serif;
     }
 
-    .share-prompt {
-      font-style: italic;
-      text-align: center;
-      margin: 0 auto 1em auto;
-      max-width: 1136px;
-    }
-
-    .sitemap-link {
-      align-self: flex-end;
-      margin: 0 1.5em;
-    }
-
-    .canvas-scroll {
-      overflow-x: auto;
-      overflow-y: clip;
-    }
-
-    .poem-canvas {
+    .stage {
       position: relative;
-      width: 1136px;
-      min-width: 1136px;
-      height: 900px;
-      margin: 0 auto;
-      background-image: url("/assets/refrigerator-texture.jpg");
-      background-repeat: repeat;
+      width: 100vw;
+      height: 100vh;
     }
 
-    #poems {
-      width: 100%;
-      max-width: 1136px;
-      margin: 0 auto;
-      padding: 2em 3em;
-      box-sizing: border-box;
-    }
-
-    .word-magnet {
+    .drift-link {
       position: absolute;
-      background: #faf7ef;
-      border: 2px solid black;
-      padding: 4px 10px;
-      font-size: 16px;
-      font-family: serif;
-      cursor: grab;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: none;
-      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+      top: 0;
+      left: 0;
+      text-decoration: none;
+      font-family: "Molot", "Trebuchet MS", sans-serif;
+      font-size: 25px;
+      -webkit-text-stroke: 1.5px black;
+      paint-order: stroke fill;
       white-space: nowrap;
+      will-change: transform;
     }
 
-    .word-magnet.dragging {
-      cursor: grabbing;
-      z-index: 1000;
-      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
+    .drift-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 
 <body>
-  <a class="sitemap-link" href="/sitemap/">perceive me</a>
-  <div class="container">
-    <p class="share-prompt">please <a href="#" id="share-poem">share</a> a poem if u want.<br><br>this page is not the
-      most
-      mobile friendly. if you can't access it on ur desktop, flipping your phone may be a better experience.</p>
-    <div class="canvas-scroll">
-      <div class="poem-canvas" id="poem-canvas"></div>
-    </div>
+  <div class="stage" id="stage">
+    <a class="drift-link" href="/fridge-poems/" style="color: #ff1f4a;">fridge poems</a>
+    <a class="drift-link" href="/about/" style="color: #1fc94a;">about</a>
+    <a class="drift-link" href="/feed/" style="color: #1f7eff;">feed</a>
+    <a class="drift-link" href="/journal/" style="color: #ff7a14;">journal</a>
+    <a class="drift-link" href="/books/" style="color: #8a1fe6;">books</a>
+    <a class="drift-link" href="/movies/" style="color: #ff3d8a;">movies</a>
+    <a class="drift-link" href="/barter/" style="color: #14c4b8;">barter</a>
+    <a class="drift-link" href="/guestbook/" style="color: #ffd11a;">guestbook</a>
+    <a class="drift-link" href="/epiccoolgirl/" style="color: #ff4fc8;">epiccoolgirl</a>
+    <a class="drift-link" href="/v-day-w-vi/" style="color: #a3e635;">v-day-w-vi</a>
+    <a class="drift-link" href="/wnrs/" style="color: #00bfff;">wnrs</a>
   </div>
 
-  <section id="poems" class="section">
-    <p class="poems-preface">i'll try my best to check my mail and update this page promptly</p>
-    {{ $manifest := site.Data.poems_manifest }}
-    {{ if $manifest }}
-    {{ range $manifest.months }}
-    <div class="poem-month">
-      <h3 class="poem-month-header">{{ .label }}</h3>
-      <div class="poems-grid">
-        {{ range .poems }}
-        <div class="poem-tile">
-          <div class="poem-image"><img src="/poems/{{ .slug }}.svg" alt="" /></div>
-          {{ if and .name .website }}
-          <p class="poem-credit"><a href="{{ .website }}" target="_blank">{{ .name }}</a></p>
-          {{ else if .name }}
-          <p class="poem-credit">{{ .name }}</p>
-          {{ end }}
-        </div>
-        {{ end }}
-      </div>
-    </div>
-    {{ end }}
-    {{ end }}
-  </section>
-
   <script>
-    const INITIAL_WORDS = [
-      {text: "beautiful", x: 468, y: 90, rotation: -0.8},
-      {text: "dying", x: 475, y: 523, rotation: 1.6},
-      {text: "up", x: 710, y: 268, rotation: -0.3},
-      {text: "honeydew", x: 98, y: 785, rotation: 1.5},
-      {text: "bark", x: 822, y: 23, rotation: -2.4},
-      {text: "vine", x: 750, y: 467, rotation: -0.8},
-      {text: "no", x: 875, y: 258, rotation: -0.9},
-      {text: "embrace", x: 787, y: 372, rotation: 2.5},
-      {text: "watch", x: 809, y: 287, rotation: 1.1},
-      {text: "soak", x: 525, y: 810, rotation: -0.1},
-      {text: "inside", x: 511, y: 526, rotation: 2.5},
-      {text: "but", x: 504, y: 429, rotation: -0.3},
-      {text: "storm", x: 1047, y: 514, rotation: 1.4},
-      {text: "on", x: 895, y: 635, rotation: -0.3},
-      {text: "drift", x: 945, y: 111, rotation: -0.1},
-      {text: "as", x: 620, y: 535, rotation: 2.9},
-      {text: "might", x: 438, y: 634, rotation: -0.4},
-      {text: "barely", x: 660, y: 500, rotation: 1.8},
-      {text: "moth", x: 929, y: 649, rotation: 1.9},
-      {text: "an", x: 951, y: 129, rotation: 0.4},
-      {text: "twin", x: 850, y: 176, rotation: 2.5},
-      {text: "shimmering", x: 380, y: 350, rotation: 0.3},
-      {text: "clumsily", x: 857, y: 688, rotation: -1.7},
-      {text: "still", x: 458, y: 53, rotation: -0.0},
-      {text: "dry", x: 837, y: 222, rotation: -1.6},
-      {text: "first", x: 447, y: 624, rotation: -3.0},
-      {text: "poison", x: 492, y: 239, rotation: 2.1},
-      {text: "their", x: 47, y: 43, rotation: -2.9},
-      {text: "cruelly", x: 261, y: 52, rotation: -1.8},
-      {text: "stream", x: 95, y: 404, rotation: -1.7},
-      {text: "touch", x: 66, y: 54, rotation: -3.0},
-      {text: "roam", x: 111, y: 462, rotation: 1.1},
-      {text: "woods", x: 941, y: 183, rotation: 0.5},
-      {text: "noiselessly", x: 863, y: 275, rotation: 2.4},
-      {text: "seawater", x: 356, y: 485, rotation: 1.8},
-    ];
+    const stage = document.getElementById("stage");
+    const links = Array.from(document.querySelectorAll(".drift-link"));
 
-    const STORAGE_KEY = "fridge-poem";
-    const canvas = document.getElementById("poem-canvas");
+    const items = links.map((el) => ({
+      el,
+      x: Math.random() * (stage.clientWidth - 100),
+      y: Math.random() * (stage.clientHeight - 30),
+      vx: (Math.random() < 0.5 ? -1 : 1) * (0.1 + Math.random() * 0.3),
+      vy: (Math.random() < 0.5 ? -1 : 1) * (0.1 + Math.random() * 0.3),
+    }));
 
-    function loadWords() {
-      const saved = sessionStorage.getItem(STORAGE_KEY);
-      if (saved) {return JSON.parse(saved);}
-      return INITIAL_WORDS;
-    }
-
-    function saveWords(words) {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(words));
-    }
-
-    function renderWords(words) {
-      canvas.querySelectorAll(".word-magnet").forEach((el) => el.remove());
-      for (const word of words) {
-        const el = document.createElement("div");
-        el.className = "word-magnet";
-        el.textContent = word.text;
-        el.style.left = word.x + "px";
-        el.style.top = word.y + "px";
-        el.style.transform = `rotate(${word.rotation}deg)`;
-        el.dataset.rotation = word.rotation;
-        canvas.appendChild(el);
+    function tick() {
+      const w = stage.clientWidth;
+      const h = stage.clientHeight;
+      for (const it of items) {
+        const ew = it.el.offsetWidth;
+        const eh = it.el.offsetHeight;
+        it.x += it.vx;
+        it.y += it.vy;
+        if (it.x < 0) {it.x = 0; it.vx = -it.vx;}
+        if (it.x + ew > w) {it.x = w - ew; it.vx = -it.vx;}
+        if (it.y < 0) {it.y = 0; it.vy = -it.vy;}
+        if (it.y + eh > h) {it.y = h - eh; it.vy = -it.vy;}
       }
+      for (let i = 0; i < items.length; i++) {
+        const a = items[i];
+        const aw = a.el.offsetWidth;
+        const ah = a.el.offsetHeight;
+        for (let j = i + 1; j < items.length; j++) {
+          const b = items[j];
+          const bw = b.el.offsetWidth;
+          const bh = b.el.offsetHeight;
+          const dx = (a.x + aw / 2) - (b.x + bw / 2);
+          const dy = (a.y + ah / 2) - (b.y + bh / 2);
+          const overlapX = (aw + bw) / 2 - Math.abs(dx);
+          const overlapY = (ah + bh) / 2 - Math.abs(dy);
+          if (overlapX > 0 && overlapY > 0) {
+            if (overlapX < overlapY) {
+              const push = overlapX / 2 * Math.sign(dx);
+              a.x += push; b.x -= push;
+              [a.vx, b.vx] = [b.vx, a.vx];
+            } else {
+              const push = overlapY / 2 * Math.sign(dy);
+              a.y += push; b.y -= push;
+              [a.vy, b.vy] = [b.vy, a.vy];
+            }
+          }
+        }
+      }
+      for (const it of items) {
+        it.el.style.transform = `translate(${it.x}px, ${it.y}px)`;
+      }
+      requestAnimationFrame(tick);
     }
-
-    function currentWords() {
-      const magnets = canvas.querySelectorAll(".word-magnet");
-      return Array.from(magnets).map((el) => ({
-        text: el.textContent,
-        x: parseInt(el.style.left, 10),
-        y: parseInt(el.style.top, 10),
-        rotation: parseFloat(el.dataset.rotation),
-      }));
-    }
-
-    renderWords(loadWords());
-
-    let active = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    canvas.addEventListener("pointerdown", (e) => {
-      const target = e.target.closest(".word-magnet");
-      if (!target) return;
-      active = target;
-      active.classList.add("dragging");
-      active.setPointerCapture(e.pointerId);
-      const rect = active.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      e.preventDefault();
-    });
-
-    canvas.addEventListener("pointermove", (e) => {
-      if (!active) return;
-      const canvasRect = canvas.getBoundingClientRect();
-      let x = e.clientX - canvasRect.left - offsetX;
-      let y = e.clientY - canvasRect.top - offsetY;
-      const w = active.offsetWidth;
-      const h = active.offsetHeight;
-      const maxX = canvasRect.width;
-      const maxY = 900;
-      x = Math.max(0, Math.min(x, maxX - w));
-      y = Math.max(0, Math.min(y, maxY - h));
-      active.style.left = x + "px";
-      active.style.top = y + "px";
-    });
-
-    canvas.addEventListener("pointerup", () => {
-      if (!active) return;
-      active.classList.remove("dragging");
-      active = null;
-      saveWords(currentWords());
-    });
-
-    document.getElementById("share-poem").addEventListener("click", (e) => {
-      e.preventDefault();
-      const subject = "poem for you from {name}";
-      const words = JSON.stringify(currentWords(), null, 2);
-      const body = `you can find me at {website}\n\n${words}`;
-      window.location.href = `mailto:omar.almatov@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
+    requestAnimationFrame(tick);
   </script>
 </body>
 
