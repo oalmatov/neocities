@@ -1,0 +1,666 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: white;
+  font-style: normal;
+  height: 100%;
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+
+.mobile-block {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-block {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2em;
+  }
+}
+
+nav {
+  display: flex;
+  gap: 2em;
+  padding: 2em 3em;
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 100;
+}
+
+nav a {
+  color: black;
+}
+
+nav #share-poem {
+  margin-left: auto;
+}
+
+body {
+  padding-top: 2em;
+}
+
+.tooltip-wrap.fixed-eye {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 100;
+}
+
+.tooltip-wrap.fixed-eye img {
+  width: 40px;
+  height: auto;
+  display: block;
+}
+
+.tooltip-wrap.fixed-eye .tooltip-text {
+  bottom: 70px;
+  right: 16px;
+  top: auto;
+  left: auto;
+}
+
+.tooltip-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-icon {
+  cursor: pointer;
+}
+
+.tooltip-inline .tooltip-icon {
+  color: black;
+}
+
+.tooltip-text {
+  display: none;
+  position: fixed;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1.5em;
+  font-size: 0.85em;
+  width: 380px;
+  max-width: 90vw;
+  z-index: 10001;
+  line-height: 1.6;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-wrap:hover .tooltip-text {
+  display: block;
+}
+
+.content {
+  position: relative;
+  padding: 2em 1.5em;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* Barter */
+.barter-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.barter-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: flex-start;
+}
+
+.barter-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.barter-heading {
+  font-size: 1em;
+  font-weight: normal;
+  color: #666;
+  margin-bottom: 0.8em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.4em;
+}
+
+.barter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.barter-item label {
+  display: flex;
+  gap: 0.8em;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.6em;
+  border: 1px solid #ddd;
+}
+
+.barter-item label:hover {
+  background: #f8f8f8;
+}
+
+.barter-item input[type=checkbox] {
+  flex-shrink: 0;
+}
+
+.barter-item-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.barter-item-info {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.barter-item-title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.2em;
+}
+
+.barter-item-info p {
+  margin: 0;
+}
+
+.barter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  max-width: 600px;
+}
+
+.barter-preface {
+  max-width: 600px;
+  margin: 0 auto 2em auto;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.barter-hint {
+  font-style: italic;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+#barter-message {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6em;
+  font-family: inherit;
+  font-size: 0.9em;
+  border: 1px solid #ccc;
+}
+
+#barter-send {
+  align-self: flex-start;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  background: white;
+  border: 1px solid black;
+  font-family: inherit;
+}
+
+#barter-send:hover {
+  background: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .barter-columns {
+    flex-direction: column;
+  }
+}
+
+/* Feed */
+.feed {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.feed-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  padding: 1.5em 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.feed-item:first-child {
+  padding-top: 0;
+}
+
+.feed-text {
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+.feed-text p {
+  margin: 0;
+}
+
+.feed-text video,
+.feed-text img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.feed-date {
+  font-size: 0.75em;
+  color: #999;
+}
+
+/* Poems */
+.poems-preface {
+  max-width: 600px;
+  margin: 0 auto 2em auto;
+  font-style: italic;
+  text-align: center;
+}
+
+.poems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1em;
+}
+
+.poem-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.poem-image svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.poem-credit {
+  text-align: center;
+  margin-top: 0.4em;
+  font-size: 0.85em;
+  color: black;
+}
+
+.poem-month+.poem-month {
+  margin-top: 2em;
+}
+
+.poem-month-header {
+  font-size: 1em;
+  font-weight: normal;
+  color: #999;
+  margin-bottom: 0.8em;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.4em;
+}
+
+/* Guestbook */
+.guestbook-frame {
+  width: 100%;
+  max-width: 600px;
+  height: calc(100vh - 4em);
+  border: none;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Grid of cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5em;
+}
+
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #eee;
+  margin-bottom: 0.5em;
+  object-fit: cover;
+}
+
+#books .card-thumb,
+#movies .card-thumb {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.card-thumb-placeholder {
+  background: #eee;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.card-date {
+  font-size: 0.85em;
+  color: #666;
+}
+
+.card-clickable:hover .card-title {
+  text-decoration: underline;
+}
+
+/* Popover */
+.popover-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.popover {
+  width: min(50vw, 90vw);
+  max-height: min(50vw, 90vh);
+  background: white;
+  padding: 2em;
+  position: relative;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .popover {
+    width: 90vw;
+    max-height: 85vh;
+  }
+}
+
+.popover-close {
+  position: absolute;
+  top: 0.5em;
+  right: 0.75em;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.popover-content {
+  line-height: 1.7;
+}
+
+.popover-content h2 {
+  margin-bottom: 0.3em;
+}
+
+.popover-date {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+.popover-body p {
+  margin-bottom: 1em;
+}
+
+.popover-body img {
+  max-width: 100%;
+  margin: 1em 0;
+}
+
+.popover-body blockquote {
+  border-left: 2px solid #ccc;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #444;
+}
+
+.card-rating {
+  font-style: normal;
+  color: black;
+}
+
+/* Journal */
+body:has(.journal-layout) {
+  padding-top: 0;
+}
+
+.content:has(.journal-layout) {
+  padding: 0;
+  max-width: 1200px;
+}
+
+.journal-layout {
+  display: flex;
+  gap: 3em;
+  align-items: flex-start;
+}
+
+.journal-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  padding: 2em 1.5em;
+  box-sizing: border-box;
+}
+
+.journal-sidebar-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.journal-year+.journal-year {
+  margin-top: 1.5em;
+}
+
+.journal-year h3 {
+  font-size: 1em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
+}
+
+.journal-month {
+  margin-bottom: 1em;
+}
+
+.journal-month h4 {
+  font-size: 0.85em;
+  color: #666;
+  font-weight: normal;
+  margin: 0.5em 0 0.3em 0;
+}
+
+.journal-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.journal-sidebar li {
+  padding: 0.2em 0;
+}
+
+.journal-sitemap-link {
+  display: block;
+  flex-shrink: 0;
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid #ccc;
+}
+
+.journal-link.active {
+  font-weight: bold;
+}
+
+.journal-content {
+  flex: 1;
+  min-width: 0;
+  padding: 2em 1.5em;
+}
+
+.journal-entry {
+  display: none;
+}
+
+.journal-entry.active {
+  display: block;
+}
+
+.journal-thumb {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 1em;
+}
+
+.journal-entry h2 {
+  margin-bottom: 0.3em;
+}
+
+.journal-date {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 1.5em;
+}
+
+.journal-body {
+  line-height: 1.7;
+}
+
+.journal-body p {
+  margin-bottom: 1em;
+}
+
+.journal-body img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+}
+
+.journal-body blockquote {
+  border-left: 2px solid #ccc;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #444;
+}
+
+@media (max-width: 768px) {
+  .journal-layout {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .journal-sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    padding: 1em 1.5em;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .journal-sidebar-list {
+    overflow-y: visible;
+    flex: none;
+  }
+
+  .journal-sitemap-link {
+    margin-top: 1em;
+  }
+
+  .journal-content {
+    padding: 1.5em;
+  }
+}
+
+/* About */
+.about-blurb {
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.about-blurb p {
+  margin-bottom: 1em;
+}
+
+/* Eyes */
+.eyes-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.eye {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.eye:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.left-closed,
+.right-closed {
+  display: none;
+}

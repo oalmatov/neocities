@@ -1,0 +1,7 @@
+{{- $src := .Get 0 -}}
+{{- $r := .Page.Resources.GetMatch $src -}}
+{{- if $r -}}
+<video controls src="{{ $r.RelPermalink }}"></video>
+{{- else -}}
+<video controls src="{{ $src | safeURL }}"></video>
+{{- end -}}

@@ -1,0 +1,57 @@
+{{ define "main" }}
+{{ $posts := .Pages.ByDate.Reverse }}
+<section id="journal" class="journal-layout">
+  <aside class="journal-sidebar">
+    <div class="journal-sidebar-list">
+      {{ range $posts.GroupByDate "2006" }}
+      <div class="journal-year">
+        <h3>{{ .Key }}</h3>
+        {{ range .Pages.GroupByDate "January" }}
+        <div class="journal-month">
+          <h4>{{ .Key }}</h4>
+          <ul>
+            {{ range .Pages }}
+            {{ $slug := path.Base .File.Dir }}
+            <li><a class="journal-link" data-slug="{{ $slug }}" href="#entry-{{ $slug }}">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+    <a class="journal-sitemap-link" href="/sitemap/">keep perceiving</a>
+  </aside>
+  <main class="journal-content">
+    {{ range $posts }}
+    {{ $slug := path.Base .File.Dir }}
+    <article id="entry-{{ $slug }}" class="journal-entry">
+      <h2>{{ .Title }}</h2>
+      {{ if not .Date.IsZero }}<p class="journal-date">{{ .Date.Format "Jan 2, 2006 3:04 PM" }}</p>{{ end }}
+      <div class="journal-body">{{ .Content }}</div>
+    </article>
+    {{ end }}
+  </main>
+</section>
+<script>
+  (function () {
+    function setActive(slug) {
+      document.querySelectorAll('.journal-entry').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.journal-link').forEach(el => el.classList.remove('active'));
+      const entry = document.getElementById('entry-' + slug);
+      const link = document.querySelector('.journal-link[data-slug="' + slug + '"]');
+      if (entry) entry.classList.add('active');
+      if (link) link.classList.add('active');
+    }
+    function fromHash() {
+      const m = location.hash.match(/^#entry-(.+)$/);
+      if (m) return m[1];
+      const first = document.querySelector('.journal-entry');
+      return first ? first.id.replace(/^entry-/, '') : null;
+    }
+    window.addEventListener('hashchange', () => setActive(fromHash()));
+    const slug = fromHash();
+    if (slug) setActive(slug);
+  })();
+</script>
+{{ end }}

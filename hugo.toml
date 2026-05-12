@@ -1,0 +1,12 @@
+baseURL = "https://webmar27.neocities.org/"
+locale = "en-us"
+title = "webmar27"
+
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.goldmark.parser]
+  wrapStandAloneImageWithinParagraph = false
+

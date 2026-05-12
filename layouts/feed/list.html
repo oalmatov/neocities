@@ -1,0 +1,12 @@
+{{ define "main" }}
+<section id="feed" class="section">
+  <div class="feed">
+    {{ range .Pages.ByDate.Reverse }}
+    <div class="feed-item">
+      <div class="feed-text">{{ .Content }}</div>
+      {{ if not .Date.IsZero }}<span class="feed-date">{{ .Date.Format "Jan 2, 2006 3:04 PM" }}</span>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

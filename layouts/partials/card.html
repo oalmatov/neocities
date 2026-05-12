@@ -1,0 +1,21 @@
+{{- $post := . -}}
+{{- $hasContent := ne (trim $post.Content " \n") "" -}}
+{{- $postId := printf "%s-%s" $post.Section (path.Base $post.File.Dir) -}}
+<div class="card{{ if $hasContent }} card-clickable{{ end }}" {{ if $hasContent }} data-post="{{ $postId }}" {{ end }}>
+  {{- with $post.Params.thumbnail -}}
+  {{- $img := $post.Resources.GetMatch . -}}
+  {{- if $img -}}
+  <img class="card-thumb" src="{{ $img.RelPermalink }}" alt="" />
+  {{- else -}}
+  <img class="card-thumb" src="/posts/{{ . }}" alt="" />
+  {{- end -}}
+  {{- else -}}
+  <div class="card-thumb card-thumb-placeholder"></div>
+  {{- end }}
+  <div class="card-info">
+    <span class="card-title">{{ $post.Title }}</span>
+    {{ partial "stars.html" $post.Params.rating }}
+    {{ with $post.Params.author }}<span class="card-date">{{ . }}</span>{{ end }}
+    {{ if not $post.Date.IsZero }}<span class="card-date">{{ $post.Date.Format "Jan 2, 2006" }}</span>{{ end }}
+  </div>
+</div>

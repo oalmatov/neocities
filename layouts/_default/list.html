@@ -1,0 +1,15 @@
+{{ define "main" }}
+<section id="{{ .Section }}" class="section">
+  <div class="grid">
+    {{ range .Pages.ByDate.Reverse }}
+    {{ partial "card.html" . }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+{{ define "popovers" }}
+{{ range .Pages }}
+{{ partial "popover.html" . }}
+{{ end }}
+{{ end }}
