@@ -4,6 +4,8 @@ date: 2026-05-04 00:00:00
 ---
 I saw this at work today.
 
+![](kari-out-box.jpeg)
+
 So does this mean I should text them?
 
 Apparently not. 
@@ -30,7 +32,6 @@ Apparently not.
 
 Most likely someone just really really really wanted Chinese food.
 
-![](kari-out-box.jpeg)
 ![](kari-out-honey.jpg)
 
 A quick update: a few days later I saw this take out box from a different packaging company get delivered. Now what the hell does this mean?
