@@ -1,8 +1,8 @@
 .PHONY: build serve clean
 
-build:
+build: clean
 	go run ./cmd/render-poems
-	hugo --minify
+	hugo --minify --gc --cleanDestinationDir
 
 serve:
 	go run ./cmd/render-poems

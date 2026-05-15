@@ -1,6 +1,9 @@
 months:
     - label: May 2026
       poems:
+        - slug: bloop
+          date: "2026-05-15T12:00:00-07:00"
+          name: bloop
         - slug: braden
           date: "2026-05-04T12:00:00-07:00"
           name: braden
@@ -20,13 +23,13 @@ months:
         - slug: rockstar-med
           date: "2026-04-27T21:01:43-07:00"
           name: rockstar med
+        - slug: kaylee
+          date: "2026-04-27T16:10:36-07:00"
+          name: kaylee
         - slug: kaylee-price
           date: "2026-04-27T16:10:36-07:00"
           name: kaylee
         - slug: kaylee-3
-          date: "2026-04-27T16:10:36-07:00"
-          name: kaylee
-        - slug: kaylee
           date: "2026-04-27T16:10:36-07:00"
           name: kaylee
         - slug: nate
