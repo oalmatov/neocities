@@ -25,4 +25,6 @@ jobs:
         with:
           api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
           cleanup: true
+          neocities_support: true
+          preivew_before_deploy: true
           dist_dir: public
