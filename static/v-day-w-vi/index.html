@@ -134,10 +134,7 @@
     <img src="/v-day-w-vi/heart.png" alt="Heart" class="heart">
   </div>
   <div class="splatter-container" id="splatterContainer">
-    <video class="blood-splatter" id="bloodSplatter" playsinline webkit-playsinline preload="auto" muted>
-      <source src="/v-day-w-vi/blood-splatter.webm" type="video/webm" />
-      <source src="/v-day-w-vi/blood-splatter.mp4" type="video/mp4" />
-    </video>
+    <video class="blood-splatter" id="bloodSplatter" playsinline webkit-playsinline preload="auto" muted></video>
     <div class="message" id="message">
       AHHH!!!
       <br>
@@ -154,6 +151,10 @@
     const container = document.getElementById('splatterContainer');
     const video = document.getElementById('bloodSplatter');
     const message = document.getElementById('message');
+
+    // Safari can't decode VP9 alpha — falls back to mp4. Everyone else gets webm.
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    video.src = isSafari ? '/v-day-w-vi/blood-splatter.mp4' : '/v-day-w-vi/blood-splatter.webm';
 
     // Warm the cache so desktop browsers don't stall on first click.
     video.load();
