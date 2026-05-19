@@ -1,6 +1,7 @@
 {{ define "main" }}
 <section id="feed" class="section" data-build="2026-05-15a">
   <div class="feed">
+    <img src="/assets/feed-banner.png" alt="feed" class="feed-banner" />
     {{ range .Pages.ByDate.Reverse }}
     <div class="feed-item">
       <div class="feed-text">{{ .Content }}</div>

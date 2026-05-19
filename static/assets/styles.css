@@ -257,8 +257,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.3em;
-  padding: 1.5em 0;
-  border-bottom: 1px solid #ccc;
+  padding: 1.5em 2em;
+  margin: 0 -2em;
+  border-bottom: 1px dotted #ccc;
 }
 
 .feed-item:first-child {
@@ -284,6 +285,42 @@ body {
 .feed-date {
   font-size: 0.75em;
   color: #999;
+}
+
+html:has(#feed),
+html:has(#feed) body {
+  background: url('/assets/pig-stun.jpg') repeat;
+  background-size: 240px auto;
+  background-attachment: fixed;
+  height: auto;
+  min-height: 100%;
+}
+
+html:has(#feed) body {
+  padding-top: 0;
+}
+
+html:has(#feed) .content {
+  padding: 0;
+  max-width: none;
+}
+
+body:has(#feed) nav {
+  background: white;
+}
+
+#feed .feed {
+  background: white;
+  padding: 1.5em 2em;
+}
+
+.feed-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: -1.5em -2em 1em -2em;
+  width: calc(100% + 4em);
+  max-width: none;
 }
 
 /* Poems */
