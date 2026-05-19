@@ -278,10 +278,11 @@ body {
 
 .feed-text video,
 .feed-text img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   display: block;
 }
+
 
 .feed-date {
   font-size: 0.75em;
