@@ -5,9 +5,75 @@
     {{ range .Pages.ByDate.Reverse }}
     <div class="feed-item">
       <div class="feed-text">{{ .Content }}</div>
-      {{ if not .Date.IsZero }}<span class="feed-date">{{ .Date.Format "Jan 2, 2006 3:04 PM" }}</span>{{ end }}
+      <div class="feed-item-footer">
+        {{ if not .Date.IsZero }}<span class="feed-date">{{ .Date.Format "Jan 2, 2006 3:04 PM" }}</span>{{ end }}
+        <button type="button" class="feed-like" aria-label="like">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path
+              d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+          </svg>
+        </button>
+      </div>
     </div>
     {{ end }}
   </div>
+
+  <div class="like-splatter" id="likeSplatter" aria-hidden="true">
+    <video class="like-splatter-video" id="likeSplatterVideo" playsinline webkit-playsinline preload="auto" muted>
+      <source src="/v-day-w-vi/blood-splatter.webm" type="video/webm" />
+      <source src="/v-day-w-vi/blood-splatter.mp4" type="video/mp4" />
+    </video>
+    <div class="like-splatter-message" id="likeSplatterMessage">
+      YOU CURSED ME!
+      <br>
+      NOW I AM RUINED!
+      <br>
+      WHAT WILL I DO
+      <br>
+      WITHOUT YOUR LIKE?
+      <br>
+      PLEASE PLEASE PLEASE
+      <br>
+      ONE MORE!
+    </div>
+  </div>
 </section>
+
+<script>
+  (function () {
+    const container = document.getElementById('likeSplatter');
+    const video = document.getElementById('likeSplatterVideo');
+    const message = document.getElementById('likeSplatterMessage');
+
+    // Warm the cache so desktop browsers don't stall on first click.
+    video.load();
+
+    function fire() {
+      container.classList.add('active');
+      message.classList.remove('visible');
+      video.currentTime = 0;
+      video.muted = false;
+      const p = video.play();
+      const showMessage = () => message.classList.add('visible');
+      if (p && typeof p.then === 'function') {
+        p.then(showMessage).catch(showMessage);
+      } else {
+        showMessage();
+      }
+    }
+
+    video.addEventListener('ended', () => {
+      container.classList.remove('active');
+      message.classList.remove('visible');
+    });
+
+    document.querySelectorAll('.feed-like').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        fire();
+      });
+    });
+  })();
+</script>
 {{ end }}

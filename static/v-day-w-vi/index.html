@@ -71,12 +71,14 @@
       min-height: 100vh;
       min-height: 100dvh;
       z-index: 10;
-      display: none;
+      visibility: hidden;
+      opacity: 0;
       pointer-events: none;
     }
 
     .splatter-container.active {
-      display: block;
+      visibility: visible;
+      opacity: 1;
     }
 
     .blood-splatter {
@@ -132,8 +134,9 @@
     <img src="/v-day-w-vi/heart.png" alt="Heart" class="heart">
   </div>
   <div class="splatter-container" id="splatterContainer">
-    <video class="blood-splatter" id="bloodSplatter" src="/v-day-w-vi/blood-splatter.mp4" playsinline
-      webkit-playsinline>
+    <video class="blood-splatter" id="bloodSplatter" playsinline webkit-playsinline preload="auto" muted>
+      <source src="/v-day-w-vi/blood-splatter.webm" type="video/webm" />
+      <source src="/v-day-w-vi/blood-splatter.mp4" type="video/mp4" />
     </video>
     <div class="message" id="message">
       AHHH!!!
@@ -148,18 +151,24 @@
     </div>
   </div>
   <script>
-    document.addEventListener('click', function () {
-      const container = document.getElementById('splatterContainer');
-      const video = document.getElementById('bloodSplatter');
-      const message = document.getElementById('message');
+    const container = document.getElementById('splatterContainer');
+    const video = document.getElementById('bloodSplatter');
+    const message = document.getElementById('message');
 
+    // Warm the cache so desktop browsers don't stall on first click.
+    video.load();
+
+    document.addEventListener('click', function () {
       container.classList.add('active');
       video.currentTime = 0;
-      video.play();
-
-      setTimeout(() => {
-        message.classList.add('visible');
-      }, 100);
+      video.muted = false;
+      const p = video.play();
+      const showMessage = () => message.classList.add('visible');
+      if (p && typeof p.then === 'function') {
+        p.then(showMessage).catch(showMessage);
+      } else {
+        showMessage();
+      }
     }, {once: true});
   </script>
 </body>

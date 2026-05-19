@@ -97,32 +97,60 @@
     }
 
     // Tooltips
-    document.querySelectorAll(".tooltip-wrap").forEach((wrap) => {
+    function positionTooltip(wrap) {
       const icon = wrap.querySelector(".tooltip-icon");
       const text = wrap.querySelector(".tooltip-text");
+      const rect = icon.getBoundingClientRect();
+      const isUp = wrap.classList.contains("tooltip-up");
+      const isLeft = wrap.classList.contains("tooltip-left");
 
-      wrap.addEventListener("mouseenter", () => {
-        const rect = icon.getBoundingClientRect();
-        const isUp = wrap.classList.contains("tooltip-up");
-        const isLeft = wrap.classList.contains("tooltip-left");
+      if (isLeft) {
+        text.style.right = window.innerWidth - rect.right + "px";
+        text.style.left = "auto";
+      } else {
+        text.style.left = rect.left + "px";
+        text.style.right = "auto";
+      }
 
-        if (isLeft) {
-          text.style.right = window.innerWidth - rect.right + "px";
-          text.style.left = "auto";
-        } else {
-          text.style.left = rect.left + "px";
-          text.style.right = "auto";
-        }
+      if (isUp) {
+        text.style.bottom = window.innerHeight - rect.top + "px";
+        text.style.top = "auto";
+      } else {
+        text.style.top = rect.bottom + "px";
+        text.style.bottom = "auto";
+      }
+    }
 
-        if (isUp) {
-          text.style.bottom = window.innerHeight - rect.top + "px";
-          text.style.top = "auto";
-        } else {
-          text.style.top = rect.bottom + "px";
-          text.style.bottom = "auto";
+    function closeAllTooltips() {
+      document.querySelectorAll(".tooltip-wrap.tooltip-open").forEach((w) => {
+        w.classList.remove("tooltip-open");
+      });
+    }
+
+    document.querySelectorAll(".tooltip-wrap").forEach((wrap) => {
+      const icon = wrap.querySelector(".tooltip-icon");
+
+      wrap.addEventListener("mouseenter", () => positionTooltip(wrap));
+
+      icon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = wrap.classList.contains("tooltip-open");
+        closeAllTooltips();
+        if (!isOpen) {
+          positionTooltip(wrap);
+          wrap.classList.add("tooltip-open");
         }
       });
     });
+
+    // Close any open tooltip when tapping outside or scrolling.
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".tooltip-wrap")) closeAllTooltips();
+    });
+    document.addEventListener("touchstart", (e) => {
+      if (!e.target.closest(".tooltip-wrap")) closeAllTooltips();
+    }, { passive: true });
+    window.addEventListener("scroll", closeAllTooltips, { passive: true });
   </script>
 </body>
 
