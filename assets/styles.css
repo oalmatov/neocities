@@ -273,7 +273,11 @@ body {
 }
 
 .feed-text p {
-  margin: 0;
+  margin: 0 0 1em 0;
+}
+
+.feed-text p:last-child {
+  margin-bottom: 0;
 }
 
 .feed-text video,
