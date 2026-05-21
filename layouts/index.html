@@ -42,6 +42,48 @@
       paint-order: stroke fill;
       white-space: nowrap;
       will-change: transform;
+      padding: 0.6em 1.2em;
+      isolation: isolate;
+    }
+
+    .drift-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--fish) no-repeat center / 100% 100%;
+      z-index: -1;
+      transform-origin: center;
+    }
+
+    .drift-link.face-right::before {
+      transform: scaleX(-1);
+    }
+
+    .mobile-note {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-note {
+        display: block;
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        padding: 0 10px;
+        font-family: "Trebuchet MS", sans-serif;
+        font-size: 14px;
+        color: red;
+        text-align: center;
+        z-index: 1000;
+      }
+
+      .mobile-note span {
+        background: yellow;
+        padding: 2px 6px;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
     }
 
     .drift-link:hover {
@@ -65,9 +107,17 @@
     <a class="drift-link" href="/wnrs/" style="color: #00bfff;">wnrs</a>
   </div>
 
+  <div class="mobile-note"><span>pond is getting a little crowded, please view me on desktop</span></div>
+
   <script>
     const stage = document.getElementById("stage");
     const links = Array.from(document.querySelectorAll(".drift-link"));
+
+    const fishCount = 5;
+    links.forEach((el) => {
+      const n = 1 + Math.floor(Math.random() * fishCount);
+      el.style.setProperty("--fish", `url("/assets/fish/fish${n}.png")`);
+    });
 
     const items = links.map((el) => ({
       el,
@@ -117,6 +167,11 @@
       }
       for (const it of items) {
         it.el.style.transform = `translate(${it.x}px, ${it.y}px)`;
+        const faceRight = it.vx > 0;
+        if (faceRight !== it.faceRight) {
+          it.el.classList.toggle("face-right", faceRight);
+          it.faceRight = faceRight;
+        }
       }
       requestAnimationFrame(tick);
     }
