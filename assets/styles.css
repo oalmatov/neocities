@@ -721,6 +721,8 @@ html:has(.journal-layout) {
   max-width: 640px;
   padding: 2em 1.5em;
   background: #fff;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .journal-entry {
