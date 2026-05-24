@@ -2,6 +2,18 @@
 <section id="feed" class="section" data-build="2026-05-15a">
   <div class="feed">
     {{ $paginator := .Paginate (.Pages.ByDate.Reverse) 10 }}
+    <a class="feed-keep-perceiving" href="/">keep perceiving</a>
+    {{ if gt $paginator.TotalPages 1 }}
+    <div class="feed-pagination">
+      {{ if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}">← newer</a>
+      {{ end }}
+      <span class="feed-pagination-pages">page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}">older →</a>
+      {{ end }}
+    </div>
+    {{ end }}
     {{ range $paginator.Pages }}
     <div class="feed-item">
       <div class="feed-text">{{ .Content }}</div>
