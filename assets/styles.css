@@ -594,17 +594,27 @@ body:has(#feed) nav {
 /* Journal */
 body:has(.journal-layout) {
   padding-top: 0;
+  background: none;
+}
+
+html:has(.journal-layout) {
+  background-color: white;
+  background-image: url("/assets/journal-tile.png");
+  background-repeat: repeat;
+  background-size: 300px;
+  background-attachment: fixed;
 }
 
 .content:has(.journal-layout) {
   padding: 0;
-  max-width: 1200px;
+  max-width: none;
 }
 
 .journal-layout {
   display: flex;
-  gap: 3em;
   align-items: flex-start;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .journal-sidebar {
@@ -618,6 +628,9 @@ body:has(.journal-layout) {
   font-size: 0.9em;
   padding: 2em 1.5em;
   box-sizing: border-box;
+  background: #fff;
+  border-right: 1px solid #ccc;
+  text-align: center;
 }
 
 .journal-sidebar-list {
@@ -673,7 +686,9 @@ body:has(.journal-layout) {
 .journal-content {
   flex: 1;
   min-width: 0;
+  max-width: 640px;
   padding: 2em 1.5em;
+  background: #fff;
 }
 
 .journal-entry {
@@ -769,6 +784,7 @@ body:has(.journal-layout) {
   transform: translate(-50%, -50%);
   opacity: 0.2;
   pointer-events: none;
+  z-index: 10;
 }
 
 .eye {
