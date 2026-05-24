@@ -1,8 +1,8 @@
 {{ define "main" }}
 <section id="feed" class="section" data-build="2026-05-15a">
   <div class="feed">
-    <img src="/assets/feed-banner.png" alt="feed" class="feed-banner" />
-    {{ range .Pages.ByDate.Reverse }}
+    {{ $paginator := .Paginate (.Pages.ByDate.Reverse) 10 }}
+    {{ range $paginator.Pages }}
     <div class="feed-item">
       <div class="feed-text">{{ .Content }}</div>
       <div class="feed-item-footer">
@@ -15,6 +15,17 @@
           </svg>
         </button>
       </div>
+    </div>
+    {{ end }}
+    {{ if gt $paginator.TotalPages 1 }}
+    <div class="feed-pagination">
+      {{ if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}">← newer</a>
+      {{ end }}
+      <span class="feed-pagination-pages">page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}">older →</a>
+      {{ end }}
     </div>
     {{ end }}
   </div>

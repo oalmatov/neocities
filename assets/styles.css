@@ -254,6 +254,31 @@ body {
   margin: 0 auto;
 }
 
+.feed-pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1em;
+  padding: 1.5em 0;
+  font-size: 0.85em;
+}
+
+.feed-pagination > a:first-child {
+  justify-self: start;
+}
+
+.feed-pagination > a:last-child {
+  justify-self: end;
+  grid-column: 3;
+}
+
+.feed-pagination-pages {
+  color: #999;
+  font-size: 0.85em;
+  grid-column: 2;
+  text-align: center;
+}
+
 .feed-item {
   display: flex;
   flex-direction: column;
