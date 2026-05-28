@@ -1,3 +1,7 @@
+:root {
+  overscroll-behavior: none;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -263,11 +267,11 @@ body {
   font-size: 0.85em;
 }
 
-.feed-pagination > a:first-child {
+.feed-pagination>a:first-child {
   justify-self: start;
 }
 
-.feed-pagination > a:last-child {
+.feed-pagination>a:last-child {
   justify-self: end;
   grid-column: 3;
 }
