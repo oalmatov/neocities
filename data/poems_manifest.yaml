@@ -1,4 +1,10 @@
 months:
+    - label: June 2026
+      poems:
+        - slug: webmar-3
+          date: "2026-06-01T00:00:00-07:00"
+          name: webmar
+          website: https://webmar.love
     - label: May 2026
       poems:
         - slug: diego-2
@@ -23,19 +29,19 @@ months:
         - slug: hollow
           date: "2026-04-29T10:20:00-07:00"
           name: hollow
-        - slug: grace
-          date: "2026-04-27T21:01:43-07:00"
-          name: grace
         - slug: rockstar-med
           date: "2026-04-27T21:01:43-07:00"
           name: rockstar med
+        - slug: grace
+          date: "2026-04-27T21:01:43-07:00"
+          name: grace
         - slug: kaylee-3
           date: "2026-04-27T16:10:36-07:00"
           name: kaylee
-        - slug: kaylee-price
+        - slug: kaylee
           date: "2026-04-27T16:10:36-07:00"
           name: kaylee
-        - slug: kaylee
+        - slug: kaylee-price
           date: "2026-04-27T16:10:36-07:00"
           name: kaylee
         - slug: nate
