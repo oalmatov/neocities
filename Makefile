@@ -1,4 +1,7 @@
-.PHONY: build serve clean
+.PHONY: build serve clean words
+
+words:
+	go run ./cmd/generate-words
 
 build: clean
 	go run ./cmd/render-poems
