@@ -9,7 +9,7 @@ build: clean
 
 serve:
 	go run ./cmd/render-poems
-	hugo server
+	hugo server --disableFastRender
 
 clean:
 	rm -rf public resources
