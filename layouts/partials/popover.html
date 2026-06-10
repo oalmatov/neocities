@@ -5,7 +5,7 @@
   <h2>{{ $post.Title }}</h2>
   {{ partial "stars.html" $post.Params.rating }}
   {{ with $post.Params.author }}<p class="popover-date">{{ . }}</p>{{ end }}
-  {{ if not $post.Date.IsZero }}<p class="popover-date">{{ $post.Date.Format "Jan 2, 2006" }}</p>{{ end }}
+  {{ if not $post.Date.IsZero }}<p class="popover-date">{{ $post.Date.Format "2006-01-02 15:04" }}</p>{{ end }}
   <div class="popover-body">{{ $post.Content }}</div>
 </div>
 {{- end -}}

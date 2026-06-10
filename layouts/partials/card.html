@@ -16,6 +16,6 @@
     <span class="card-title">{{ $post.Title }}</span>
     {{ partial "stars.html" $post.Params.rating }}
     {{ with $post.Params.author }}<span class="card-date">{{ . }}</span>{{ end }}
-    {{ if not $post.Date.IsZero }}<span class="card-date">{{ $post.Date.Format "Jan 2, 2006" }}</span>{{ end }}
+    {{ if not $post.Date.IsZero }}<span class="card-date">{{ $post.Date.Format "2006-01-02 15:04" }}</span>{{ end }}
   </div>
 </div>

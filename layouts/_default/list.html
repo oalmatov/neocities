@@ -1,5 +1,6 @@
 {{ define "main" }}
 <section id="{{ .Section }}" class="section">
+  <a class="back-link" href="/">[ continue perceiving ]</a>
   <div class="grid">
     {{ range .Pages.ByDate.Reverse }}
     {{ partial "card.html" . }}

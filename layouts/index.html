@@ -1,182 +1,421 @@
-<!DOCTYPE html>
-<html lang="en">
+{{ define "main" }}
+{{ $feed := (where site.RegularPages "Section" "feed").ByDate.Reverse }}
+{{ $journal := first 1 (where site.RegularPages "Section" "journal").ByDate.Reverse }}
+{{ $movie := first 1 (where site.RegularPages "Section" "movies").ByDate.Reverse }}
+{{ $books := where site.RegularPages "Section" "books" }}
+{{ $reading := where $books "Params.current" true }}
+{{ $book := first 1 (cond (gt (len $reading) 0) $reading $books.ByDate.Reverse) }}
+{{ $poemMonths := site.Data.poems_manifest.months }}
+<section id="feed-home" class="home">
+  <div class="cols">
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sitemap</title>
-  <link rel="icon" href="/assets/refrigerator.png" type="image/png" />
-  <style>
-    @font-face {
-      font-family: "Molot";
-      src: url("/assets/fonts/Molot.otf") format("opentype");
-      font-display: swap;
-    }
+    <div class="idcol">
+      <div class="sname"><span class="type">webmar.love</span></div>
+      <div class="mod" style="margin-top:18px"><div class="sechead">about</div>
+        <div class="ptext" style="margin-top:0">i grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now i live in SF. interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.<br><br>in my free time i write poems, climb rocks, go alone to the beach, and recently started figure drawing.</div>
+      </div>
+      <div class="mod"><div class="sechead">details</div>
+        <div class="kv"><span class="k">relationship</span><span class="v">: single</span></div>
+        <div class="kv"><span class="k">age</span><span class="v">: 23</span></div>
+        <div class="kv"><span class="k">height</span><span class="v">: 5'11"</span></div>
+        <div class="kv"><span class="k">location</span><span class="v">: san francisco</span></div>
+      </div>
+      <div class="mod"><div class="sechead">now playing</div>
+        <iframe src="https://open.spotify.com/embed/track/1BBAHjgPJPrwTNag5lOWCV?theme=0" height="80" frameborder="0" allow="encrypted-media" loading="lazy"></iframe>
+      </div>
+      <div class="mod"><div class="sechead">friends</div>
+        <div class="friends">
+          <a class="flink" href="https://sabjadeliu.neocities.org/" target="_blank">sabjadeliu</a>
+          <a class="flink" href="https://bruhjuice.com/" target="_blank">bruhjuice</a>
+          <a class="flink" href="https://baljaa.neocities.org/" target="_blank">baljaa</a>
+        </div>
+      </div>
+      <div class="mod"><a class="sechead" href="/guestbook/">sign my guestbook</a></div>
+      <div class="idmedia">
+        <img class="flag" src="/assets/flag.gif" alt="kazakhstan">
+        <img class="turtle-id" src="/assets/turtle.gif" alt="">
+      </div>
+    </div>
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: url("/assets/sitemap-tile.png") repeat;
-      background-size: 200px 200px;
-      font-family: "Trebuchet MS", sans-serif;
-    }
+    <div class="feedcol">
+      <div class="sechead">feed</div>
+      <div class="feed-scroll" id="feedScroll">
+      {{ range $feed }}
+      <div class="fitem">
+        <div class="pdate">{{ .Date.Format "2006-01-02 15:04" }}</div>
+        <div class="feed-text ptext">{{ .Content }}</div>
+        <div class="feed-item-footer">
+          <button type="button" class="feed-like" aria-label="like">&lt;3</button>
+        </div>
+      </div>
+      {{ end }}
+      </div>
+    </div>
 
-    .stage {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
+    <div class="modcol">
+      {{ with index $journal 0 }}
+      <div class="mod"><div class="sechead">latest journal entry</div>
+        <a class="jentry-link" href="/journal/#entry-{{ path.Base .File.Dir }}" style="color:inherit;text-decoration:none">
+          <div class="jtitle">{{ .Title }}</div>
+          <div class="ptext">{{ .Summary | plainify | truncate 160 }}</div>
+        </a>
+      </div>
+      {{ end }}
+      {{ with index $movie 0 }}
+      <div class="mod"><div class="sechead">latest movie watched</div>
+        <a class="row clickable" href="/movies/" style="color:inherit;text-decoration:none">
+          {{ with .Resources.GetMatch .Params.thumbnail }}<img class="thumb" src="{{ .RelPermalink }}" alt="">{{ else }}<div class="thumb"></div>{{ end }}
+          <div><div class="ttl">{{ .Title }}</div>{{ if not .Date.IsZero }}<div class="line">{{ .Date.Format "2006-01-02 15:04" }}</div>{{ end }}{{ with .Params.rating }}<div class="rating">{{ . }}/5</div>{{ end }}</div>
+        </a>
+      </div>
+      {{ end }}
+      {{ with index $book 0 }}
+      <div class="mod"><div class="sechead">currently reading</div>
+        <a class="row clickable" href="/books/" style="color:inherit;text-decoration:none">
+          {{ with .Resources.GetMatch .Params.thumbnail }}<img class="thumb" src="{{ .RelPermalink }}" alt="">{{ else }}<div class="thumb"></div>{{ end }}
+          <div><div class="ttl">{{ .Title }}</div>{{ with .Params.author }}<div class="meta">{{ . }}</div>{{ end }}{{ if not .Date.IsZero }}<div class="line">{{ .Date.Format "2006-01-02 15:04" }}</div>{{ end }}{{ with .Params.rating }}<div class="rating">{{ . }}/5</div>{{ end }}</div>
+        </a>
+      </div>
+      {{ end }}
+      {{ with $poemMonths }}{{ with (index . 0) }}{{ with (index .poems 0) }}
+      <div class="mod"><div class="sechead">latest fridge poem</div>
+        <a class="clickable" href="/fridge-poems/" style="display:block"><img class="poem-image poem-preview" src="/poems/{{ .slug }}.svg" alt=""></a>
+        <div class="meta">{{ with .name }}by {{ . }} &middot; {{ end }}{{ (time .date).Format "2006-01-02 15:04" }}</div>
+      </div>
+      {{ end }}{{ end }}{{ end }}
+      <div class="mod"><div class="sechead">barter</div>
+        <div class="ptext" style="margin:0 0 12px">got something i want? want something i have? let's trade.</div>
+        <a class="bbtn" href="/barter/">barter with me</a>
+      </div>
+    </div>
 
-    .drift-link {
-      position: absolute;
-      top: 0;
-      left: 0;
-      text-decoration: none;
-      font-family: "Molot", "Trebuchet MS", sans-serif;
-      font-size: 25px;
-      -webkit-text-stroke: 1.5px black;
-      paint-order: stroke fill;
-      white-space: nowrap;
-      will-change: transform;
-      padding: 0.6em 1.2em;
-      isolation: isolate;
-    }
-
-    .drift-link::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: var(--fish) no-repeat center / 100% 100%;
-      z-index: -1;
-      transform-origin: center;
-    }
-
-    .drift-link.face-right::before {
-      transform: scaleX(-1);
-    }
-
-    .mobile-note {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .mobile-note {
-        display: block;
-        position: fixed;
-        bottom: 10px;
-        left: 0;
-        right: 0;
-        padding: 0 10px;
-        font-family: "Trebuchet MS", sans-serif;
-        font-size: 14px;
-        color: red;
-        text-align: center;
-        z-index: 1000;
-      }
-
-      .mobile-note span {
-        background: yellow;
-        padding: 2px 6px;
-        box-decoration-break: clone;
-        -webkit-box-decoration-break: clone;
-      }
-    }
-
-    .drift-link:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="stage" id="stage">
-    <a class="drift-link" href="/fridge-poems/" style="color: #ff1f4a;">fridge poems</a>
-    <a class="drift-link" href="/about/" style="color: #1fc94a;">about</a>
-    <a class="drift-link" href="/feed/" style="color: #1f7eff;">feed</a>
-    <a class="drift-link" href="/journal/" style="color: #ff7a14;">journal</a>
-    <a class="drift-link" href="/books/" style="color: #8a1fe6;">books</a>
-    <a class="drift-link" href="/movies/" style="color: #ff3d8a;">movies</a>
-    <a class="drift-link" href="/barter/" style="color: #14c4b8;">barter</a>
-    <a class="drift-link" href="/guestbook/" style="color: #ffd11a;">guestbook</a>
-    <a class="drift-link" href="/epiccoolgirl/" style="color: #ff4fc8;">epiccoolgirl</a>
-    <a class="drift-link" href="/v-day-w-vi/" style="color: #a3e635;">v-day-w-vi</a>
-    <a class="drift-link" href="/wnrs/" style="color: #00bfff;">wnrs</a>
   </div>
+</section>
 
-  <div class="mobile-note"><span>pond is getting a little crowded, please view me on desktop</span></div>
+<div class="like-splatter" id="likeSplatter" aria-hidden="true">
+  <video class="like-splatter-video" id="likeSplatterVideo" playsinline webkit-playsinline preload="auto" muted></video>
+  <div class="like-splatter-message" id="likeSplatterMessage">
+    YOU CURSED ME!<br>NOW I AM RUINED!<br>WHAT WILL I DO<br>WITHOUT YOUR LIKE?<br>PLEASE PLEASE PLEASE<br>ONE MORE!
+  </div>
+</div>
 
-  <script>
-    const stage = document.getElementById("stage");
-    const links = Array.from(document.querySelectorAll(".drift-link"));
+<script>
+(function () {
+  var el = document.querySelector(".sname .type");
+  if (!el) return;
+  var base = "webmar.love";
+  var intro = [];
+  for (var i = 1; i <= base.length; i++) intro.push([base.slice(0, i), 90]);
+  var heart = [
+    [base + " ", 350],
+    [base + " <", 220],
+    [base + " <3", 2600],
+    [base + " <", 260],
+    [base + " ", 400],
+    [base + " <", 220],
+    [base + " </", 220],
+    [base + " </3", 2600],
+    [base + " </", 260],
+    [base + " ", 400],
+  ];
+  var i = 0, hi = 0, introDone = false;
+  function run() {
+    var f;
+    if (!introDone) {
+      f = intro[i]; i++;
+      if (i >= intro.length) introDone = true;
+    } else {
+      f = heart[hi]; hi = (hi + 1) % heart.length;
+    }
+    el.textContent = f[0];
+    setTimeout(run, f[1]);
+  }
+  run();
+})();
+</script>
 
-    const fishCount = 5;
-    links.forEach((el) => {
-      const n = 1 + Math.floor(Math.random() * fishCount);
-      el.style.setProperty("--fish", `url("/assets/fish/fish${n}.png")`);
+<script>
+(function () {
+  var container = document.getElementById("likeSplatter");
+  var video = document.getElementById("likeSplatterVideo");
+  var message = document.getElementById("likeSplatterMessage");
+  if (!container || !video) return;
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  video.src = isSafari ? "/v-day-w-vi/blood-splatter.mp4" : "/v-day-w-vi/blood-splatter.webm";
+  video.load();
+  function fire() {
+    container.classList.add("active");
+    if (message) message.classList.remove("visible");
+    video.currentTime = 0;
+    video.muted = false;
+    var p = video.play();
+    var show = function () { if (message) message.classList.add("visible"); };
+    if (p && typeof p.then === "function") { p.then(show).catch(show); } else { show(); }
+  }
+  video.addEventListener("ended", function () {
+    container.classList.remove("active");
+    if (message) message.classList.remove("visible");
+  });
+  document.querySelectorAll(".feed-like").forEach(function (btn) {
+    btn.addEventListener("click", function (e) { e.preventDefault(); fire(); });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  // Is this node a whitespace-only text node?
+  function isWhitespace(node) {
+    return node.nodeType === Node.TEXT_NODE && !/\S/.test(node.textContent);
+  }
+
+  // Return the media element (<img>/<video>) for a child node, or null.
+  // A child counts as media if it IS an img/video, or it wraps exactly one.
+  function mediaOf(node) {
+    if (node.nodeType !== Node.ELEMENT_NODE) return null;
+    var tag = node.tagName;
+    if (tag === "IMG" || tag === "VIDEO") return node;
+    // Wrapper case (e.g. <a> or <p> around a single image/video).
+    var media = null;
+    for (var i = 0; i < node.childNodes.length; i++) {
+      var c = node.childNodes[i];
+      if (isWhitespace(c)) continue;
+      if (c.nodeType === Node.ELEMENT_NODE && (c.tagName === "IMG" || c.tagName === "VIDEO")) {
+        if (media) return null; // more than one meaningful child
+        media = c;
+      } else {
+        return null; // some other meaningful content -> not pure media
+      }
+    }
+    return media;
+  }
+
+  // Find the media element within a slide (could be the slide's child directly).
+  function slideMedia(slide) {
+    return slide.querySelector("img, video");
+  }
+
+  // Compute the rendered height of a media element at a given content width.
+  function renderedHeight(media, width) {
+    var nw, nh;
+    if (media.tagName === "VIDEO") {
+      nw = media.videoWidth;
+      nh = media.videoHeight;
+    } else {
+      nw = media.naturalWidth;
+      nh = media.naturalHeight;
+    }
+    if (!nw || !nh) return 0;
+    return nh * (width / nw);
+  }
+
+  function sizeCarousel(carousel) {
+    var track = carousel.querySelector(".feed-carousel-track");
+    if (!track) return;
+    var width = track.clientWidth;
+    if (!width) return;
+    var slides = track.querySelectorAll(".fc-slide");
+    var maxH = 0;
+    for (var i = 0; i < slides.length; i++) {
+      var media = slideMedia(slides[i]);
+      if (!media) continue;
+      var h = renderedHeight(media, width);
+      if (h > maxH) maxH = h;
+    }
+    if (maxH <= 0) return;
+    var cap = Math.round(window.innerHeight * 0.7);
+    track.style.height = Math.min(maxH, cap) + "px";
+  }
+
+  // Attach load/metadata listeners so we size once dimensions are known.
+  function watchMedia(carousel) {
+    var medias = carousel.querySelectorAll(".fc-slide img, .fc-slide video");
+    medias.forEach(function (media) {
+      if (media.tagName === "VIDEO") {
+        if (media.readyState >= 1) {
+          sizeCarousel(carousel);
+        } else {
+          media.addEventListener("loadedmetadata", function () { sizeCarousel(carousel); });
+        }
+      } else {
+        if (media.complete && media.naturalWidth) {
+          sizeCarousel(carousel);
+        } else {
+          media.addEventListener("load", function () { sizeCarousel(carousel); });
+          media.addEventListener("error", function () { sizeCarousel(carousel); });
+        }
+      }
+    });
+  }
+
+  function buildCarousel(run) {
+    var doc = run[0].ownerDocument;
+    var carousel = doc.createElement("div");
+    carousel.className = "feed-carousel";
+
+    var track = doc.createElement("div");
+    track.className = "feed-carousel-track";
+    carousel.appendChild(track);
+
+    run.forEach(function (el) {
+      var slide = doc.createElement("div");
+      slide.className = "fc-slide";
+      slide.appendChild(el); // moves the element out of its old position
+      track.appendChild(slide);
     });
 
-    const items = links.map((el) => ({
-      el,
-      x: Math.random() * (stage.clientWidth - 100),
-      y: Math.random() * (stage.clientHeight - 30),
-      vx: (Math.random() < 0.5 ? -1 : 1) * (0.1 + Math.random() * 0.3),
-      vy: (Math.random() < 0.5 ? -1 : 1) * (0.1 + Math.random() * 0.3),
-    }));
+    var prev = doc.createElement("button");
+    prev.className = "fc-prev";
+    prev.setAttribute("aria-label", "previous");
+    prev.textContent = "<";
 
-    function tick() {
-      const w = stage.clientWidth;
-      const h = stage.clientHeight;
-      for (const it of items) {
-        const ew = it.el.offsetWidth;
-        const eh = it.el.offsetHeight;
-        it.x += it.vx;
-        it.y += it.vy;
-        if (it.x < 0) {it.x = 0; it.vx = -it.vx;}
-        if (it.x + ew > w) {it.x = w - ew; it.vx = -it.vx;}
-        if (it.y < 0) {it.y = 0; it.vy = -it.vy;}
-        if (it.y + eh > h) {it.y = h - eh; it.vy = -it.vy;}
-      }
-      for (let i = 0; i < items.length; i++) {
-        const a = items[i];
-        const aw = a.el.offsetWidth;
-        const ah = a.el.offsetHeight;
-        for (let j = i + 1; j < items.length; j++) {
-          const b = items[j];
-          const bw = b.el.offsetWidth;
-          const bh = b.el.offsetHeight;
-          const dx = (a.x + aw / 2) - (b.x + bw / 2);
-          const dy = (a.y + ah / 2) - (b.y + bh / 2);
-          const overlapX = (aw + bw) / 2 - Math.abs(dx);
-          const overlapY = (ah + bh) / 2 - Math.abs(dy);
-          if (overlapX > 0 && overlapY > 0) {
-            if (overlapX < overlapY) {
-              const push = overlapX / 2 * Math.sign(dx);
-              a.x += push; b.x -= push;
-              [a.vx, b.vx] = [b.vx, a.vx];
-            } else {
-              const push = overlapY / 2 * Math.sign(dy);
-              a.y += push; b.y -= push;
-              [a.vy, b.vy] = [b.vy, a.vy];
-            }
-          }
+    var next = doc.createElement("button");
+    next.className = "fc-next";
+    next.setAttribute("aria-label", "next");
+    next.textContent = ">";
+
+    var slides = track.querySelectorAll(".fc-slide");
+    var total = slides.length;
+
+    var counter = doc.createElement("div");
+    counter.className = "fc-counter";
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function setCounter(i) { counter.textContent = pad(i + 1) + " / " + pad(total); }
+    setCounter(0);
+
+    prev.addEventListener("click", function () {
+      track.scrollBy({ left: -track.clientWidth, behavior: "smooth" });
+    });
+    next.addEventListener("click", function () {
+      track.scrollBy({ left: track.clientWidth, behavior: "smooth" });
+    });
+
+    track.addEventListener("scroll", function () {
+      var w = track.clientWidth;
+      if (!w) return;
+      var active = Math.round(track.scrollLeft / w);
+      if (active < 0) active = 0;
+      if (active >= total) active = total - 1;
+      setCounter(active);
+    });
+
+    carousel.appendChild(prev);
+    carousel.appendChild(next);
+    carousel.appendChild(counter);
+
+    watchMedia(carousel);
+    return carousel;
+  }
+
+  // Markdown often puts images inside a <p>, sometimes after text in the same
+  // paragraph (e.g. "<p>caption text <img><img>...</p>"). Lift every image/video
+  // out of its paragraph to become a direct sibling of .feed-text (preserving
+  // order, inserted right after the paragraph), then drop now-empty paragraphs.
+  // This lets consecutive images be grouped into a carousel run regardless of
+  // how the markdown wrapped them.
+  function liftMedia(feedText) {
+    var kids = Array.prototype.slice.call(feedText.children);
+    kids.forEach(function (el) {
+      if (el.tagName !== "P") return;
+      if (!el.querySelector("img, video")) return;
+      var doc = el.ownerDocument;
+      var buffer = [];
+      function flushBuffer() {
+        var hasText = buffer.some(function (n) {
+          return (n.nodeType === Node.ELEMENT_NODE && n.tagName !== "BR") ||
+            (n.nodeType === Node.TEXT_NODE && /\S/.test(n.textContent));
+        });
+        if (hasText) {
+          var p = doc.createElement("p");
+          buffer.forEach(function (n) { p.appendChild(n); });
+          feedText.insertBefore(p, el);
         }
+        buffer = [];
       }
-      for (const it of items) {
-        it.el.style.transform = `translate(${it.x}px, ${it.y}px)`;
-        const faceRight = it.vx > 0;
-        if (faceRight !== it.faceRight) {
-          it.el.classList.toggle("face-right", faceRight);
-          it.faceRight = faceRight;
+      var nodes = Array.prototype.slice.call(el.childNodes);
+      nodes.forEach(function (n) {
+        if (n.nodeType === Node.ELEMENT_NODE && (n.tagName === "IMG" || n.tagName === "VIDEO")) {
+          flushBuffer();
+          feedText.insertBefore(n, el); // media becomes a direct sibling, in order
+        } else {
+          buffer.push(n);
         }
+      });
+      flushBuffer();
+      el.remove();
+    });
+  }
+
+  function processFeedText(feedText) {
+    liftMedia(feedText);
+    var carousels = [];
+    var node = feedText.firstChild;
+    var run = []; // current run of media child nodes
+    var anchor = null; // sibling after the last media node; stable insert point
+
+    function flush() {
+      if (run.length >= 2) {
+        // anchor is the node just after the last media element in the run.
+        // It stays in place while we move the run's nodes into the carousel,
+        // so inserting before it lands the carousel where the run was.
+        var carousel = buildCarousel(run.slice());
+        feedText.insertBefore(carousel, anchor);
+        carousels.push(carousel);
       }
-      requestAnimationFrame(tick);
+      run = [];
+      anchor = null;
     }
-    requestAnimationFrame(tick);
-  </script>
-</body>
 
-</html>
+    while (node) {
+      var nextNode = node.nextSibling;
+      if (isWhitespace(node)) {
+        // Whitespace between media doesn't break a run; skip without flushing.
+        node = nextNode;
+        continue;
+      }
+      if (mediaOf(node)) {
+        run.push(node);
+        anchor = nextNode;
+      } else {
+        flush();
+      }
+      node = nextNode;
+    }
+    flush();
+
+    return carousels;
+  }
+
+  function debounce(fn, wait) {
+    var timer = null;
+    return function () {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  }
+
+  function init() {
+    var feedTexts = document.querySelectorAll(".feed-text");
+    var allCarousels = [];
+    feedTexts.forEach(function (ft) {
+      allCarousels = allCarousels.concat(processFeedText(ft));
+    });
+
+    if (!allCarousels.length) return;
+
+    var onResize = debounce(function () {
+      allCarousels.forEach(sizeCarousel);
+    }, 150);
+    window.addEventListener("resize", onResize);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+{{ end }}

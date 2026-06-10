@@ -10,3 +10,5 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
 [markup.goldmark.parser]
   wrapStandAloneImageWithinParagraph = false
 
+[pagination]
+  pagerSize = 10

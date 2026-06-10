@@ -1,110 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" data-build="2026-05-15a">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>leave me a poem</title>
-  <link rel="icon" href="/assets/refrigerator.png" type="image/png" />
-  {{ $css := resources.Get "styles.css" | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}" />
-  <style>
-    body {
-      margin: 0;
-      padding-top: 2em;
-      min-height: 100vh;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    a {
-      color: revert;
-      text-decoration: revert;
-    }
-
-    a:visited {
-      color: revert;
-    }
-
-    .container {
-      width: 100%;
-      padding: 2em;
-      box-sizing: border-box;
-    }
-
-    .share-prompt {
-      font-style: italic;
-      text-align: center;
-      margin: 0 auto 1em auto;
-      max-width: 1136px;
-    }
-
-    .sitemap-link {
-      align-self: flex-end;
-      margin: 0 1.5em;
-    }
-
-    .canvas-scroll {
-      overflow-x: auto;
-      overflow-y: clip;
-    }
-
-    .poem-canvas {
-      position: relative;
-      width: 1136px;
-      min-width: 1136px;
-      height: 900px;
-      margin: 0 auto;
-      background-image: url("/assets/refrigerator-texture.jpg");
-      background-repeat: repeat;
-    }
-
-    #poems {
-      width: 100%;
-      max-width: 1136px;
-      margin: 0 auto;
-      padding: 2em 3em;
-      box-sizing: border-box;
-    }
-
-    .word-magnet {
-      position: absolute;
-      background: #faf7ef;
-      border: 2px solid black;
-      padding: 4px 10px;
-      font-size: 16px;
-      font-family: serif;
-      cursor: grab;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: none;
-      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
-      white-space: nowrap;
-    }
-
-    .word-magnet.dragging {
-      cursor: grabbing;
-      z-index: 1000;
-      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
-    }
-  </style>
-</head>
-
-<body>
-  <a class="sitemap-link" href="/">perceive me</a>
-  <div class="container">
-    <p class="share-prompt">please <a href="#" id="share-poem">share</a> a poem if u want.<br><br>this page is not the
-      most
-      mobile friendly. if you can't access it on ur desktop, flipping your phone may be a better experience.</p>
-    <div class="canvas-scroll">
-      <div class="poem-canvas" id="poem-canvas"></div>
-    </div>
+{{ define "main" }}
+<section id="fridge-poems" class="poems-page">
+  <div class="poems-top">
+    <a class="back-link" href="/">[ continue perceiving ]</a>
+    <a class="back-link" href="#" id="share-poem">[ share poem ]</a>
   </div>
 
-  <section id="poems" class="section">
-    <p class="poems-preface">i'll try my best to check my mail and update this page promptly</p>
+  <div class="canvas-scroll">
+    <div class="poem-canvas" id="poem-canvas"></div>
+  </div>
+
+  <div class="poems-archive">
+    <div class="sechead">submitted</div>
     {{ $manifest := site.Data.poems_manifest }}
     {{ if $manifest }}
     {{ range $manifest.months }}
@@ -125,60 +31,41 @@
     </div>
     {{ end }}
     {{ end }}
-  </section>
+  </div>
+</section>
 
-  <script>
+<script>
+  (function () {
     const INITIAL_WORDS = [
-      {text: "snow", x: 786, y: 289, rotation: -0.9},
-      {text: "behind", x: 612, y: 207, rotation: 1.9},
-      {text: "forgive", x: 554, y: 297, rotation: 2.9},
-      {text: "as", x: 534, y: 480, rotation: -1.9},
-      {text: "away", x: 775, y: 434, rotation: -0.3},
-      {text: "lurch", x: 809, y: 553, rotation: 2.8},
-      {text: "cascading", x: 681, y: 256, rotation: 2.9},
-      {text: "have", x: 337, y: 559, rotation: -2.5},
-      {text: "fragment", x: 140, y: 46, rotation: 3.0},
-      {text: "roar", x: 102, y: 287, rotation: -1.7},
-      {text: "beneath", x: 654, y: 552, rotation: -0.6},
-      {text: "fresh", x: 236, y: 622, rotation: 1.5},
-      {text: "desert", x: 939, y: 163, rotation: 3.0},
-      {text: "we", x: 35, y: 455, rotation: 0.2},
-      {text: "without", x: 74, y: 736, rotation: -2.1},
-      {text: "scream", x: 170, y: 566, rotation: -2.3},
-      {text: "stillness", x: 266, y: 337, rotation: -1.6},
-      {text: "illuminate", x: 257, y: 535, rotation: -1.4},
-      {text: "cave", x: 951, y: 118, rotation: -0.8},
-      {text: "weave", x: 1037, y: 834, rotation: 2.0},
-      {text: "feral", x: 683, y: 718, rotation: 1.3},
-      {text: "clumsily", x: 372, y: 455, rotation: 1.2},
-      {text: "steel", x: 795, y: 258, rotation: 2.5},
-      {text: "unyielding", x: 553, y: 476, rotation: -1.3},
-      {text: "let", x: 696, y: 486, rotation: -1.1},
-      {text: "eyes", x: 83, y: 491, rotation: 0.2},
-      {text: "cloak", x: 542, y: 482, rotation: 2.6},
-      {text: "he", x: 826, y: 426, rotation: 2.2},
-      {text: "vision", x: 420, y: 169, rotation: -0.8},
-      {text: "won't", x: 1018, y: 579, rotation: -2.6},
-      {text: "however", x: 795, y: 568, rotation: 3.0},
-      {text: "stem", x: 533, y: 520, rotation: 0.3},
-      {text: "are", x: 489, y: 40, rotation: 0.5},
-      {text: "for", x: 603, y: 252, rotation: 1.4},
+      {text: "snow", x: 786, y: 289, rotation: -0.9}, {text: "behind", x: 612, y: 207, rotation: 1.9},
+      {text: "forgive", x: 554, y: 297, rotation: 2.9}, {text: "as", x: 534, y: 480, rotation: -1.9},
+      {text: "away", x: 775, y: 434, rotation: -0.3}, {text: "lurch", x: 809, y: 553, rotation: 2.8},
+      {text: "cascading", x: 681, y: 256, rotation: 2.9}, {text: "have", x: 337, y: 559, rotation: -2.5},
+      {text: "fragment", x: 140, y: 46, rotation: 3.0}, {text: "roar", x: 102, y: 287, rotation: -1.7},
+      {text: "beneath", x: 654, y: 552, rotation: -0.6}, {text: "fresh", x: 236, y: 622, rotation: 1.5},
+      {text: "desert", x: 939, y: 163, rotation: 3.0}, {text: "we", x: 35, y: 455, rotation: 0.2},
+      {text: "without", x: 74, y: 736, rotation: -2.1}, {text: "scream", x: 170, y: 566, rotation: -2.3},
+      {text: "stillness", x: 266, y: 337, rotation: -1.6}, {text: "illuminate", x: 257, y: 535, rotation: -1.4},
+      {text: "cave", x: 951, y: 118, rotation: -0.8}, {text: "weave", x: 1037, y: 834, rotation: 2.0},
+      {text: "feral", x: 683, y: 718, rotation: 1.3}, {text: "clumsily", x: 372, y: 455, rotation: 1.2},
+      {text: "steel", x: 795, y: 258, rotation: 2.5}, {text: "unyielding", x: 553, y: 476, rotation: -1.3},
+      {text: "let", x: 696, y: 486, rotation: -1.1}, {text: "eyes", x: 83, y: 491, rotation: 0.2},
+      {text: "cloak", x: 542, y: 482, rotation: 2.6}, {text: "he", x: 826, y: 426, rotation: 2.2},
+      {text: "vision", x: 420, y: 169, rotation: -0.8}, {text: "won't", x: 1018, y: 579, rotation: -2.6},
+      {text: "however", x: 795, y: 568, rotation: 3.0}, {text: "stem", x: 533, y: 520, rotation: 0.3},
+      {text: "are", x: 489, y: 40, rotation: 0.5}, {text: "for", x: 603, y: 252, rotation: 1.4},
       {text: "dew", x: 94, y: 96, rotation: 0.6},
     ];
-
     const STORAGE_KEY = "fridge-poem";
     const canvas = document.getElementById("poem-canvas");
+    if (!canvas) return;
 
     function loadWords() {
       const saved = sessionStorage.getItem(STORAGE_KEY);
-      if (saved) {return JSON.parse(saved);}
+      if (saved) { return JSON.parse(saved); }
       return INITIAL_WORDS;
     }
-
-    function saveWords(words) {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(words));
-    }
-
+    function saveWords(words) { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(words)); }
     function renderWords(words) {
       canvas.querySelectorAll(".word-magnet").forEach((el) => el.remove());
       for (const word of words) {
@@ -192,23 +79,17 @@
         canvas.appendChild(el);
       }
     }
-
     function currentWords() {
-      const magnets = canvas.querySelectorAll(".word-magnet");
-      return Array.from(magnets).map((el) => ({
+      return Array.from(canvas.querySelectorAll(".word-magnet")).map((el) => ({
         text: el.textContent,
         x: parseInt(el.style.left, 10),
         y: parseInt(el.style.top, 10),
         rotation: parseFloat(el.dataset.rotation),
       }));
     }
-
     renderWords(loadWords());
 
-    let active = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
+    let active = null, offsetX = 0, offsetY = 0;
     canvas.addEventListener("pointerdown", (e) => {
       const target = e.target.closest(".word-magnet");
       if (!target) return;
@@ -220,22 +101,16 @@
       offsetY = e.clientY - rect.top;
       e.preventDefault();
     });
-
     canvas.addEventListener("pointermove", (e) => {
       if (!active) return;
       const canvasRect = canvas.getBoundingClientRect();
       let x = e.clientX - canvasRect.left - offsetX;
       let y = e.clientY - canvasRect.top - offsetY;
-      const w = active.offsetWidth;
-      const h = active.offsetHeight;
-      const maxX = canvasRect.width;
-      const maxY = 900;
-      x = Math.max(0, Math.min(x, maxX - w));
-      y = Math.max(0, Math.min(y, maxY - h));
+      x = Math.max(0, Math.min(x, canvasRect.width - active.offsetWidth));
+      y = Math.max(0, Math.min(y, 900 - active.offsetHeight));
       active.style.left = x + "px";
       active.style.top = y + "px";
     });
-
     canvas.addEventListener("pointerup", () => {
       if (!active) return;
       active.classList.remove("dragging");
@@ -250,7 +125,6 @@
       const body = `you can find me at {website}\n\n${words}`;
       window.location.href = `mailto:omar.almatov@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
-  </script>
-</body>
-
-</html>
+  })();
+</script>
+{{ end }}

@@ -5,7 +5,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"html"
@@ -54,18 +53,17 @@ type Manifest struct {
 	Months []Month `yaml:"months"`
 }
 
-func renderSVG(p Poem, textureURI string) string {
+func renderSVG(p Poem, _ string) string {
 	var b strings.Builder
 	fmt.Fprintf(&b,
-		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" preserveAspectRatio="xMidYMid meet">`+
-			`<image href="%s" width="%d" height="%d" preserveAspectRatio="xMidYMid slice"/>`,
-		canvasWidth, canvasHeight, textureURI, canvasWidth, canvasHeight)
+		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" preserveAspectRatio="xMidYMid meet">`,
+		canvasWidth, canvasHeight)
 	for _, w := range p.Words {
-		width := float64(len(w.Text))*9 + 20
+		width := float64(len(w.Text))*9 + 16
 		fmt.Fprintf(&b,
 			`<g transform="translate(%g,%g) rotate(%g)">`+
-				`<rect width="%g" height="24" fill="#faf7ef" stroke="black" stroke-width="1.5"/>`+
-				`<text x="%g" y="16" text-anchor="middle" font-family="serif" font-size="14" fill="black">%s</text>`+
+				`<rect width="%g" height="24" fill="#0e0d0a" stroke="#6b6456" stroke-width="1" stroke-dasharray="2 2"/>`+
+				`<text x="%g" y="16" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" fill="#7fa86b">%s</text>`+
 				`</g>`,
 			w.X, w.Y, w.Rotation, width, width/2, html.EscapeString(w.Text))
 	}
@@ -74,12 +72,6 @@ func renderSVG(p Poem, textureURI string) string {
 }
 
 func main() {
-	texture, err := os.ReadFile("static/assets/refrigerator-texture.jpg")
-	if err != nil {
-		log.Fatal(err)
-	}
-	textureURI := "data:image/jpeg;base64," + base64.StdEncoding.EncodeToString(texture)
-
 	files, err := filepath.Glob("data/poems/*.json")
 	if err != nil {
 		log.Fatal(err)
@@ -105,7 +97,7 @@ func main() {
 		}
 
 		slug := strings.TrimSuffix(filepath.Base(f), ".json")
-		if err := os.WriteFile("static/poems/"+slug+".svg", []byte(renderSVG(p, textureURI)), 0644); err != nil {
+		if err := os.WriteFile("static/poems/"+slug+".svg", []byte(renderSVG(p, "")), 0644); err != nil {
 			log.Fatal(err)
 		}
 

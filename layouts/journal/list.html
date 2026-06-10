@@ -1,8 +1,24 @@
 {{ define "main" }}
 {{ $posts := .Pages.ByDate.Reverse }}
-<section id="journal" class="journal-layout">
-  <aside class="journal-sidebar">
-    <div class="journal-sidebar-list">
+<section id="journal" class="journal-scroll">
+  <div class="journal-entries">
+    {{ range $posts }}
+    {{ $slug := path.Base .File.Dir }}
+    <article id="entry-{{ $slug }}" class="journal-entry">
+      <h2>{{ .Title }}</h2>
+      {{ if not .Date.IsZero }}<p class="journal-date">{{ .Date.Format "2006-01-02 15:04" }}</p>{{ end }}
+      <div class="journal-body">{{ .Content }}</div>
+      <div class="journal-foot">
+        <a class="journal-home" href="/">[ continue perceiving ]</a>
+        <button type="button" class="journal-menu-link" data-journal-menu>[ read more ]</button>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  <nav class="journal-menu" id="journalMenu" hidden aria-label="journal index">
+    <div class="journal-menu-inner">
+      <div class="journal-menu-bar"><button type="button" class="journal-menu-close" data-journal-close>[ close ]</button></div>
       {{ range $posts.GroupByDate "2006" }}
       <div class="journal-year">
         <h3>{{ .Key }}</h3>
@@ -12,7 +28,7 @@
           <ul>
             {{ range .Pages }}
             {{ $slug := path.Base .File.Dir }}
-            <li><a class="journal-link" data-slug="{{ $slug }}" href="#entry-{{ $slug }}">{{ .Title }}</a></li>
+            <li><a class="journal-link" href="#entry-{{ $slug }}">{{ .Title }}</a></li>
             {{ end }}
           </ul>
         </div>
@@ -20,38 +36,33 @@
       </div>
       {{ end }}
     </div>
-    <a class="journal-sitemap-link" href="/">keep perceiving</a>
-  </aside>
-  <main class="journal-content">
-    {{ range $posts }}
-    {{ $slug := path.Base .File.Dir }}
-    <article id="entry-{{ $slug }}" class="journal-entry">
-      <h2>{{ .Title }}</h2>
-      {{ if not .Date.IsZero }}<p class="journal-date">{{ .Date.Format "Jan 2, 2006 3:04 PM" }}</p>{{ end }}
-      <div class="journal-body">{{ .Content }}</div>
-    </article>
-    {{ end }}
-  </main>
+  </nav>
 </section>
 <script>
   (function () {
-    function setActive(slug) {
-      document.querySelectorAll('.journal-entry').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.journal-link').forEach(el => el.classList.remove('active'));
-      const entry = document.getElementById('entry-' + slug);
-      const link = document.querySelector('.journal-link[data-slug="' + slug + '"]');
-      if (entry) entry.classList.add('active');
-      if (link) link.classList.add('active');
-    }
-    function fromHash() {
-      const m = location.hash.match(/^#entry-(.+)$/);
-      if (m) return m[1];
-      const first = document.querySelector('.journal-entry');
-      return first ? first.id.replace(/^entry-/, '') : null;
-    }
-    window.addEventListener('hashchange', () => setActive(fromHash()));
-    const slug = fromHash();
-    if (slug) setActive(slug);
+    var menu = document.getElementById('journalMenu');
+    if (!menu) return;
+    function open() { menu.hidden = false; }
+    function close() { menu.hidden = true; }
+    document.querySelectorAll('[data-journal-menu]').forEach(function (b) {
+      b.addEventListener('click', open);
+    });
+    document.querySelectorAll('[data-journal-close]').forEach(function (b) {
+      b.addEventListener('click', close);
+    });
+    menu.querySelectorAll('.journal-link').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var sel = a.getAttribute('href');
+        var target = sel && document.querySelector(sel);
+        close();
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', sel);
+        }
+      });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
   })();
 </script>
 {{ end }}

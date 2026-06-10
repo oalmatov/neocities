@@ -7,28 +7,25 @@
   <link rel="icon" href="/assets/heart.png" type="image/png" />
   {{ $css := resources.Get "styles.css" | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <title>{{ .Title }}</title>
 </head>
 
 <body>
-  <span class="fixed-eye tooltip-wrap tooltip-up tooltip-left">
-    <span class="tooltip-icon">
-      <img src="/assets/eye.png" alt="" />
-    </span>
-    <span class="tooltip-text">The Big Other is the symbolic order, the anonymous "they" whose gaze shapes how we
-      present
-      ourselves even in private. An internalized audience, a set of expectations that we perform for
-      without even being able to name who's watching. Even when I write in private, in secret, in my
-      journal, I am still not fully myself. Even this note is again just a performance of my awareness of
-      the gaze to the gaze.</span>
-  </span>
+  <div class="tilebg"></div>
+  <div class="eyes" aria-hidden="true">
+    <img src="/assets/eye.gif" alt="">
+    <img src="/assets/eye.gif" alt="">
+  </div>
+  {{ if .IsHome }}
+  <div class="ticker" aria-hidden="true"><div class="ticker-track">
+    <span>The Big Other is the symbolic order, the anonymous "they" whose gaze shapes how we present ourselves even in private. An internalized audience, a set of expectations that we perform for without even being able to name who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this note is again just a performance of my awareness of the gaze to the gaze.</span>
+    <span>The Big Other is the symbolic order, the anonymous "they" whose gaze shapes how we present ourselves even in private. An internalized audience, a set of expectations that we perform for without even being able to name who's watching. Even when I write in private, in secret, in my journal, I am still not fully myself. Even this note is again just a performance of my awareness of the gaze to the gaze.</span>
+  </div></div>
+  {{ end }}
   <main class="content">
-    <div class="eyes-container">
-      <img src="/assets/eye-open-left.png" class="eye base-eye" alt="" />
-      <img src="/assets/eye-open-right.png" class="eye base-eye" alt="" />
-      <img src="/assets/eye-closed-left.png" class="eye left-closed" alt="" />
-      <img src="/assets/eye-closed-right.png" class="eye right-closed" alt="" />
-    </div>
     {{ block "main" . }}{{ end }}
   </main>
   <div class="popover-overlay" style="display: none">
@@ -39,24 +36,6 @@
   </div>
   {{ block "popovers" . }}{{ end }}
   <script>
-    // Blinking eyes
-    const leftClosed = document.querySelector(".left-closed");
-    const rightClosed = document.querySelector(".right-closed");
-    const BLINK_INTERVAL = 8000;
-    const JITTER = 1000;
-
-    function blink() {
-      leftClosed.style.display = "block";
-      rightClosed.style.display = "block";
-      setTimeout(() => {
-        leftClosed.style.display = "none";
-        rightClosed.style.display = "none";
-      }, 150);
-      const jitter = Math.random() * JITTER * 2 - JITTER;
-      setTimeout(blink, BLINK_INTERVAL + jitter);
-    }
-    setTimeout(blink, BLINK_INTERVAL);
-
     // Popover
     const overlay = document.querySelector(".popover-overlay");
     const popoverContent = document.querySelector(".popover-content");
@@ -96,62 +75,6 @@
     if (params.get("post")) {
       openPopover(params.get("post"));
     }
-
-    // Tooltips
-    function positionTooltip(wrap) {
-      const icon = wrap.querySelector(".tooltip-icon");
-      const text = wrap.querySelector(".tooltip-text");
-      const rect = icon.getBoundingClientRect();
-      const isUp = wrap.classList.contains("tooltip-up");
-      const isLeft = wrap.classList.contains("tooltip-left");
-
-      if (isLeft) {
-        text.style.right = window.innerWidth - rect.right + "px";
-        text.style.left = "auto";
-      } else {
-        text.style.left = rect.left + "px";
-        text.style.right = "auto";
-      }
-
-      if (isUp) {
-        text.style.bottom = window.innerHeight - rect.top + "px";
-        text.style.top = "auto";
-      } else {
-        text.style.top = rect.bottom + "px";
-        text.style.bottom = "auto";
-      }
-    }
-
-    function closeAllTooltips() {
-      document.querySelectorAll(".tooltip-wrap.tooltip-open").forEach((w) => {
-        w.classList.remove("tooltip-open");
-      });
-    }
-
-    document.querySelectorAll(".tooltip-wrap").forEach((wrap) => {
-      const icon = wrap.querySelector(".tooltip-icon");
-
-      wrap.addEventListener("mouseenter", () => positionTooltip(wrap));
-
-      icon.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = wrap.classList.contains("tooltip-open");
-        closeAllTooltips();
-        if (!isOpen) {
-          positionTooltip(wrap);
-          wrap.classList.add("tooltip-open");
-        }
-      });
-    });
-
-    // Close any open tooltip when tapping outside or scrolling.
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".tooltip-wrap")) closeAllTooltips();
-    });
-    document.addEventListener("touchstart", (e) => {
-      if (!e.target.closest(".tooltip-wrap")) closeAllTooltips();
-    }, { passive: true });
-    window.addEventListener("scroll", closeAllTooltips, { passive: true });
   </script>
 </body>
 

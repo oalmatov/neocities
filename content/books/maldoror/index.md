@@ -4,4 +4,5 @@ date:
 thumbnail: maldoror.jpg
 rating: 
 author: Comte de Lautreamont
+current: true
 ---

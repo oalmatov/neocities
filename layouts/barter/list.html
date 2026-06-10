@@ -2,49 +2,44 @@
 {{ $offering := where .Site.Data.barter "side" "offering" }}
 {{ $looking := where .Site.Data.barter "side" "looking-for" }}
 <section id="barter" class="barter-page">
-  <p class="barter-preface">bartering is the exchange of goods or services directly for other goods or services without
-    using money. It is one of the oldest forms of commerce, allowing individuals to trade what they have for what they
-    need.</p>
-  <div class="barter-columns">
-    <div class="barter-column">
-      <h3 class="barter-heading">i can offer</h3>
-      <ul class="barter-list" data-side="offering">
-        {{ range $offering }}
-        <li class="barter-item">
-          <label>
-            <input type="checkbox" data-title="{{ .title }}" />
-            {{ with .thumbnail }}<img class="barter-item-thumb" src="/posts/{{ . }}" alt="" />{{ end }}
-            <div class="barter-item-info">
-              <span class="barter-item-title">{{ .title }}</span>
-              {{ with .body }}{{ . | markdownify }}{{ end }}
-            </div>
-          </label>
-        </li>
-        {{ end }}
-      </ul>
-    </div>
-    <div class="barter-column">
-      <h3 class="barter-heading">i am looking for</h3>
-      <ul class="barter-list" data-side="looking_for">
-        {{ range $looking }}
-        <li class="barter-item">
-          <label>
-            <input type="checkbox" data-title="{{ .title }}" />
-            {{ with .thumbnail }}<img class="barter-item-thumb" src="/posts/{{ . }}" alt="" />{{ end }}
-            <div class="barter-item-info">
-              <span class="barter-item-title">{{ .title }}</span>
-              {{ with .body }}{{ . | markdownify }}{{ end }}
-            </div>
-          </label>
-        </li>
-        {{ end }}
-      </ul>
-    </div>
+  <a class="back-link" href="/">[ continue perceiving ]</a>
+  <p class="barter-preface">bartering is the exchange of goods or services directly for other goods or services without using money. it is one of the oldest forms of commerce, allowing individuals to trade what they have for what they need.</p>
+
+  <div class="barter-column">
+    <h3 class="barter-heading">i can offer</h3>
+    <ul class="barter-list" data-side="offering">
+      {{ range $offering }}
+      <li class="barter-item">
+        <label>
+          <input type="checkbox" data-title="{{ .title }}" />
+          <div class="barter-item-info">
+            <span class="barter-item-title">{{ .title }}</span>
+          </div>
+        </label>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+
+  <div class="barter-column">
+    <h3 class="barter-heading">i am looking for</h3>
+    <ul class="barter-list" data-side="looking_for">
+      {{ range $looking }}
+      <li class="barter-item">
+        <label>
+          <input type="checkbox" data-title="{{ .title }}" />
+          <div class="barter-item-info">
+            <span class="barter-item-title">{{ .title }}</span>
+          </div>
+        </label>
+      </li>
+      {{ end }}
+    </ul>
   </div>
 
   <div class="barter-form">
     <p class="barter-hint">also feel free to send any other offer or add any additional information</p>
-    <textarea id="barter-message" rows="12"></textarea>
+    <textarea id="barter-message" rows="10"></textarea>
     <button id="barter-send" type="button">send offer</button>
   </div>
 </section>

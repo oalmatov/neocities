@@ -1,3 +1,1 @@
-{{- with . -}}
-<span class="card-rating">{{ strings.Repeat . "★" }}{{ strings.Repeat (sub 5 .) "☆" }}</span>
-{{- end -}}
+{{- with . -}}<span class="rating">{{ . }}/5</span>{{- end -}}
