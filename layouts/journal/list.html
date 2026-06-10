@@ -10,15 +10,16 @@
       <div class="journal-body">{{ .Content }}</div>
       <div class="journal-foot">
         <a class="journal-home" href="/">[ continue perceiving ]</a>
-        <button type="button" class="journal-menu-link" data-journal-menu>[ read more ]</button>
+        <a class="journal-menu-link" href="#journalMenu">[ read more ]</a>
       </div>
     </article>
     {{ end }}
   </div>
 
-  <nav class="journal-menu" id="journalMenu" hidden aria-label="journal index">
-    <div class="journal-menu-inner">
-      <div class="journal-menu-bar"><button type="button" class="journal-menu-close" data-journal-close>[ close ]</button></div>
+  <nav class="popover-overlay" id="journalMenu" aria-label="journal index">
+    <a class="popover-backdrop" href="#close" aria-label="close"></a>
+    <div class="popover">
+      <a class="popover-close" href="#close" aria-label="close">[ close ]</a>
       {{ range $posts.GroupByDate "2006" }}
       <div class="journal-year">
         <h3>{{ .Key }}</h3>
@@ -38,31 +39,4 @@
     </div>
   </nav>
 </section>
-<script>
-  (function () {
-    var menu = document.getElementById('journalMenu');
-    if (!menu) return;
-    function open() { menu.hidden = false; }
-    function close() { menu.hidden = true; }
-    document.querySelectorAll('[data-journal-menu]').forEach(function (b) {
-      b.addEventListener('click', open);
-    });
-    document.querySelectorAll('[data-journal-close]').forEach(function (b) {
-      b.addEventListener('click', close);
-    });
-    menu.querySelectorAll('.journal-link').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var sel = a.getAttribute('href');
-        var target = sel && document.querySelector(sel);
-        close();
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          history.replaceState(null, '', sel);
-        }
-      });
-    });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  })();
-</script>
 {{ end }}

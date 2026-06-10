@@ -1,7 +1,11 @@
 {{- $post := . -}}
 {{- $hasContent := ne (trim $post.Content " \n") "" -}}
 {{- $postId := printf "%s-%s" $post.Section (path.Base $post.File.Dir) -}}
-<div class="card{{ if $hasContent }} card-clickable{{ end }}" {{ if $hasContent }} data-post="{{ $postId }}" {{ end }}>
+{{- if $hasContent -}}
+<button class="card card-clickable" type="button" popovertarget="popover-{{ $postId }}">
+{{- else -}}
+<div class="card">
+{{- end }}
   {{- with $post.Params.thumbnail -}}
   {{- $img := $post.Resources.GetMatch . -}}
   {{- if $img -}}
@@ -18,4 +22,4 @@
     {{ with $post.Params.author }}<span class="card-date">{{ . }}</span>{{ end }}
     {{ if not $post.Date.IsZero }}<span class="card-date">{{ $post.Date.Format "2006-01-02 15:04" }}</span>{{ end }}
   </div>
-</div>
+{{- if $hasContent }}</button>{{ else }}</div>{{ end }}

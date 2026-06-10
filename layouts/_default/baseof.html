@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
   <link rel="icon" href="/assets/heart.png" type="image/png" />
-  {{ $css := resources.Get "styles.css" | resources.Fingerprint }}
+  {{ $css := resources.Get "styles.css" | minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,54 +28,7 @@
   <main class="content">
     {{ block "main" . }}{{ end }}
   </main>
-  <div class="popover-overlay" style="display: none">
-    <div class="popover">
-      <button class="popover-close">&times;</button>
-      <div class="popover-content"></div>
-    </div>
-  </div>
   {{ block "popovers" . }}{{ end }}
-  <script>
-    // Popover
-    const overlay = document.querySelector(".popover-overlay");
-    const popoverContent = document.querySelector(".popover-content");
-    const popoverClose = document.querySelector(".popover-close");
-
-    function openPopover(postId) {
-      const data = document.getElementById("popover-" + postId);
-      if (data) {
-        popoverContent.innerHTML = data.innerHTML;
-        overlay.style.display = "flex";
-        const url = new URL(window.location);
-        url.searchParams.set("post", postId);
-        history.replaceState(null, "", url);
-      }
-    }
-
-    function closePopover() {
-      overlay.style.display = "none";
-      const url = new URL(window.location);
-      url.searchParams.delete("post");
-      history.replaceState(null, "", url);
-    }
-
-    document.querySelectorAll(".card-clickable").forEach((card) => {
-      card.addEventListener("click", () => {
-        openPopover(card.dataset.post);
-      });
-    });
-
-    popoverClose.addEventListener("click", closePopover);
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closePopover();
-    });
-
-    // Deep-link to specific post via ?post=
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("post")) {
-      openPopover(params.get("post"));
-    }
-  </script>
 </body>
 
 </html>

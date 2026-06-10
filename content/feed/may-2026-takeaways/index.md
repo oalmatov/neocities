@@ -9,6 +9,8 @@ may 2026 takeaways:
 - it's really easy and intoxicating to believe you're in control of your destiny. your blessings come from Allah, remember that.
 - remember ur young ho and chopped unc, a fool and also an alien of extraordinary ability. remember to be human is to hold and embrace your contradictions.
 
+{{< carousel >}}
 ![cute-sf-giatnshat.jpeg](cute-sf-giants-hat.jpeg)
 ![ghengis-bong](ghengis-bong.jpeg)
+{{< /carousel >}}
 

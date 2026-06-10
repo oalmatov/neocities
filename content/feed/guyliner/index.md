@@ -11,10 +11,12 @@ another full week ahead 3 shows, my first giants game, a big release at work.
 carpe diem, carpe vitam - you can really have it all.
 
 
+{{< carousel >}}
 ![](balja-and-maya-day.jpg)
 ![](the-hellp.jpeg)
 ![](tattoo.jpeg)
 ![](guyliner.jpeg)
+{{< /carousel >}}
 
 p.s. i can't stop wearing guyliner
 

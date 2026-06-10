@@ -7,9 +7,11 @@ may recap:
 
 my failure looks like egg shells and orange peels. smells of ammonia just like manure. the nitrogen compounds must be breaking down, because today it smells especially pungent. so what's in this pile of shit? a sproutling? what fruit will it bear? does it have horns or whiskers? could it be a dragon?
 
+{{< carousel >}}
 ![horn melon](horn-melon.jpg)
 ![fruit spread](fruit-spread.jpg)
 ![dragon fruit](dragon-fruit.jpg)
+{{< /carousel >}}
 
 a macchiato -- because old age now rests over my brow
 ![macchiato](macchiato.jpg)

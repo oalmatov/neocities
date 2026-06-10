@@ -1,6 +1,7 @@
-// Picks random words from the magnet-poetry pools and rewrites the
-// INITIAL_WORDS block in layouts/fridge-poems/list.html, scattering each
-// word across the fridge canvas with a random position and rotation.
+// Picks random words from the magnet-poetry pools and writes them to
+// data/fridge_words.yaml, scattering each word across the fridge canvas with
+// a random position and rotation. The fridge-poems template reads this file
+// at build time and injects it into the page.
 //
 // Word pools sourced from https://github.com/sadgrlonline/magnetic-poetry
 package main
@@ -11,9 +12,10 @@ import (
 	"log"
 	"math/rand/v2"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
+
+	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -113,7 +115,6 @@ var prepositions = []string{
 	"underneath", "until", "within", "toward",
 }
 
-// bound is a word pool with a min/max count of words drawn from it.
 type bound struct {
 	name string
 	pool []string
@@ -132,13 +133,12 @@ var bounds = []bound{
 }
 
 type word struct {
-	text     string
-	x        int
-	y        int
-	rotation float64
+	Text     string  `yaml:"text"`
+	X        int     `yaml:"x"`
+	Y        int     `yaml:"y"`
+	Rotation float64 `yaml:"rotation"`
 }
 
-// pickCounts assigns a per-pool count within each pool's bounds, totalling n.
 func pickCounts(n int) map[string]int {
 	counts := map[string]int{}
 	total := 0
@@ -167,7 +167,6 @@ func pickCounts(n int) map[string]int {
 	return counts
 }
 
-// pickWords draws n words across the pools and scatters them on the canvas.
 func pickWords(n int) []word {
 	counts := pickCounts(n)
 
@@ -183,57 +182,36 @@ func pickWords(n int) []word {
 	words := make([]word, len(chosen))
 	for i, text := range chosen {
 		words[i] = word{
-			text:     text,
-			x:        rand.IntN(canvasWidth-80-20+1) + 20,
-			y:        rand.IntN(canvasHeight-30-20+1) + 20,
-			rotation: float64(rand.IntN(61))/10 - 3, // [-3.0, 3.0] in 0.1 steps
+			Text:     text,
+			X:        rand.IntN(canvasWidth-80-20+1) + 20,
+			Y:        rand.IntN(canvasHeight-30-20+1) + 20,
+			Rotation: float64(rand.IntN(61))/10 - 3, // [-3.0, 3.0] in 0.1 steps
 		}
 	}
 
 	return words
 }
 
-// formatBlock renders the words as the JS INITIAL_WORDS literal, matching the
-// surrounding template's indentation (4 spaces for the statement, 6 for items).
-func formatBlock(words []word) string {
-	var b strings.Builder
-	b.WriteString("const INITIAL_WORDS = [\n")
-	for _, w := range words {
-		fmt.Fprintf(&b, "      {text: %q, x: %d, y: %d, rotation: %.1f},\n",
-			w.text, w.x, w.y, w.rotation)
-	}
-	b.WriteString("    ];")
-
-	return b.String()
-}
-
 func main() {
 	numWords := flag.Int("n", 35, "number of magnet words to scatter")
-	path := flag.String("path", "layouts/fridge-poems/list.html", "template file to rewrite")
+	outPath := flag.String("out", "data/fridge_words.yaml", "data file to write")
 	flag.Parse()
 
-	html, err := os.ReadFile(*path)
+	words := pickWords(*numWords)
+
+	data, err := yaml.Marshal(words)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	words := pickWords(*numWords)
-	block := formatBlock(words)
-
-	re := regexp.MustCompile(`(?s)const INITIAL_WORDS = \[.*?\];`)
-	if !re.Match(html) {
-		log.Fatalf("%s: no INITIAL_WORDS block found", *path)
-	}
-
-	updated := re.ReplaceAllLiteralString(string(html), block)
-	if err := os.WriteFile(*path, []byte(updated), 0644); err != nil {
+	if err := os.WriteFile(*outPath, data, 0644); err != nil {
 		log.Fatal(err)
 	}
 
 	texts := make([]string, len(words))
-	for i, w := range words {
-		texts[i] = w.text
+	for i, item := range words {
+		texts[i] = item.Text
 	}
 	sort.Strings(texts)
-	fmt.Printf("scattered %d words: %s\n", len(words), strings.Join(texts, ", "))
+	fmt.Printf("scattered %d words -> %s: %s\n", len(words), *outPath, strings.Join(texts, ", "))
 }

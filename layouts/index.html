@@ -100,13 +100,16 @@
 </div>
 
 <script>
-(function () {
-  var el = document.querySelector(".sname .type");
-  if (!el) return;
-  var base = "webmar.love";
-  var intro = [];
-  for (var i = 1; i <= base.length; i++) intro.push([base.slice(0, i), 90]);
-  var heart = [
+(() => {
+  const nameEl = document.querySelector(".sname .type");
+  if (!nameEl) return;
+
+  const base = "webmar.love";
+
+  const intro = [];
+  for (let length = 1; length <= base.length; length++) intro.push([base.slice(0, length), 90]);
+
+  const heart = [
     [base + " ", 350],
     [base + " <", 220],
     [base + " <3", 2600],
@@ -118,304 +121,62 @@
     [base + " </", 260],
     [base + " ", 400],
   ];
-  var i = 0, hi = 0, introDone = false;
-  function run() {
-    var f;
-    if (!introDone) {
-      f = intro[i]; i++;
-      if (i >= intro.length) introDone = true;
+
+  let introIndex = 0, heartIndex = 0, introComplete = false;
+
+  const run = () => {
+    let frame;
+
+    if (!introComplete) {
+      frame = intro[introIndex];
+      introIndex++;
+      if (introIndex >= intro.length) introComplete = true;
     } else {
-      f = heart[hi]; hi = (hi + 1) % heart.length;
+      frame = heart[heartIndex];
+      heartIndex = (heartIndex + 1) % heart.length;
     }
-    el.textContent = f[0];
-    setTimeout(run, f[1]);
-  }
+
+    nameEl.textContent = frame[0];
+    setTimeout(run, frame[1]);
+  };
+
   run();
 })();
 </script>
 
 <script>
-(function () {
-  var container = document.getElementById("likeSplatter");
-  var video = document.getElementById("likeSplatterVideo");
-  var message = document.getElementById("likeSplatterMessage");
+(() => {
+  const container = document.getElementById("likeSplatter");
+  const video = document.getElementById("likeSplatterVideo");
+  const message = document.getElementById("likeSplatterMessage");
   if (!container || !video) return;
-  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   video.src = isSafari ? "/v-day-w-vi/blood-splatter.mp4" : "/v-day-w-vi/blood-splatter.webm";
   video.load();
-  function fire() {
+
+  const fire = () => {
     container.classList.add("active");
     if (message) message.classList.remove("visible");
+
     video.currentTime = 0;
     video.muted = false;
-    var p = video.play();
-    var show = function () { if (message) message.classList.add("visible"); };
-    if (p && typeof p.then === "function") { p.then(show).catch(show); } else { show(); }
-  }
-  video.addEventListener("ended", function () {
+
+    const show = () => { if (message) message.classList.add("visible"); };
+    Promise.resolve(video.play()).then(show).catch(show);
+  };
+
+  video.addEventListener("ended", () => {
     container.classList.remove("active");
     if (message) message.classList.remove("visible");
   });
-  document.querySelectorAll(".feed-like").forEach(function (btn) {
-    btn.addEventListener("click", function (e) { e.preventDefault(); fire(); });
+
+  document.querySelectorAll(".feed-like").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      fire();
+    });
   });
-})();
-</script>
-
-<script>
-(function () {
-  "use strict";
-
-  // Is this node a whitespace-only text node?
-  function isWhitespace(node) {
-    return node.nodeType === Node.TEXT_NODE && !/\S/.test(node.textContent);
-  }
-
-  // Return the media element (<img>/<video>) for a child node, or null.
-  // A child counts as media if it IS an img/video, or it wraps exactly one.
-  function mediaOf(node) {
-    if (node.nodeType !== Node.ELEMENT_NODE) return null;
-    var tag = node.tagName;
-    if (tag === "IMG" || tag === "VIDEO") return node;
-    // Wrapper case (e.g. <a> or <p> around a single image/video).
-    var media = null;
-    for (var i = 0; i < node.childNodes.length; i++) {
-      var c = node.childNodes[i];
-      if (isWhitespace(c)) continue;
-      if (c.nodeType === Node.ELEMENT_NODE && (c.tagName === "IMG" || c.tagName === "VIDEO")) {
-        if (media) return null; // more than one meaningful child
-        media = c;
-      } else {
-        return null; // some other meaningful content -> not pure media
-      }
-    }
-    return media;
-  }
-
-  // Find the media element within a slide (could be the slide's child directly).
-  function slideMedia(slide) {
-    return slide.querySelector("img, video");
-  }
-
-  // Compute the rendered height of a media element at a given content width.
-  function renderedHeight(media, width) {
-    var nw, nh;
-    if (media.tagName === "VIDEO") {
-      nw = media.videoWidth;
-      nh = media.videoHeight;
-    } else {
-      nw = media.naturalWidth;
-      nh = media.naturalHeight;
-    }
-    if (!nw || !nh) return 0;
-    return nh * (width / nw);
-  }
-
-  function sizeCarousel(carousel) {
-    var track = carousel.querySelector(".feed-carousel-track");
-    if (!track) return;
-    var width = track.clientWidth;
-    if (!width) return;
-    var slides = track.querySelectorAll(".fc-slide");
-    var maxH = 0;
-    for (var i = 0; i < slides.length; i++) {
-      var media = slideMedia(slides[i]);
-      if (!media) continue;
-      var h = renderedHeight(media, width);
-      if (h > maxH) maxH = h;
-    }
-    if (maxH <= 0) return;
-    var cap = Math.round(window.innerHeight * 0.7);
-    track.style.height = Math.min(maxH, cap) + "px";
-  }
-
-  // Attach load/metadata listeners so we size once dimensions are known.
-  function watchMedia(carousel) {
-    var medias = carousel.querySelectorAll(".fc-slide img, .fc-slide video");
-    medias.forEach(function (media) {
-      if (media.tagName === "VIDEO") {
-        if (media.readyState >= 1) {
-          sizeCarousel(carousel);
-        } else {
-          media.addEventListener("loadedmetadata", function () { sizeCarousel(carousel); });
-        }
-      } else {
-        if (media.complete && media.naturalWidth) {
-          sizeCarousel(carousel);
-        } else {
-          media.addEventListener("load", function () { sizeCarousel(carousel); });
-          media.addEventListener("error", function () { sizeCarousel(carousel); });
-        }
-      }
-    });
-  }
-
-  function buildCarousel(run) {
-    var doc = run[0].ownerDocument;
-    var carousel = doc.createElement("div");
-    carousel.className = "feed-carousel";
-
-    var track = doc.createElement("div");
-    track.className = "feed-carousel-track";
-    carousel.appendChild(track);
-
-    run.forEach(function (el) {
-      var slide = doc.createElement("div");
-      slide.className = "fc-slide";
-      slide.appendChild(el); // moves the element out of its old position
-      track.appendChild(slide);
-    });
-
-    var prev = doc.createElement("button");
-    prev.className = "fc-prev";
-    prev.setAttribute("aria-label", "previous");
-    prev.textContent = "<";
-
-    var next = doc.createElement("button");
-    next.className = "fc-next";
-    next.setAttribute("aria-label", "next");
-    next.textContent = ">";
-
-    var slides = track.querySelectorAll(".fc-slide");
-    var total = slides.length;
-
-    var counter = doc.createElement("div");
-    counter.className = "fc-counter";
-    function pad(n) { return (n < 10 ? "0" : "") + n; }
-    function setCounter(i) { counter.textContent = pad(i + 1) + " / " + pad(total); }
-    setCounter(0);
-
-    prev.addEventListener("click", function () {
-      track.scrollBy({ left: -track.clientWidth, behavior: "smooth" });
-    });
-    next.addEventListener("click", function () {
-      track.scrollBy({ left: track.clientWidth, behavior: "smooth" });
-    });
-
-    track.addEventListener("scroll", function () {
-      var w = track.clientWidth;
-      if (!w) return;
-      var active = Math.round(track.scrollLeft / w);
-      if (active < 0) active = 0;
-      if (active >= total) active = total - 1;
-      setCounter(active);
-    });
-
-    carousel.appendChild(prev);
-    carousel.appendChild(next);
-    carousel.appendChild(counter);
-
-    watchMedia(carousel);
-    return carousel;
-  }
-
-  // Markdown often puts images inside a <p>, sometimes after text in the same
-  // paragraph (e.g. "<p>caption text <img><img>...</p>"). Lift every image/video
-  // out of its paragraph to become a direct sibling of .feed-text (preserving
-  // order, inserted right after the paragraph), then drop now-empty paragraphs.
-  // This lets consecutive images be grouped into a carousel run regardless of
-  // how the markdown wrapped them.
-  function liftMedia(feedText) {
-    var kids = Array.prototype.slice.call(feedText.children);
-    kids.forEach(function (el) {
-      if (el.tagName !== "P") return;
-      if (!el.querySelector("img, video")) return;
-      var doc = el.ownerDocument;
-      var buffer = [];
-      function flushBuffer() {
-        var hasText = buffer.some(function (n) {
-          return (n.nodeType === Node.ELEMENT_NODE && n.tagName !== "BR") ||
-            (n.nodeType === Node.TEXT_NODE && /\S/.test(n.textContent));
-        });
-        if (hasText) {
-          var p = doc.createElement("p");
-          buffer.forEach(function (n) { p.appendChild(n); });
-          feedText.insertBefore(p, el);
-        }
-        buffer = [];
-      }
-      var nodes = Array.prototype.slice.call(el.childNodes);
-      nodes.forEach(function (n) {
-        if (n.nodeType === Node.ELEMENT_NODE && (n.tagName === "IMG" || n.tagName === "VIDEO")) {
-          flushBuffer();
-          feedText.insertBefore(n, el); // media becomes a direct sibling, in order
-        } else {
-          buffer.push(n);
-        }
-      });
-      flushBuffer();
-      el.remove();
-    });
-  }
-
-  function processFeedText(feedText) {
-    liftMedia(feedText);
-    var carousels = [];
-    var node = feedText.firstChild;
-    var run = []; // current run of media child nodes
-    var anchor = null; // sibling after the last media node; stable insert point
-
-    function flush() {
-      if (run.length >= 2) {
-        // anchor is the node just after the last media element in the run.
-        // It stays in place while we move the run's nodes into the carousel,
-        // so inserting before it lands the carousel where the run was.
-        var carousel = buildCarousel(run.slice());
-        feedText.insertBefore(carousel, anchor);
-        carousels.push(carousel);
-      }
-      run = [];
-      anchor = null;
-    }
-
-    while (node) {
-      var nextNode = node.nextSibling;
-      if (isWhitespace(node)) {
-        // Whitespace between media doesn't break a run; skip without flushing.
-        node = nextNode;
-        continue;
-      }
-      if (mediaOf(node)) {
-        run.push(node);
-        anchor = nextNode;
-      } else {
-        flush();
-      }
-      node = nextNode;
-    }
-    flush();
-
-    return carousels;
-  }
-
-  function debounce(fn, wait) {
-    var timer = null;
-    return function () {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(fn, wait);
-    };
-  }
-
-  function init() {
-    var feedTexts = document.querySelectorAll(".feed-text");
-    var allCarousels = [];
-    feedTexts.forEach(function (ft) {
-      allCarousels = allCarousels.concat(processFeedText(ft));
-    });
-
-    if (!allCarousels.length) return;
-
-    var onResize = debounce(function () {
-      allCarousels.forEach(sizeCarousel);
-    }, 150);
-    window.addEventListener("resize", onResize);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
 })();
 </script>
 {{ end }}

@@ -2,7 +2,9 @@
 date: 2026-05-03 18:22:25
 ---
 
+{{< carousel >}}
 ![](folsom-trees.jpeg)
 ![](april-bucket-list.png)
+{{< /carousel >}}
 
 almost got everything. i'm so bad at drawing i feel like a toddler but at least i did it. i'm afraid may will be painful, but i must be brave.

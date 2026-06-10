@@ -1,7 +1,8 @@
 {{- $post := . -}}
 {{- if ne (trim $post.Content " \n") "" -}}
 {{- $postId := printf "%s-%s" $post.Section (path.Base $post.File.Dir) -}}
-<div class="popover-data" id="popover-{{ $postId }}" style="display: none;">
+<div class="popover" id="popover-{{ $postId }}" popover>
+  <button class="popover-close" type="button" popovertarget="popover-{{ $postId }}" popovertargetaction="hide">[ close ]</button>
   <h2>{{ $post.Title }}</h2>
   {{ partial "stars.html" $post.Params.rating }}
   {{ with $post.Params.author }}<p class="popover-date">{{ . }}</p>{{ end }}

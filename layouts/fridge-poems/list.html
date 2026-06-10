@@ -35,91 +35,84 @@
 </section>
 
 <script>
-  (function () {
-    const INITIAL_WORDS = [
-      {text: "snow", x: 786, y: 289, rotation: -0.9}, {text: "behind", x: 612, y: 207, rotation: 1.9},
-      {text: "forgive", x: 554, y: 297, rotation: 2.9}, {text: "as", x: 534, y: 480, rotation: -1.9},
-      {text: "away", x: 775, y: 434, rotation: -0.3}, {text: "lurch", x: 809, y: 553, rotation: 2.8},
-      {text: "cascading", x: 681, y: 256, rotation: 2.9}, {text: "have", x: 337, y: 559, rotation: -2.5},
-      {text: "fragment", x: 140, y: 46, rotation: 3.0}, {text: "roar", x: 102, y: 287, rotation: -1.7},
-      {text: "beneath", x: 654, y: 552, rotation: -0.6}, {text: "fresh", x: 236, y: 622, rotation: 1.5},
-      {text: "desert", x: 939, y: 163, rotation: 3.0}, {text: "we", x: 35, y: 455, rotation: 0.2},
-      {text: "without", x: 74, y: 736, rotation: -2.1}, {text: "scream", x: 170, y: 566, rotation: -2.3},
-      {text: "stillness", x: 266, y: 337, rotation: -1.6}, {text: "illuminate", x: 257, y: 535, rotation: -1.4},
-      {text: "cave", x: 951, y: 118, rotation: -0.8}, {text: "weave", x: 1037, y: 834, rotation: 2.0},
-      {text: "feral", x: 683, y: 718, rotation: 1.3}, {text: "clumsily", x: 372, y: 455, rotation: 1.2},
-      {text: "steel", x: 795, y: 258, rotation: 2.5}, {text: "unyielding", x: 553, y: 476, rotation: -1.3},
-      {text: "let", x: 696, y: 486, rotation: -1.1}, {text: "eyes", x: 83, y: 491, rotation: 0.2},
-      {text: "cloak", x: 542, y: 482, rotation: 2.6}, {text: "he", x: 826, y: 426, rotation: 2.2},
-      {text: "vision", x: 420, y: 169, rotation: -0.8}, {text: "won't", x: 1018, y: 579, rotation: -2.6},
-      {text: "however", x: 795, y: 568, rotation: 3.0}, {text: "stem", x: 533, y: 520, rotation: 0.3},
-      {text: "are", x: 489, y: 40, rotation: 0.5}, {text: "for", x: 603, y: 252, rotation: 1.4},
-      {text: "dew", x: 94, y: 96, rotation: 0.6},
-    ];
+  (() => {
+    const INITIAL_WORDS = {{ site.Data.fridge_words | jsonify | safeJS }};
     const STORAGE_KEY = "fridge-poem";
     const canvas = document.getElementById("poem-canvas");
     if (!canvas) return;
 
-    function loadWords() {
+    const loadWords = () => {
       const saved = sessionStorage.getItem(STORAGE_KEY);
-      if (saved) { return JSON.parse(saved); }
-      return INITIAL_WORDS;
-    }
-    function saveWords(words) { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(words)); }
-    function renderWords(words) {
-      canvas.querySelectorAll(".word-magnet").forEach((el) => el.remove());
+      return saved ? JSON.parse(saved) : INITIAL_WORDS;
+    };
+
+    const saveWords = (words) => sessionStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+
+    const renderWords = (words) => {
+      canvas.querySelectorAll(".word-magnet").forEach((magnet) => magnet.remove());
+
       for (const word of words) {
-        const el = document.createElement("div");
-        el.className = "word-magnet";
-        el.textContent = word.text;
-        el.style.left = word.x + "px";
-        el.style.top = word.y + "px";
-        el.style.transform = `rotate(${word.rotation}deg)`;
-        el.dataset.rotation = word.rotation;
-        canvas.appendChild(el);
+        const magnet = document.createElement("div");
+        magnet.className = "word-magnet";
+        magnet.textContent = word.text;
+        magnet.style.left = word.x + "px";
+        magnet.style.top = word.y + "px";
+        magnet.style.transform = `rotate(${word.rotation}deg)`;
+        magnet.dataset.rotation = word.rotation;
+        canvas.appendChild(magnet);
       }
-    }
-    function currentWords() {
-      return Array.from(canvas.querySelectorAll(".word-magnet")).map((el) => ({
-        text: el.textContent,
-        x: parseInt(el.style.left, 10),
-        y: parseInt(el.style.top, 10),
-        rotation: parseFloat(el.dataset.rotation),
+    };
+
+    const currentWords = () =>
+      Array.from(canvas.querySelectorAll(".word-magnet")).map((magnet) => ({
+        text: magnet.textContent,
+        x: parseInt(magnet.style.left, 10),
+        y: parseInt(magnet.style.top, 10),
+        rotation: parseFloat(magnet.dataset.rotation),
       }));
-    }
+
     renderWords(loadWords());
 
     let active = null, offsetX = 0, offsetY = 0;
-    canvas.addEventListener("pointerdown", (e) => {
-      const target = e.target.closest(".word-magnet");
+
+    canvas.addEventListener("pointerdown", (event) => {
+      const target = event.target.closest(".word-magnet");
       if (!target) return;
+
       active = target;
       active.classList.add("dragging");
-      active.setPointerCapture(e.pointerId);
-      const rect = active.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      e.preventDefault();
+      active.setPointerCapture(event.pointerId);
+
+      const bounds = active.getBoundingClientRect();
+      offsetX = event.clientX - bounds.left;
+      offsetY = event.clientY - bounds.top;
+      event.preventDefault();
     });
-    canvas.addEventListener("pointermove", (e) => {
+
+    canvas.addEventListener("pointermove", (event) => {
       if (!active) return;
-      const canvasRect = canvas.getBoundingClientRect();
-      let x = e.clientX - canvasRect.left - offsetX;
-      let y = e.clientY - canvasRect.top - offsetY;
-      x = Math.max(0, Math.min(x, canvasRect.width - active.offsetWidth));
+
+      const canvasBounds = canvas.getBoundingClientRect();
+      let x = event.clientX - canvasBounds.left - offsetX;
+      let y = event.clientY - canvasBounds.top - offsetY;
+      x = Math.max(0, Math.min(x, canvasBounds.width - active.offsetWidth));
       y = Math.max(0, Math.min(y, 900 - active.offsetHeight));
+
       active.style.left = x + "px";
       active.style.top = y + "px";
     });
+
     canvas.addEventListener("pointerup", () => {
       if (!active) return;
+
       active.classList.remove("dragging");
       active = null;
       saveWords(currentWords());
     });
 
-    document.getElementById("share-poem").addEventListener("click", (e) => {
-      e.preventDefault();
+    document.getElementById("share-poem").addEventListener("click", (event) => {
+      event.preventDefault();
+
       const subject = "poem for you from {name}";
       const words = JSON.stringify(currentWords(), null, 2);
       const body = `you can find me at {website}\n\n${words}`;

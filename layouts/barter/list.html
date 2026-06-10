@@ -44,38 +44,38 @@
   </div>
 </section>
 <script>
-  (function () {
+  (() => {
     const textarea = document.getElementById('barter-message');
-    const sendBtn = document.getElementById('barter-send');
+    const sendButton = document.getElementById('barter-send');
     const email = 'omar.almatov@gmail.com';
 
-    function selected(side) {
-      return Array.from(
+    const selected = (side) =>
+      Array.from(
         document.querySelectorAll('.barter-list[data-side="' + side + '"] input[type=checkbox]:checked')
-      ).map(i => i.dataset.title);
-    }
+      ).map((input) => input.dataset.title);
 
-    function bullets(items) {
-      return items.length ? items.map(t => '- ' + t).join('\n') : '- ';
-    }
+    const bullets = (items) =>
+      items.length ? items.map((title) => '- ' + title).join('\n') : '- ';
 
-    function rebuild() {
+    const rebuild = () => {
       const offering = selected('offering');
       const wanting = selected('looking_for');
+
       textarea.value =
         "i can give u this:\n" +
         bullets(wanting) +
         "\n\nfor this:\n" +
         bullets(offering);
-    }
+    };
 
-    document.querySelectorAll('.barter-list input[type=checkbox]').forEach(cb => {
-      cb.addEventListener('change', rebuild);
+    document.querySelectorAll('.barter-list input[type=checkbox]').forEach((checkbox) => {
+      checkbox.addEventListener('change', rebuild);
     });
 
-    sendBtn.addEventListener('click', () => {
+    sendButton.addEventListener('click', () => {
       const subject = 'barter offer';
       const body = textarea.value;
+
       window.location.href =
         'mailto:' + email +
         '?subject=' + encodeURIComponent(subject) +

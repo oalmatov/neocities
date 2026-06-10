@@ -53,7 +53,7 @@ type Manifest struct {
 	Months []Month `yaml:"months"`
 }
 
-func renderSVG(p Poem, _ string) string {
+func renderSVG(p Poem) string {
 	var b strings.Builder
 	fmt.Fprintf(&b,
 		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" preserveAspectRatio="xMidYMid meet">`,
@@ -97,7 +97,7 @@ func main() {
 		}
 
 		slug := strings.TrimSuffix(filepath.Base(f), ".json")
-		if err := os.WriteFile("static/poems/"+slug+".svg", []byte(renderSVG(p, "")), 0644); err != nil {
+		if err := os.WriteFile("static/poems/"+slug+".svg", []byte(renderSVG(p)), 0644); err != nil {
 			log.Fatal(err)
 		}
 
@@ -111,7 +111,6 @@ func main() {
 		})
 	}
 
-	// Most-recent-first, then group by month preserving that order.
 	sort.Slice(all, func(i, j int) bool { return all[i].Date > all[j].Date })
 
 	var manifest Manifest
