@@ -1,20 +1,16 @@
-{{- /* aspect-ratio is taken from the tallest image's build-time dimensions, capped at 70vh */ -}}
 {{- $page := .Page -}}
 {{- $slides := slice -}}
-{{- $maxRatio := 0.0 -}}
 {{- range findRESubmatch `!\[([^\]]*)\]\(([^)]+)\)` .Inner -}}
   {{- $alt := index . 1 -}}
   {{- $src := index . 2 -}}
   {{- with $page.Resources.GetMatch $src -}}
-    {{- $ratio := div (float .Height) (float .Width) -}}
-    {{- if gt $ratio $maxRatio -}}{{- $maxRatio = $ratio -}}{{- end -}}
     {{- $slides = $slides | append (dict "alt" $alt "url" .RelPermalink) -}}
   {{- else -}}
     {{- warnf "carousel: image %q not found in %s" $src $page.File.Path -}}
   {{- end -}}
 {{- end -}}
 {{- if gt (len $slides) 0 -}}
-<div class="feed-carousel"{{ if gt $maxRatio 0.0 }} style="aspect-ratio: 1 / {{ printf "%.4f" $maxRatio }}; max-height: 70vh"{{ end }}>
+<div class="feed-carousel">
   {{- range $slides }}
   <div class="fc-slide"><img src="{{ .url }}" alt="{{ .alt }}" loading="lazy"></div>
   {{- end }}
