@@ -883,6 +883,24 @@ body:has(.home) {
     color: #000;
 }
 
+.site-button {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.button-embed {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 11px;
+    line-height: 1.5;
+    background: #0c0b08;
+    border: 1px dotted var(--border);
+    color: var(--muted);
+    resize: none;
+}
+
 .sechead {
     display: inline-block;
     font-size: 12px;
