@@ -919,7 +919,7 @@ a.sechead:hover {
 }
 
 .home .fitem {
-    padding: 0 0 18px;
+    padding: 12px;
     margin-bottom: 18px;
     border-bottom: 1px dotted var(--hairline);
 }
@@ -1064,4 +1064,87 @@ a.sechead:hover {
 .home .modcol iframe {
     width: 100%;
     border: 0;
+}
+
+.feed-sentiment {
+    position: relative;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px dotted var(--border);
+}
+.feed-sentiment-head {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+}
+.feed-sentiment-caption {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+.feed-sentiment-filter {
+    flex-shrink: 0;
+    font-family: inherit;
+    font-size: 11px;
+    color: var(--muted);
+    background: #0c0b08;
+    border: 1px dotted var(--border);
+    padding: 2px 4px;
+    cursor: pointer;
+}
+.feed-sentiment-chart svg {
+    display: block;
+    overflow: visible;
+}
+.feed-sentiment-chart .fs-mid {
+    stroke: var(--hairline);
+    stroke-dasharray: 4 4;
+}
+.feed-sentiment-chart .fs-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+}
+.feed-sentiment-chart .fs-trend {
+    stroke-width: 1.5;
+    stroke-dasharray: 6 4;
+}
+.feed-sentiment-chart .fs-trend-up {
+    stroke: var(--accent);
+}
+.feed-sentiment-chart .fs-trend-down {
+    stroke: #c8584a;
+}
+.feed-sentiment-chart .fs-dot {
+    fill: var(--accent);
+    cursor: pointer;
+}
+.feed-sentiment-chart .fs-dot:hover {
+    fill: var(--head);
+}
+.feed-sentiment-tip {
+    position: absolute;
+    z-index: 5;
+    white-space: nowrap;
+    padding: 6px 8px;
+    font-size: 11px;
+    line-height: 1.4;
+    background: #0c0b08;
+    border: 1px dotted var(--border);
+    color: var(--text);
+    pointer-events: none;
+}
+.home .fitem-flash {
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+    animation: fitemFlash 1.2s ease;
+}
+@keyframes fitemFlash {
+    0% { background: transparent; outline-color: transparent; }
+    15% { background: #14120c; outline-color: var(--accent); }
+    70% { background: #14120c; outline-color: var(--accent); }
+    100% { background: transparent; outline-color: transparent; }
 }

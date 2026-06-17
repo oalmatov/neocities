@@ -1,186 +1,433 @@
-{{ define "main" }}
-{{ $feed := (where site.RegularPages "Section" "feed").ByDate.Reverse }}
-{{ $journal := first 1 (where site.RegularPages "Section" "journal").ByDate.Reverse }}
-{{ $movie := first 1 (where site.RegularPages "Section" "movies").ByDate.Reverse }}
-{{ $books := where site.RegularPages "Section" "books" }}
-{{ $reading := where $books "Params.current" true }}
-{{ $book := first 1 (cond (gt (len $reading) 0) $reading $books.ByDate.Reverse) }}
-{{ $poemMonths := site.Data.poems_manifest.months }}
+{{ define "main" }} {{ $feed := (where site.RegularPages "Section" "feed").ByDate.Reverse }} {{ $journal := first 1
+(where site.RegularPages "Section" "journal").ByDate.Reverse }} {{ $movie := first 1 (where site.RegularPages "Section"
+"movies").ByDate.Reverse }} {{ $books := where site.RegularPages "Section" "books" }} {{ $reading := where $books
+"Params.current" true }} {{ $book := first 1 (cond (gt (len $reading) 0) $reading $books.ByDate.Reverse) }} {{
+$poemMonths := site.Data.poems_manifest.months }}
 <section id="feed-home" class="home">
   <div class="cols">
-
     <div class="idcol">
       <div class="sname"><span class="type">webmar.love</span></div>
-      <div class="mod" style="margin-top:18px"><div class="sechead">about</div>
-        <div class="ptext" style="margin-top:0">i grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now i live in SF. interested in data sovereignty and <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.<br><br>in my free time i write poems, climb rocks, go alone to the beach, and recently started figure drawing.</div>
+      <div class="mod" style="margin-top: 18px">
+        <div class="sechead">about</div>
+        <div class="ptext" style="margin-top: 0">
+          i grew up in <a href="https://en.wikipedia.org/wiki/Almaty" target="_blank">Almaty, Kazakhstan</a> and now i
+          live in SF. interested in data sovereignty and
+          <a href="https://permacomputing.net/permacomputing/" target="_blank">permacomputing</a>.<br /><br />in my free
+          time i write poems, climb rocks, go alone to the beach, and recently started figure drawing.
+        </div>
       </div>
-      <div class="mod"><div class="sechead">details</div>
+      <div class="mod">
+        <div class="sechead">details</div>
         <div class="kv"><span class="k">relationship</span><span class="v">: single</span></div>
         <div class="kv"><span class="k">age</span><span class="v">: 23</span></div>
         <div class="kv"><span class="k">height</span><span class="v">: 5'11"</span></div>
         <div class="kv"><span class="k">location</span><span class="v">: san francisco</span></div>
       </div>
-      <div class="mod"><div class="sechead">now playing</div>
-        <iframe src="https://open.spotify.com/embed/track/1BBAHjgPJPrwTNag5lOWCV?theme=0" height="80" frameborder="0" allow="encrypted-media" loading="lazy"></iframe>
+      <div class="mod">
+        <div class="sechead">now playing</div>
+        <iframe
+          src="https://open.spotify.com/embed/track/1BBAHjgPJPrwTNag5lOWCV?theme=0"
+          height="80"
+          frameborder="0"
+          allow="encrypted-media"
+          loading="lazy"
+        ></iframe>
       </div>
-      <div class="mod"><div class="sechead">friends</div>
+      <div class="mod">
+        <div class="sechead">friends</div>
         <div class="friends">
           <a class="flink" href="https://sabjadeliu.neocities.org/" target="_blank">sabjadeliu</a>
           <a class="flink" href="https://bruhjuice.com/" target="_blank">bruhjuice</a>
           <a class="flink" href="https://baljaa.neocities.org/" target="_blank">baljaa</a>
         </div>
       </div>
-      <div class="mod"><div class="sechead">my button</div>
-        <img class="site-button" src="/button.png" alt="webmar" width="88" height="31">
-        <textarea class="button-embed" readonly rows="3">&lt;a href="https://webmar.love" target="_blank"&gt;&lt;img src="https://webmar.love/button.png" alt="webmar"&gt;&lt;/a&gt;</textarea>
+      <div class="mod">
+        <div class="sechead">my button</div>
+        <img class="site-button" src="/button.png" alt="webmar" width="88" height="31" />
+        <textarea class="button-embed" readonly rows="3">
+&lt;a href="https://webmar.love" target="_blank"&gt;&lt;img src="https://webmar.love/button.png" alt="webmar"&gt;&lt;/a&gt;</textarea
+        >
       </div>
       <div class="mod"><a class="sechead" href="/guestbook/">sign my guestbook</a></div>
       <div class="idmedia">
-        <img class="flag" src="/assets/flag.gif" alt="kazakhstan">
-        <img class="turtle-id" src="/assets/turtle.gif" alt="">
+        <img class="flag" src="/assets/flag.gif" alt="kazakhstan" />
+        <img class="turtle-id" src="/assets/turtle.gif" alt="" />
       </div>
     </div>
 
     <div class="feedcol">
       <div class="sechead">feed</div>
       <div class="feed-scroll" id="feedScroll">
-      {{ range $feed }}
-      <div class="fitem">
-        <div class="pdate">{{ .Date.Format "2006-01-02 15:04" }}</div>
-        <div class="feed-text ptext">{{ .Content }}</div>
-        <div class="feed-item-footer">
-          <button type="button" class="feed-like" aria-label="like">&lt;3</button>
+        {{ range $feed }}
+        <div class="fitem" id="feed-{{ path.Base .File.Dir }}">
+          <div class="pdate">{{ .Date.Format "2006-01-02 15:04" }}</div>
+          <div class="feed-text ptext">{{ .Content }}</div>
+          <div class="feed-item-footer">
+            <button type="button" class="feed-like" aria-label="like">&lt;3</button>
+          </div>
         </div>
-      </div>
-      {{ end }}
+        {{ end }}
       </div>
     </div>
 
     <div class="modcol">
+      <div class="mod">
+        <div class="sechead">happiness over time</div>
+        <div class="feed-sentiment" id="feedSentiment">
+          <div class="feed-sentiment-head">
+            <select class="feed-sentiment-filter" id="feedSentimentFilter" aria-label="time range">
+              <option value="10" selected>last 10 posts</option>
+              <option value="30">last 30 posts</option>
+              <option value="all">all time</option>
+            </select>
+          </div>
+          <div class="feed-sentiment-chart" id="feedSentimentChart"></div>
+          <div class="feed-sentiment-tip" id="feedSentimentTip" hidden></div>
+        </div>
+        <div class="feed-sentiment-caption ptext">
+          an interesting visualization of my happiness over time based on post sentiment analysis using
+          <a href="https://github.com/cjhutto/vadersentiment" target="_blank">vader</a>.
+        </div>
+      </div>
+      <script type="application/json" id="feedSentimentData">
+        {{ os.ReadFile "data/feed_sentiment.json" | safeJS }}
+      </script>
       {{ with index $journal 0 }}
-      <div class="mod"><div class="sechead">latest journal entry</div>
-        <a class="jentry-link" href="/journal/#entry-{{ path.Base .File.Dir }}" style="color:inherit;text-decoration:none">
+      <div class="mod">
+        <div class="sechead">latest journal entry</div>
+        <a
+          class="jentry-link"
+          href="/journal/#entry-{{ path.Base .File.Dir }}"
+          style="color: inherit; text-decoration: none"
+        >
           <div class="jtitle">{{ .Title }}</div>
           <div class="ptext">{{ .Summary | plainify | truncate 160 }}</div>
         </a>
       </div>
-      {{ end }}
-      {{ with index $movie 0 }}
-      <div class="mod"><div class="sechead">latest movie watched</div>
-        <a class="row clickable" href="/movies/" style="color:inherit;text-decoration:none">
-          {{ with .Resources.GetMatch .Params.thumbnail }}<img class="thumb" src="{{ .RelPermalink }}" alt="">{{ else }}<div class="thumb"></div>{{ end }}
-          <div><div class="ttl">{{ .Title }}</div>{{ if not .Date.IsZero }}<div class="line">{{ .Date.Format "2006-01-02 15:04" }}</div>{{ end }}{{ with .Params.rating }}<div class="rating">{{ . }}/5</div>{{ end }}</div>
+      {{ end }} {{ with index $movie 0 }}
+      <div class="mod">
+        <div class="sechead">latest movie watched</div>
+        <a class="row clickable" href="/movies/" style="color: inherit; text-decoration: none">
+          {{ with .Resources.GetMatch .Params.thumbnail }}<img class="thumb" src="{{ .RelPermalink }}" alt="" />{{ else
+          }}
+          <div class="thumb"></div>
+          {{ end }}
+          <div>
+            <div class="ttl">{{ .Title }}</div>
+            {{ if not .Date.IsZero }}
+            <div class="line">{{ .Date.Format "2006-01-02 15:04" }}</div>
+            {{ end }}{{ with .Params.rating }}
+            <div class="rating">{{ . }}/5</div>
+            {{ end }}
+          </div>
         </a>
       </div>
-      {{ end }}
-      {{ with index $book 0 }}
-      <div class="mod"><div class="sechead">currently reading</div>
-        <a class="row clickable" href="/books/" style="color:inherit;text-decoration:none">
-          {{ with .Resources.GetMatch .Params.thumbnail }}<img class="thumb" src="{{ .RelPermalink }}" alt="">{{ else }}<div class="thumb"></div>{{ end }}
-          <div><div class="ttl">{{ .Title }}</div>{{ with .Params.author }}<div class="meta">{{ . }}</div>{{ end }}{{ if not .Date.IsZero }}<div class="line">{{ .Date.Format "2006-01-02 15:04" }}</div>{{ end }}{{ with .Params.rating }}<div class="rating">{{ . }}/5</div>{{ end }}</div>
+      {{ end }} {{ with index $book 0 }}
+      <div class="mod">
+        <div class="sechead">currently reading</div>
+        <a class="row clickable" href="/books/" style="color: inherit; text-decoration: none">
+          {{ with .Resources.GetMatch .Params.thumbnail }}<img class="thumb" src="{{ .RelPermalink }}" alt="" />{{ else
+          }}
+          <div class="thumb"></div>
+          {{ end }}
+          <div>
+            <div class="ttl">{{ .Title }}</div>
+            {{ with .Params.author }}
+            <div class="meta">{{ . }}</div>
+            {{ end }}{{ if not .Date.IsZero }}
+            <div class="line">{{ .Date.Format "2006-01-02 15:04" }}</div>
+            {{ end }}{{ with .Params.rating }}
+            <div class="rating">{{ . }}/5</div>
+            {{ end }}
+          </div>
         </a>
       </div>
-      {{ end }}
-      {{ with $poemMonths }}{{ with (index . 0) }}{{ with (index .poems 0) }}
-      <div class="mod"><div class="sechead">latest fridge poem</div>
-        <a class="clickable" href="/fridge-poems/" style="display:block"><img class="poem-image poem-preview" src="/poems/{{ .slug }}.svg" alt=""></a>
-        <div class="meta">{{ with .name }}by {{ . }} &middot; {{ end }}{{ (time .date).Format "2006-01-02 15:04" }}</div>
+      {{ end }} {{ with $poemMonths }}{{ with (index . 0) }}{{ with (index .poems 0) }}
+      <div class="mod">
+        <div class="sechead">latest fridge poem</div>
+        <a class="clickable" href="/fridge-poems/" style="display: block"
+          ><img class="poem-image poem-preview" src="/poems/{{ .slug }}.svg" alt=""
+        /></a>
+        <div class="meta">
+          {{ with .name }}by {{ . }} &middot; {{ end }}{{ (time .date).Format "2006-01-02 15:04" }}
+        </div>
       </div>
       {{ end }}{{ end }}{{ end }}
-      <div class="mod"><div class="sechead">barter</div>
-        <div class="ptext" style="margin:0 0 12px">got something i want? want something i have? let's trade.</div>
+      <div class="mod">
+        <div class="sechead">barter</div>
+        <div class="ptext" style="margin: 0 0 12px">got something i want? want something i have? let's trade.</div>
         <a class="bbtn" href="/barter/">barter with me</a>
       </div>
     </div>
-
   </div>
 </section>
 
 <div class="like-splatter" id="likeSplatter" aria-hidden="true">
   <video class="like-splatter-video" id="likeSplatterVideo" playsinline webkit-playsinline preload="auto" muted></video>
   <div class="like-splatter-message" id="likeSplatterMessage">
-    YOU CURSED ME!<br>NOW I AM RUINED!<br>WHAT WILL I DO<br>WITHOUT YOUR LIKE?<br>PLEASE PLEASE PLEASE<br>ONE MORE!
+    YOU CURSED ME!<br />NOW I AM RUINED!<br />WHAT WILL I DO<br />WITHOUT YOUR LIKE?<br />PLEASE PLEASE PLEASE<br />ONE
+    MORE!
   </div>
 </div>
 
 <script>
-(() => {
-  const nameEl = document.querySelector(".sname .type");
-  if (!nameEl) return;
+  (() => {
+    const nameEl = document.querySelector(".sname .type");
+    if (!nameEl) return;
 
-  const base = "webmar.love";
+    const base = "webmar.love";
 
-  const intro = [];
-  for (let length = 1; length <= base.length; length++) intro.push([base.slice(0, length), 90]);
+    const intro = [];
+    for (let length = 1; length <= base.length; length++) intro.push([base.slice(0, length), 90]);
 
-  const heart = [
-    [base + " ", 350],
-    [base + " <", 220],
-    [base + " <3", 2600],
-    [base + " <", 260],
-    [base + " ", 400],
-    [base + " <", 220],
-    [base + " </", 220],
-    [base + " </3", 2600],
-    [base + " </", 260],
-    [base + " ", 400],
-  ];
+    const heart = [
+      [base + " ", 350],
+      [base + " <", 220],
+      [base + " <3", 2600],
+      [base + " <", 260],
+      [base + " ", 400],
+      [base + " <", 220],
+      [base + " </", 220],
+      [base + " </3", 2600],
+      [base + " </", 260],
+      [base + " ", 400],
+    ];
 
-  let introIndex = 0, heartIndex = 0, introComplete = false;
+    let introIndex = 0,
+      heartIndex = 0,
+      introComplete = false;
 
-  const run = () => {
-    let frame;
+    const run = () => {
+      let frame;
 
-    if (!introComplete) {
-      frame = intro[introIndex];
-      introIndex++;
-      if (introIndex >= intro.length) introComplete = true;
-    } else {
-      frame = heart[heartIndex];
-      heartIndex = (heartIndex + 1) % heart.length;
-    }
+      if (!introComplete) {
+        frame = intro[introIndex];
+        introIndex++;
+        if (introIndex >= intro.length) introComplete = true;
+      } else {
+        frame = heart[heartIndex];
+        heartIndex = (heartIndex + 1) % heart.length;
+      }
 
-    nameEl.textContent = frame[0];
-    setTimeout(run, frame[1]);
-  };
+      nameEl.textContent = frame[0];
+      setTimeout(run, frame[1]);
+    };
 
-  run();
-})();
+    run();
+  })();
 </script>
 
 <script>
-(() => {
-  const container = document.getElementById("likeSplatter");
-  const video = document.getElementById("likeSplatterVideo");
-  const message = document.getElementById("likeSplatterMessage");
-  if (!container || !video) return;
+  (() => {
+    const container = document.getElementById("likeSplatter");
+    const video = document.getElementById("likeSplatterVideo");
+    const message = document.getElementById("likeSplatterMessage");
+    if (!container || !video) return;
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  video.src = isSafari ? "/v-day-w-vi/blood-splatter.mp4" : "/v-day-w-vi/blood-splatter.webm";
-  video.load();
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    video.src = isSafari ? "/v-day-w-vi/blood-splatter.mp4" : "/v-day-w-vi/blood-splatter.webm";
+    video.load();
 
-  const fire = () => {
-    container.classList.add("active");
-    if (message) message.classList.remove("visible");
+    const fire = () => {
+      container.classList.add("active");
+      if (message) message.classList.remove("visible");
 
-    video.currentTime = 0;
-    video.muted = false;
+      video.currentTime = 0;
+      video.muted = false;
 
-    const show = () => { if (message) message.classList.add("visible"); };
-    Promise.resolve(video.play()).then(show).catch(show);
-  };
+      const show = () => {
+        if (message) message.classList.add("visible");
+      };
+      Promise.resolve(video.play()).then(show).catch(show);
+    };
 
-  video.addEventListener("ended", () => {
-    container.classList.remove("active");
-    if (message) message.classList.remove("visible");
-  });
-
-  document.querySelectorAll(".feed-like").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      fire();
+    video.addEventListener("ended", () => {
+      container.classList.remove("active");
+      if (message) message.classList.remove("visible");
     });
-  });
-})();
+
+    document.querySelectorAll(".feed-like").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        fire();
+      });
+    });
+  })();
+</script>
+
+<script>
+  (() => {
+    const host = document.getElementById("feedSentimentChart");
+    const tip = document.getElementById("feedSentimentTip");
+    const dataEl = document.getElementById("feedSentimentData");
+    if (!host || !dataEl) return;
+
+    const data = JSON.parse(dataEl.textContent);
+    if (!Array.isArray(data) || data.length < 2) return;
+
+    const filter = document.getElementById("feedSentimentFilter");
+
+    const NS = "http://www.w3.org/2000/svg";
+    const height = 120;
+    const padTop = 12,
+      padBot = 12,
+      padX = 6;
+
+    // data is sorted oldest→newest, so the "last N posts" are the tail.
+    const visible = () => {
+      const count = filter ? parseInt(filter.value, 10) : NaN;
+      return Number.isNaN(count) ? data : data.slice(-count);
+    };
+
+    const render = () => {
+      const points_ = visible();
+      if (points_.length < 2) {
+        host.replaceChildren();
+        return;
+      }
+
+      const times = points_.map((d) => new Date(d.date).getTime());
+      const minTime = Math.min(...times);
+      const maxTime = Math.max(...times);
+      const span = maxTime - minTime || 1;
+
+      const width = host.clientWidth || 320;
+      const plotW = width - padX * 2;
+      const plotH = height - padTop - padBot;
+
+      const px = (t) => padX + ((t - minTime) / span) * plotW;
+      const py = (h) => padTop + (1 - h / 100) * plotH;
+
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.setAttribute("width", "100%");
+      svg.setAttribute("height", String(height));
+
+      const mid = document.createElementNS(NS, "line");
+      mid.setAttribute("class", "fs-mid");
+      mid.setAttribute("x1", padX);
+      mid.setAttribute("x2", width - padX);
+      mid.setAttribute("y1", py(50));
+      mid.setAttribute("y2", py(50));
+      svg.appendChild(mid);
+
+      // Least-squares trend line over the visible points (x normalized to 0..1
+      // to avoid precision loss on raw millisecond timestamps).
+      const xs = times.map((t) => (t - minTime) / span);
+      const ys = points_.map((d) => d.happiness);
+      const n = xs.length;
+      let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+      for (let i = 0; i < n; i++) {
+        sumX += xs[i];
+        sumY += ys[i];
+        sumXY += xs[i] * ys[i];
+        sumXX += xs[i] * xs[i];
+      }
+      const denom = n * sumXX - sumX * sumX;
+      const slope = denom === 0 ? 0 : (n * sumXY - sumX * sumY) / denom;
+      const intercept = (sumY - slope * sumX) / n;
+      const clamp = (v) => Math.max(0, Math.min(100, v));
+
+      const trend = document.createElementNS(NS, "line");
+      trend.setAttribute("class", "fs-trend " + (slope >= 0 ? "fs-trend-up" : "fs-trend-down"));
+      trend.setAttribute("x1", px(minTime));
+      trend.setAttribute("y1", py(clamp(intercept)));
+      trend.setAttribute("x2", px(maxTime));
+      trend.setAttribute("y2", py(clamp(slope + intercept)));
+      svg.appendChild(trend);
+
+      const points = points_.map((d, i) => `${px(times[i])},${py(d.happiness)}`).join(" ");
+      const line = document.createElementNS(NS, "polyline");
+      line.setAttribute("class", "fs-line");
+      line.setAttribute("points", points);
+      svg.appendChild(line);
+
+      points_.forEach((d, i) => {
+        const dot = document.createElementNS(NS, "circle");
+        dot.setAttribute("class", "fs-dot");
+        dot.setAttribute("cx", px(times[i]));
+        dot.setAttribute("cy", py(d.happiness));
+        dot.setAttribute("r", "2.5");
+        dot.addEventListener("mouseenter", () => showTip(d, dot));
+        dot.addEventListener("mouseleave", hideTip);
+        dot.addEventListener("click", () => jumpTo(d.slug));
+        svg.appendChild(dot);
+      });
+
+      host.replaceChildren(svg);
+    };
+
+    const showTip = (d, dot) => {
+      if (!tip) return;
+      const day = d.date.slice(0, 10);
+      tip.textContent = `${day} · ${d.happiness}/100`;
+      tip.hidden = false;
+      const box = dot.getBoundingClientRect();
+      // Reference must match the tooltip's positioned ancestor (.feed-sentiment), not the chart host
+      const wrap = host.parentElement.getBoundingClientRect();
+
+      // Clamp within the chart box so the tooltip is never clipped by the column edge.
+      const left = Math.max(0, Math.min(box.left - wrap.left, wrap.width - tip.offsetWidth));
+      tip.style.left = left + "px";
+
+      // Above the point by default; flip below if there isn't room.
+      const above = box.top - wrap.top - tip.offsetHeight - 8;
+      const top = above < 0 ? box.bottom - wrap.top + 8 : above;
+      tip.style.top = top + "px";
+    };
+
+    const hideTip = () => {
+      if (tip) tip.hidden = true;
+    };
+
+    const jumpTo = (slug) => {
+      const target = document.getElementById("feed-" + slug);
+      if (!target) return;
+
+      const scroller = document.getElementById("feedScroll");
+
+      const flash = () => {
+        target.classList.remove("fitem-flash");
+        void target.offsetWidth; // restart the animation
+        target.classList.add("fitem-flash");
+        setTimeout(() => target.classList.remove("fitem-flash"), 500);
+      };
+
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // Flash once the scroll position settles. If no scroll is needed (we're
+      // already on the post), the position is stable from the start, so this
+      // fires almost immediately — no fixed delay.
+      if (!scroller) {
+        flash();
+        return;
+      }
+
+      let last = scroller.scrollTop;
+      let stableFrames = 0;
+      const waitForSettle = () => {
+        const now = scroller.scrollTop;
+        if (now === last) {
+          if (++stableFrames >= 3) {
+            flash();
+            return;
+          }
+        } else {
+          stableFrames = 0;
+          last = now;
+        }
+        requestAnimationFrame(waitForSettle);
+      };
+      requestAnimationFrame(waitForSettle);
+    };
+
+    render();
+    if (filter) filter.addEventListener("change", render);
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(render, 150);
+    });
+  })();
 </script>
 {{ end }}
